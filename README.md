@@ -196,6 +196,8 @@ python run.py --agent minimal_kaggle --config configs/minimal_kaggle/deepseek-v3
 
 ## 📦 Installation
 
+### With pip
+
 ```bash
 # Clone repository
 git clone https://github.com/sjtu-sai-agents/EvoMaster.git
@@ -206,6 +208,20 @@ pip install -r requirements.txt
 
 # Configure LLM API keys in configs/
 ```
+
+### With uv
+
+[uv](https://docs.astral.sh/uv/) is a fast Python package installer. Use either:
+
+```bash
+# Option 1: sync from pyproject.toml + uv.lock (recommended)
+uv sync
+
+# Option 2: install from requirements.txt
+uv pip install -r requirements.txt
+```
+
+Create a venv and run with uv: `uv venv && source .venv/Scripts/activate` (Windows) or `source .venv/bin/activate` (Linux/macOS), then `uv sync`.
 
 ## 🤝 Citation
 
