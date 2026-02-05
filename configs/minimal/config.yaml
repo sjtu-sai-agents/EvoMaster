@@ -2,14 +2,40 @@
 # 这是一个最小化的 EvoMaster 示例，展示如何用 ~100 行代码实现自主科学发现
 
 # ============================================
-# LLM 配置
+# LLM 配置（可用 ${VAR} 引用 .env 中的环境变量，见 .env.template）
+# LiteLLM / Azure 使用 OpenAI 兼容接口，provider 填 openai 即可
 # ============================================
 llm:
+  # LiteLLM Proxy（推荐：无 OpenAI 时用此项）
+  # model 须为代理允许的型号；.env 中设置 GPT_CHAT_MODEL 可覆盖，否则用默认 azure/gpt-5-chat
+  litellm:
+    provider: "openai"
+    model: "${GPT_CHAT_MODEL:-azure/gpt-5-chat}"
+    api_key: "${LITELLM_PROXY_API_KEY}"
+    base_url: "${LITELLM_PROXY_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  # Azure OpenAI（model 须为代理允许的型号）
+  azure:
+    provider: "openai"
+    model: "${GPT_CHAT_MODEL:-azure/gpt-5-chat}"
+    api_key: "${AZURE_API_KEY}"
+    base_url: "${AZURE_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
   openai:
     provider: "openai"
     model: "gpt-5.2"
-    api_key: "YOUR_OPENAI_API_KEY"
-    base_url: "YOUR_OPENAI_BASE_URL"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "${OPENAI_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60
@@ -19,24 +45,24 @@ llm:
   anthropic:
     provider: "anthropic"
     model: "claude-haiku-4-5-20251001"
-    api_key: "YOUR_ANTHROPIC_API_KEY"
-    base_url: "YOUR_ANTHROPIC_BASE_URL"
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "${ANTHROPIC_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60
     max_retries: 3
     retry_delay: 1.0
 
-  default: "openai"
+  default: "litellm"
 # ============================================
 # 多智能体配置
 # ============================================
 # 多智能体系统中，每个Agent都有独立的配置
 # 单智能体时，只填写一个agent配置即可
 agents:
-  # General Agent - 负责规划任务
+  # General Agent - 负责规划任务（llm 填 litellm / azure / openai 等，与上面 llm 块对应）
   general:
-    llm: "openai"
+    llm: "litellm"
     max_turns: 50
     enable_tools: true  # General Agent使用工具调用
     
