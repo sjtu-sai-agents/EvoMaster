@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mle-gpu-pod
+spec:
+  containers:
+  - name: main
+    image: evomaster/mle:latest
+    imagePullPolicy: Never  # 必填：使用本地镜像
+    command: ["/bin/bash", "-c", "sleep infinity"] # 保持容器运行
+    resources:
+      requests:
+        memory: "8Gi"    # 最小内存
+        cpu: "2"         # 最小CPU核数
+      limits:
+        memory: "32Gi"   # 最大内存
+        cpu: "8"         # 最大CPU核数
+        nvidia.com/gpu: 1 # 请求 1 张卡
+  restartPolicy: Never
