@@ -10,11 +10,11 @@
 llm:
   litellm:
     provider: "openai"
-    model: "azure/gpt-5-chat"
+    model: "gemini-3-flash-preview"
     api_key: "${LITELLM_PROXY_API_KEY}"
     base_url: "${LITELLM_PROXY_API_BASE}"
-    temperature: 0.7
-    max_tokens: 16384
+    # temperature: 0.7
+    # max_tokens: 16384
     timeout: 60
     max_retries: 3
     retry_delay: 1.0
@@ -63,16 +63,45 @@ agents:
     user_prompt_file: "prompts/user_prompt.txt"
 
 # ============================================
+# Mat Master 实验模式（PI / Resilient / Evolution）
+# ============================================
+# mode: single (default) | pi | resilient_calc | skill_evolution
+mat_master:
+  mode: "single"
+  resilient_calc:
+    max_retries: 3
+    poll_interval_seconds: 60
+    error_handlers:
+      scf_diverged:
+        - action: "update_input"
+          params: {"ALGO": "Normal", "AMIX": 0.2}
+        - action: "update_input"
+          params: {"ISMEAR": 0}
+      time_limit_exceeded:
+        - action: "resubmit"
+          params: {"walltime": "48h", "continuation": true}
+  pi:
+    project_state_file: "project_state.json"
+  skill_evolution:
+    dynamic_skills_root: "playground/mat_master/skills/dynamic"
+    sandbox: "subprocess"
+
+# ============================================
 # MCP 配置（仅 mat_master 专用）
 # ============================================
 # path_adaptor: calculation 表示对 calculation 类 MCP 做路径解析与 executor/storage 注入（对齐 _tmp/MatMaster）
 # calculation_servers: 仅对这些服务器启用 path adaptor
 # calculation_executors: 每服务器可配置 executor（镜像/机型）与 sync_tools；同步任务传 executor=null，否则传 Bohrium executor（鉴权从 .env BOHRIUM_* 注入）
+# 结构数据库检索: mat_bohrium_db(fetch_bohrium_crystals), mat_optimade(fetch_structures_with_*), mat_openlam(fetch_openlam_*), mat_mofdb(fetch_mofs_sql)
+# ABACUS 计算: mat_abacus
 mcp:
   config_file: "mcp_config.json"
   enabled: true
   path_adaptor: "calculation"
-  calculation_servers: ["mat_sg", "mat_dpa", "mat_doc"]
+  calculation_servers: ["mat_sg", "mat_dpa", "mat_doc", "mat_abacus"]
+  # Per-server tool filter: only register these tools (original names). Omitted servers register all tools.
+  tool_include_only:
+    mat_sn: ["web-search", "search-papers-enhanced"]
   # Per-server executor (image/machine_type) and sync_tools. Sync tools → executor None; others → Bohrium executor with env auth.
   calculation_executors:
     mat_sg:
@@ -122,6 +151,24 @@ mcp:
     mat_doc:
       executor: null
       sync_tools: []
+    mat_abacus:
+      executor:
+        type: "dispatcher"
+        machine:
+          batch_type: "OpenAPI"
+          context_type: "OpenAPI"
+          remote_profile:
+            image_address: "registry.dp.tech/dptech/dp/native/prod-22618/abacusagenttools-matmaster-new-tool:v0.2.3"
+            platform: "ali"
+            machine_type: "c32_m128_cpu"
+            app_key: "agent"
+        resources:
+          envs: {}
+      sync_tools:
+        - abacus_prepare
+        - abacus_modify_input
+        - abacus_modify_stru
+        - abacus_collect_data
 
 # ============================================
 # Skills（约束 Mat 工具调用方式，注入 meta 到上下文）

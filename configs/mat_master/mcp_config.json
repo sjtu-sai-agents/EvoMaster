@@ -19,6 +19,31 @@
       "transport": "http",
       "url": "https://dpa-uuid1750659890.appspace.bohrium.com/mcp?token=b2b94c52d10141e992514f9d17bcca23",
       "headers": {}
+    },
+    "mat_bohrium_db": {
+      "transport": "sse",
+      "url": "http://bowd1412840.bohrium.tech:50001/sse",
+      "headers": {}
+    },
+    "mat_optimade": {
+      "transport": "sse",
+      "url": "http://bowd1412840.bohrium.tech:50004/sse",
+      "headers": {}
+    },
+    "mat_openlam": {
+      "transport": "sse",
+      "url": "http://bowd1412840.bohrium.tech:50003/sse",
+      "headers": {}
+    },
+    "mat_mofdb": {
+      "transport": "sse",
+      "url": "http://bowd1412840.bohrium.tech:50002/sse",
+      "headers": {}
+    },
+    "mat_abacus": {
+      "transport": "sse",
+      "url": "http://toyl1410396.bohrium.tech:50001/sse",
+      "headers": {}
     }
   }
 }
