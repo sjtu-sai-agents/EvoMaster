@@ -12,7 +12,12 @@ dependencies = [
     "google-genai",
     "mcp",
     "flask",
+    "python-dotenv",
 ]
+
+[project.optional-dependencies]
+# Calculation (bohr-agent-sdk) path adaptor: local path -> OSS URL for MCP tools
+calculation = ["oss2"]
 
 [build-system]
 requires = ["hatchling"]

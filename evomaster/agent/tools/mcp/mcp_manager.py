@@ -70,6 +70,10 @@ class MCPToolManager:
         # ready signal：{name: asyncio.Event}
         self._server_ready: dict[str, asyncio.Event] = {}
 
+        # Optional path adaptor for Mat-style MCP (local path -> OSS URL)
+        self.path_adaptor_servers: set[str] = set()
+        self.path_adaptor_factory: Any = None
+
     def _build_tools(self, server_name: str, connection: Any, tools_info: list[dict]) -> None:
         from .mcp import MCPTool
 
@@ -87,6 +91,8 @@ class MCPToolManager:
             )
             mcp_tool._mcp_server = server_name
             mcp_tool._mcp_loop = self.loop  # 你原来注入 loop 的逻辑保留
+            if self.path_adaptor_servers and self.path_adaptor_factory and server_name in self.path_adaptor_servers:
+                mcp_tool._path_adaptor = self.path_adaptor_factory()
 
             server_tools[prefixed_name] = mcp_tool
 
