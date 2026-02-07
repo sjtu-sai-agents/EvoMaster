@@ -13,11 +13,13 @@ dependencies = [
     "mcp",
     "flask",
     "python-dotenv",
+    # Calculation path adaptor (mat_master) needs OSS upload for local file -> URL
+    "oss2",
 ]
 
 [project.optional-dependencies]
-# Calculation (bohr-agent-sdk) path adaptor: local path -> OSS URL for MCP tools
-calculation = ["oss2"]
+# Reserved for other calculation-related extras; oss2 is now main dep for mat_master
+calculation = []
 
 [build-system]
 requires = ["hatchling"]

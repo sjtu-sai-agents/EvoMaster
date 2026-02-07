@@ -65,14 +65,70 @@ agents:
 # ============================================
 # MCP 配置（仅 mat_master 专用）
 # ============================================
-# path_adaptor: calculation 表示对 calculation 类 MCP 做路径解析：输入文件必须上传 OSS 后以 OSS 链接传入，不能传文件名
-# 必须：pip install oss2，并设置 OSS_ENDPOINT, OSS_BUCKET_NAME, OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET
+# path_adaptor: calculation 表示对 calculation 类 MCP 做路径解析与 executor/storage 注入（对齐 _tmp/MatMaster）
 # calculation_servers: 仅对这些服务器启用 path adaptor
+# calculation_executors: 每服务器可配置 executor（镜像/机型）与 sync_tools；同步任务传 executor=null，否则传 Bohrium executor（鉴权从 .env BOHRIUM_* 注入）
 mcp:
   config_file: "mcp_config.json"
   enabled: true
   path_adaptor: "calculation"
   calculation_servers: ["mat_sg", "mat_dpa", "mat_doc"]
+  # Per-server executor (image/machine_type) and sync_tools. Sync tools → executor None; others → Bohrium executor with env auth.
+  calculation_executors:
+    mat_sg:
+      executor:
+        type: "dispatcher"
+        machine:
+          batch_type: "OpenAPI"
+          context_type: "OpenAPI"
+          remote_profile:
+            image_address: "registry.dp.tech/dptech/dpa-calculator:5a6b85f0"
+            platform: "ali"
+            machine_type: "c8_m32_1 * NVIDIA 4090"
+            app_key: "agent"
+        resources:
+          envs: {}
+      sync_tools:
+        - add_hydrogens
+        - generate_ordered_replicas
+        - remove_solvents
+        - build_bulk_structure_by_template
+        - build_bulk_structure_by_wyckoff
+        - make_supercell_structure
+        - make_defect_structure
+        - make_doped_structure
+        - make_amorphous_structure
+        - build_molecule_structures_from_smiles
+        - add_cell_for_molecules
+        - build_surface_slab
+        - build_surface_adsorbate
+        - build_surface_interface
+        - get_structure_info
+        - get_molecule_info
+    mat_dpa:
+      executor:
+        type: "dispatcher"
+        machine:
+          batch_type: "OpenAPI"
+          context_type: "OpenAPI"
+          remote_profile:
+            image_address: "registry.dp.tech/dptech/dpa-calculator:a86b37cc"
+            platform: "ali"
+            machine_type: "c16_m64_1 * NVIDIA 4090"
+            app_key: "agent"
+        resources:
+          envs: {}
+      sync_tools: []
+    mat_doc:
+      executor: null
+      sync_tools: []
+
+# ============================================
+# Skills（约束 Mat 工具调用方式，注入 meta 到上下文）
+# ============================================
+skills:
+  enabled: true
+  skills_root: evomaster/skills
 
 # ============================================
 # Session 配置

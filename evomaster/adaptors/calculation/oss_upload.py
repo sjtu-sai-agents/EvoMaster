@@ -49,7 +49,9 @@ def upload_file_to_oss(
     bucket_name = os.environ.get("OSS_BUCKET_NAME")
     if not endpoint or not bucket_name:
         raise RuntimeError(
-            "Calculation OSS upload requires OSS_ENDPOINT and OSS_BUCKET_NAME in environment"
+            "Calculation OSS upload requires OSS_ENDPOINT and OSS_BUCKET_NAME in environment. "
+            "Set them in .env at project root (run.py loads .env when starting). "
+            "Also set OSS_ACCESS_KEY_ID and OSS_ACCESS_KEY_SECRET for upload."
         )
 
     auth = oss2_module.ProviderAuth(cred_provider())

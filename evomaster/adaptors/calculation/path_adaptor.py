@@ -1,41 +1,19 @@
-"""Path adaptor: Bohrium HTTPS storage and path resolution for calculation MCP tools.
+"""Path adaptor: Bohrium HTTPS storage and executor/sync logic for calculation MCP tools.
 
-Align with _tmp/MatMaster: storage is type "https" with Bohrium plugin (access_key, project_id)
-so calculation servers use Bohrium-backed HTTP storage with auth. Executor is None.
-
-1. **storage**: {"type": "https", "plugin": {"type": "bohrium", "access_key": BOHRIUM_ACCESS_KEY, "project_id": BOHRIUM_PROJECT_ID, "app_key": "agent"}} from env.
-2. **executor**: None.
-3. Path args: upload local workspace files to OSS, pass https URL.
-4. Map /workspace/<name> to workspace_root/<name>.
+Align with _tmp/MatMaster. Storage 与 executor 鉴权统一通过 evomaster.env.bohrium 读取。
 """
 
 import logging
-import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urlparse
+
+from evomaster.env import get_bohrium_storage_config, inject_bohrium_executor
 
 from .oss_upload import upload_file_to_oss
 
 logger = logging.getLogger(__name__)
 
-
-def _bohrium_https_storage() -> Dict[str, Any]:
-    """Build storage config for calculation MCP: type https + Bohrium plugin (same as _tmp/MatMaster)."""
-    access_key = os.getenv("BOHRIUM_ACCESS_KEY", "").strip()
-    try:
-        project_id = int(os.getenv("BOHRIUM_PROJECT_ID", "-1"))
-    except (TypeError, ValueError):
-        project_id = -1
-    return {
-        "type": "https",
-        "plugin": {
-            "type": "bohrium",
-            "access_key": access_key,
-            "project_id": project_id,
-            "app_key": "agent",
-        },
-    }
 
 # Remote tool name -> list of argument names that are input file paths (upload to OSS, pass URL).
 CALCULATION_PATH_ARGS: Dict[str, List[str]] = {
@@ -157,12 +135,29 @@ def _resolve_one(value: str, workspace_root: Path) -> str:
     except Exception as e:
         raise RuntimeError(
             f"Cannot pass local file to calculation MCP: OSS upload required but failed for {path}. "
-            "Install oss2 (pip install oss2) and set OSS_ENDPOINT, OSS_BUCKET_NAME and OSS credentials (e.g. OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET)."
+            "Set OSS_ENDPOINT, OSS_BUCKET_NAME, OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET in .env at project root (run.py loads it)."
         ) from e
 
 
 class CalculationPathAdaptor:
-    """Bohrium HTTPS storage (executor=None) and path→OSS URL for calculation MCP tools. Matches _tmp/MatMaster."""
+    """Bohrium storage + per-server executor/sync_tools. Sync tools → executor None; else Bohrium executor with env auth."""
+
+    def __init__(self, calculation_executors: Optional[Dict[str, Any]] = None):
+        """Optional config: { server_name: { executor: {...}|null, sync_tools: [str] } }. From mcp.calculation_executors."""
+        self.calculation_executors = calculation_executors or {}
+
+    def _resolve_executor(self, server_name: str, remote_tool_name: str) -> Optional[Dict[str, Any]]:
+        """Return executor for this (server, tool): None if sync tool or no config; else injected Bohrium executor."""
+        server_cfg = self.calculation_executors.get(server_name)
+        if not server_cfg:
+            return None
+        sync_tools = server_cfg.get("sync_tools") or []
+        if remote_tool_name in sync_tools:
+            return None
+        executor_template = server_cfg.get("executor")
+        if not executor_template or not isinstance(executor_template, dict):
+            return None
+        return inject_bohrium_executor(executor_template)
 
     def resolve_args(
         self,
@@ -172,14 +167,14 @@ class CalculationPathAdaptor:
         server_name: str,
         input_schema: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """Inject executor=None, storage=https+Bohrium plugin (from BOHRIUM_ACCESS_KEY, BOHRIUM_PROJECT_ID); path args → OSS URL."""
+        """Inject executor (None for sync_tools else Bohrium with env), storage=https+Bohrium; path args → OSS URL."""
         out = dict(args)
-        out["executor"] = None
-        out["storage"] = _bohrium_https_storage()
-
         remote_name = tool_name
         if server_name and tool_name.startswith(server_name + "_"):
             remote_name = tool_name[len(server_name) + 1 :]
+        out["executor"] = self._resolve_executor(server_name, remote_name)
+        out["storage"] = get_bohrium_storage_config()
+
         path_arg_names = set(CALCULATION_PATH_ARGS.get(remote_name, [])) | _path_arg_names_from_schema(input_schema)
         if not path_arg_names or not workspace_path:
             return out
@@ -196,6 +191,7 @@ class CalculationPathAdaptor:
         return out
 
 
-def get_calculation_path_adaptor() -> CalculationPathAdaptor:
-    """Return a shared calculation path adaptor instance."""
-    return CalculationPathAdaptor()
+def get_calculation_path_adaptor(mcp_config: Optional[Dict[str, Any]] = None) -> CalculationPathAdaptor:
+    """Return a calculation path adaptor. If mcp_config has calculation_executors, use it for executor/sync_tools."""
+    executors = (mcp_config or {}).get("calculation_executors") if mcp_config is not None else None
+    return CalculationPathAdaptor(calculation_executors=executors)

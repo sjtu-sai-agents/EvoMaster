@@ -86,7 +86,8 @@ class SchedulerConfig(BaseConfig):
 
 
 class EnvConfig(BaseConfig):
-    """环境配置"""
+    """环境配置（集群 / Docker / 调度器）。
+    Bohrium 鉴权（BOHRIUM_ACCESS_KEY, BOHRIUM_PROJECT_ID 等）由 .env 提供，供 MCP calculation path adaptor 注入到 executor/storage。"""
     cluster: ClusterConfig = Field(description="集群配置")
     docker: DockerEnvConfig = Field(description="Docker 配置")
     scheduler: SchedulerConfig = Field(description="调度器配置")
@@ -162,6 +163,12 @@ class EvoMasterConfig(BaseConfig):
 
     # Skill 配置
     skill: SkillConfig = Field(default_factory=SkillConfig, description="Skill 配置")
+
+    # Skills 加载（Playground 用：enabled=true 时加载 SkillRegistry，skills_root 为技能目录）
+    skills: dict[str, Any] = Field(
+        default_factory=lambda: {"enabled": False, "skills_root": "evomaster/skills"},
+        description="Skills 启用与根目录",
+    )
 
     # 日志配置
     logging: LoggingConfig = Field(default_factory=LoggingConfig, description="日志配置")
