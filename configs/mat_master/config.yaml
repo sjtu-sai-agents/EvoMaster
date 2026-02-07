@@ -1,0 +1,149 @@
+# Mat Master Playground 配置文件
+# 材料科学向 agent，支持 LiteLLM 与 Azure，接入 Mat MCP（Structure Generator、Science Navigator、Document Parser、DPA）
+# 鉴权从 .env 读取：LITELLM_PROXY_*、AZURE_*、DEEPSEEK_API_KEY 等，配置中使用 ${变量名} 引用
+
+# ============================================
+# LLM 配置（必须支持 litellm 与 azure 格式）
+# ============================================
+# 均使用 provider: "openai"（OpenAI 兼容接口），通过 base_url + model 区分
+# .env 需提供：LITELLM_PROXY_API_BASE, LITELLM_PROXY_API_KEY, AZURE_API_BASE, AZURE_API_KEY
+llm:
+  litellm:
+    provider: "openai"
+    model: "azure/gpt-5-chat"
+    api_key: "${LITELLM_PROXY_API_KEY}"
+    base_url: "${LITELLM_PROXY_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  azure:
+    provider: "openai"
+    model: "gpt-4o"
+    api_key: "${AZURE_API_KEY}"
+    base_url: "${AZURE_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  # 可选：DeepSeek，.env 提供 DEEPSEEK_API_KEY
+  deepseek:
+    provider: "deepseek"
+    model: "deepseek-chat"
+    api_key: "${DEEPSEEK_API_KEY}"
+    base_url: "https://api.deepseek.com"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  default: "litellm"
+
+# ============================================
+# 多智能体配置（单 agent）
+# ============================================
+agents:
+  general:
+    llm: "litellm"
+    max_turns: 50
+    enable_tools: true
+
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+
+    system_prompt_file: "prompts/system_prompt.txt"
+    user_prompt_file: "prompts/user_prompt.txt"
+
+# ============================================
+# MCP 配置（仅 mat_master 专用）
+# ============================================
+# path_adaptor: calculation 表示对 calculation 类 MCP 做路径解析：输入文件必须上传 OSS 后以 OSS 链接传入，不能传文件名
+# 必须：pip install oss2，并设置 OSS_ENDPOINT, OSS_BUCKET_NAME, OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET
+# calculation_servers: 仅对这些服务器启用 path adaptor
+mcp:
+  config_file: "mcp_config.json"
+  enabled: true
+  path_adaptor: "calculation"
+  calculation_servers: ["mat_sg", "mat_dpa", "mat_doc"]
+
+# ============================================
+# Session 配置
+# ============================================
+session:
+  type: "local"
+
+  local:
+    working_dir: "./playground/mat_master/workspace"
+    timeout: 60
+    gpu_devices: null
+    cpu_devices: null
+    symlinks: {}
+
+  docker:
+    image: "evomaster/base:latest"
+    container_name: null
+    use_existing_container: null
+    working_dir: "/workspace"
+    memory_limit: "64g"
+    cpu_limit: 16.0
+    gpu_devices: "0"
+    network_mode: "host"
+    volumes: {"./playground/mat_master/workspace": "/workspace"}
+    env_vars: {}
+    auto_remove: false
+    timeout: 300
+
+# ============================================
+# Env 配置
+# ============================================
+env:
+  cluster:
+    debug_pool:
+      type: "cpu"
+      max_concurrent: 1
+    train_pool:
+      type: "cpu"
+      max_concurrent: 1
+
+  docker:
+    base_image: "python:3.11-slim"
+    registry: "docker.io"
+    pull_policy: "if_not_present"
+
+  scheduler:
+    type: "local"
+    queue_timeout: 300
+    retry_failed: false
+    max_retries: 1
+
+# ============================================
+# 系统提示词配置（顶层）
+# ============================================
+system_prompt_file: "prompts/system_prompt.txt"
+
+# ============================================
+# LLM 输出与日志
+# ============================================
+llm_output:
+  show_in_console: true
+  log_to_file: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null
+  console: true
+  log_path: "./logs/evomaster.log"
+
+project_root: "."
+workspace: "./workspace"
+results_dir: "./results"
+debug: false
