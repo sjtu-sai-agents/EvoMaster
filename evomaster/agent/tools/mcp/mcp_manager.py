@@ -74,8 +74,17 @@ class MCPToolManager:
         self.path_adaptor_servers: set[str] = set()
         self.path_adaptor_factory: Any = None
 
+        # Optional per-server tool filter: only register these tools (original names). If set for a server, tools not in the list are excluded.
+        # Example: {"mat_sn": ["web-search", "search-papers-enhanced"]} -> only those two from mat_sn.
+        self.tool_include_only: dict[str, list[str]] = {}
+
     def _build_tools(self, server_name: str, connection: Any, tools_info: list[dict]) -> None:
         from .mcp import MCPTool
+
+        include_only = self.tool_include_only.get(server_name)
+        if include_only is not None:
+            tools_info = [t for t in tools_info if t.get("name") in include_only]
+            self.logger.info(f"Filtered to {len(tools_info)} tools for server '{server_name}' (include_only: {include_only})")
 
         server_tools: dict[str, MCPTool] = {}
         for tool_info in tools_info:
