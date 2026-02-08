@@ -41,7 +41,11 @@ class SkillEvolutionExp(BaseExp):
         prompt = (
             f"I need a new tool to handle this requirement: {task_description}\n"
             "Please write a Python script and a SKILL.md following EvoMaster standards.\n"
-            "The script should be standalone and testable. Output the skill under workspace/new_skill/."
+            "The script should be standalone and testable.\n\n"
+            "Requirements:\n"
+            "1. Output directory must be exactly: new_skill (create new_skill/ and new_skill/scripts/ as needed). Do not use names like new_skill_2.\n"
+            "2. Write all file contents with the str_replace_editor tool (command=create, path=<absolute path>, file_text=<content>). Use the current working directory shown above as the base; e.g. <working_dir>/new_skill/SKILL.md and <working_dir>/new_skill/scripts/<script>.py. Do not use bash (cat, echo, here-docs) or Python one-liners to write long file content—on Windows these often fail or write to the wrong place.\n"
+            "3. Create new_skill/SKILL.md (with YAML frontmatter: name, description) and new_skill/scripts/<your_script>.py with full, runnable code."
         )
         task = TaskInstance(task_id=f"{task_id}_code", task_type="discovery", description=prompt)
         trajectory = self.agent.run(task)
