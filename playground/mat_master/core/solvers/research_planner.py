@@ -45,11 +45,65 @@ def _get_mat_master_config(config) -> dict:
 
 
 def _is_deg_plan(plan: Any) -> bool:
-    """True if plan is a DEG (has 'steps' list with step_id)."""
-    if not isinstance(plan, dict) or "steps" not in plan:
+    """True if plan is a DEG (has 'steps' or 'execution_graph' with step_id)."""
+    if not isinstance(plan, dict):
         return False
-    steps = plan.get("steps")
+    steps = plan.get("steps") or plan.get("execution_graph")
     return isinstance(steps, list) and len(steps) > 0 and isinstance(steps[0].get("step_id"), int)
+
+
+def _normalize_step(step: dict[str, Any]) -> dict[str, Any]:
+    """Map execution_graph schema to internal steps schema."""
+    intensity = (step.get("compute_intensity") or step.get("compute_cost") or "MEDIUM").upper()
+    if intensity == "LOW":
+        cost = "Low"
+    elif intensity == "HIGH":
+        cost = "High"
+    else:
+        cost = "Medium"
+    return {
+        "step_id": step.get("step_id"),
+        "tool_name": step.get("tool_name", ""),
+        "intent": step.get("scientific_intent") or step.get("intent", ""),
+        "compute_cost": cost,
+        "requires_human_confirm": step.get("requires_confirmation", step.get("requires_human_confirm", False)),
+        "fallback_logic": step.get("fallback_strategy") or step.get("fallback_logic", "None"),
+        "status": step.get("status", "pending"),
+    }
+
+
+def _normalize_plan(plan: dict[str, Any], max_steps: int = 999) -> dict[str, Any]:
+    """Ensure plan has 'steps' with internal field names; cap length."""
+    graph = plan.get("execution_graph") or plan.get("steps") or []
+    plan["steps"] = [_normalize_step(s) for s in graph][:max_steps]
+    for s in plan["steps"]:
+        s.setdefault("status", "pending")
+    return plan
+
+
+def _plan_to_external_schema(plan: dict[str, Any]) -> dict[str, Any]:
+    """Convert internal plan (steps) to prompt schema (execution_graph) for revision/display."""
+    steps = plan.get("steps", [])
+    intensity_map = {"Low": "LOW", "Medium": "MEDIUM", "High": "HIGH"}
+    execution_graph = [
+        {
+            "step_id": s.get("step_id"),
+            "tool_name": s.get("tool_name", ""),
+            "scientific_intent": s.get("intent", ""),
+            "compute_intensity": intensity_map.get(s.get("compute_cost"), "MEDIUM"),
+            "requires_confirmation": s.get("requires_human_confirm", False),
+            "fallback_strategy": s.get("fallback_logic", "None"),
+        }
+        for s in steps
+    ]
+    return {
+        "plan_id": plan.get("plan_id"),
+        "status": plan.get("status"),
+        "refusal_reason": plan.get("refusal_reason"),
+        "strategy_name": plan.get("strategy_name"),
+        "fidelity_level": plan.get("fidelity_level", "Production"),
+        "execution_graph": execution_graph,
+    }
 
 
 def _extract_json_from_content(content: str) -> str | None:
@@ -120,6 +174,44 @@ class ResearchPlanner(BaseExp):
         except Exception as e:
             self.logger.error("Failed to save state: %s", e)
 
+    def _build_context_prompt(self, task_description: str) -> str:
+        """Build RUNTIME_CONTEXT + REQUEST_CONFIG + USER_INTENT for the planner; includes hardware and license awareness."""
+        try:
+            import torch
+            has_gpu = torch.cuda.is_available()
+        except Exception:
+            has_gpu = False
+        mat = _get_mat_master_config(self.config)
+        crp_cfg = mat.get("crp", {})
+        active_licenses = crp_cfg.get("licenses", [])
+        task_lower = task_description.lower()
+        fidelity = "Screening" if any(w in task_lower for w in ["quick", "fast", "screen", "rough", "粗略", "快速", "筛选"]) else "Production"
+        context_data = {
+            "RUNTIME_CONTEXT": {
+                "Hardware": {
+                    "Has_GPU": has_gpu,
+                    "Compute_Tier": "HPC_Cluster" if has_gpu else "Local_CPU",
+                },
+                "License_Keys": active_licenses,
+                "Internet_Access": True,
+            },
+            "REQUEST_CONFIG": {
+                "Target_Fidelity": fidelity,
+                "Max_Steps": self.max_steps,
+            },
+            "USER_INTENT": task_description,
+        }
+        tools_preview = _get_available_tool_names(self.agent)
+        tools_str = ", ".join(tools_preview[:100]) if tools_preview else "(none)"
+        return f"""# CURRENT RUNTIME STATE (JSON)
+{json.dumps(context_data, indent=2, ensure_ascii=False)}
+
+# AVAILABLE TOOLS (use exact names in tool_name)
+{tools_str}
+
+# INSTRUCTION
+Analyze USER_INTENT against RUNTIME_CONTEXT and REQUEST_CONFIG. Generate the research plan in strict JSON format (plan_id, status, strategy_name, fidelity_level, execution_graph). No other text."""
+
     def _load_system_prompt(self) -> str:
         """Load planner_system_prompt.txt and append embedded CRP JSON."""
         base = Path(__file__).resolve().parent.parent.parent / "prompts"
@@ -153,11 +245,9 @@ class ResearchPlanner(BaseExp):
         return plan
 
     def _generate_plan(self, goal: str) -> dict[str, Any]:
-        """Produce DEG JSON via LLM, parse, inject step status, validate against CRP."""
+        """Produce DEG via LLM with runtime context, normalize to steps, validate against CRP."""
         system = self._load_system_prompt()
-        tools_preview = _get_available_tool_names(self.agent)
-        tools_str = ", ".join(tools_preview[:100]) if tools_preview else "(none)"
-        user = f"MISSION GOAL: {goal}\n\nAvailable Tools (use exact names in tool_name): {tools_str}"
+        user = self._build_context_prompt(goal)
         dialog = Dialog(
             messages=[SystemMessage(content=system), UserMessage(content=user)],
             tools=[],
@@ -174,20 +264,18 @@ class ResearchPlanner(BaseExp):
         except Exception as e:
             self.logger.error("Plan generation failed: %s", e)
             return {"status": "REFUSED", "refusal_reason": str(e)}
-
-        if not isinstance(plan.get("steps"), list) or len(plan.get("steps", [])) == 0:
+        plan = _normalize_plan(plan, self.max_steps)
+        if not plan.get("steps"):
             plan["status"] = "REFUSED"
             plan["refusal_reason"] = plan.get("refusal_reason") or "Plan must have at least one step."
-        for s in plan.get("steps", []):
-            s.setdefault("status", "pending")
-        plan["steps"] = (plan.get("steps") or [])[: self.max_steps]
         return self._validate_plan_safety(plan)
 
     def _revise_plan(self, goal: str, current_plan: dict[str, Any], user_feedback: str) -> dict[str, Any]:
         """Revise plan from user feedback; same schema and validation as _generate_plan."""
         system = self._load_system_prompt()
-        plan_json = json.dumps({k: v for k, v in current_plan.items() if k != "steps"} | {"steps": current_plan.get("steps", [])}, ensure_ascii=False)
-        user = f"REVISION REQUEST\nOriginal goal: {goal}\n\nCurrent plan (JSON):\n{plan_json}\n\nUser feedback: {user_feedback}\n\nOutput the revised plan as a single JSON object (same schema). No other text."
+        external = _plan_to_external_schema(current_plan)
+        plan_json = json.dumps(external, ensure_ascii=False, indent=2)
+        user = f"REVISION REQUEST\nOriginal goal: {goal}\n\nCurrent plan (JSON):\n{plan_json}\n\nUser feedback: {user_feedback}\n\nOutput the revised plan as a single JSON object (same schema: execution_graph, fidelity_level). No other text."
         dialog = Dialog(
             messages=[SystemMessage(content=system), UserMessage(content=user)],
             tools=[],
@@ -204,12 +292,10 @@ class ResearchPlanner(BaseExp):
         except Exception as e:
             self.logger.error("Plan revision failed: %s", e)
             return {**current_plan, "status": "REFUSED", "refusal_reason": str(e)}
-        if not isinstance(plan.get("steps"), list) or len(plan.get("steps", [])) == 0:
+        plan = _normalize_plan(plan, self.max_steps)
+        if not plan.get("steps"):
             plan["status"] = "REFUSED"
             plan["refusal_reason"] = plan.get("refusal_reason") or "Plan must have at least one step."
-        for s in plan.get("steps", []):
-            s.setdefault("status", "pending")
-        plan["steps"] = (plan.get("steps") or [])[: self.max_steps]
         return self._validate_plan_safety(plan)
 
     def _ask_human(self, prompt: str) -> str:
@@ -238,7 +324,8 @@ class ResearchPlanner(BaseExp):
         # Pre-flight: loop until user types 'go' or 'abort'; otherwise treat input as revision feedback
         if self.human_check:
             while True:
-                print(f"\033[92m[Planner] Plan: {plan.get('strategy_name')}\033[0m")
+                fid = plan.get("fidelity_level", "")
+                print(f"\033[92m[Planner] {plan.get('strategy_name')}\033[0m" + (f" (fidelity: {fid})" if fid else ""))
                 print("-" * 50)
                 for s in plan.get("steps", []):
                     cost = f"[{s.get('compute_cost', '?')}]"
