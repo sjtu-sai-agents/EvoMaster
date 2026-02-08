@@ -15,6 +15,7 @@ import yaml
 from evomaster.core import BasePlayground, register_playground
 
 from ..memory import MemoryService, get_memory_tools
+from ..tools import get_peek_file_tool
 from .agent import MatMasterAgent
 from .registry import MatMasterSkillRegistry
 from .solvers import DirectSolver, ResearchPlanner
@@ -67,13 +68,14 @@ class MatMasterPlayground(BasePlayground):
         self.memory_service.run_dir = Path(run_dir) if run_dir else None
 
     def _setup_tools(self, skill_registry=None) -> None:
-        """Override: call base then register memory tools (mem_save, mem_recall)."""
+        """Override: call base then register memory tools (mem_save, mem_recall) and peek_file."""
         super()._setup_tools(skill_registry)
         if self.run_dir is not None:
             self.memory_service.run_dir = Path(self.run_dir)
         memory_tools = get_memory_tools(self.memory_service)
         self.tools.register_many(memory_tools)
-        self.logger.info("Registered %d memory tools", len(memory_tools))
+        self.tools.register(get_peek_file_tool())
+        self.logger.info("Registered %d memory tools and peek_file", len(memory_tools))
 
     def setup(self) -> None:
         """Override: build MatMasterSkillRegistry and pass to tools/agents."""

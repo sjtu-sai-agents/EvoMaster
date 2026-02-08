@@ -124,11 +124,29 @@ class ResilientCalcExp(BaseExp):
         return self._extract_job_id(trajectory)
 
     def _extract_job_id(self, trajectory) -> str | None:
-        """Extract job id from trajectory (e.g. from assistant_message or tool_outputs). Override with real parsing."""
-        raise NotImplementedError(
-            "Extract job_id from trajectory not implemented. Implement _extract_job_id by parsing "
-            "assistant_message content or tool_outputs (e.g. from MCP submit-job tool response); return None for sync tasks."
-        )
+        """Extract job id from trajectory (e.g. from MCP submit-* tool response). Returns None for sync/discovery-only tasks."""
+        if not trajectory or not getattr(trajectory, "steps", None):
+            return None
+        for step in trajectory.steps:
+            for tr in getattr(step, "tool_responses", []) or []:
+                name = getattr(tr, "name", "") or ""
+                if "submit" not in name.lower():
+                    continue
+                content = getattr(tr, "content", None) or ""
+                if not content:
+                    continue
+                try:
+                    data = json.loads(content) if isinstance(content, str) else content
+                    if not isinstance(data, dict):
+                        continue
+                    job_id = data.get("job_id") or data.get("id")
+                    if isinstance(job_id, str) and job_id.strip():
+                        return job_id.strip()
+                    if isinstance(job_id, (int, float)):
+                        return str(int(job_id))
+                except (json.JSONDecodeError, TypeError):
+                    pass
+        return None
 
     def _get_results(self, job_id: str) -> Any:
         """Fetch results for job. Override with real implementation."""
