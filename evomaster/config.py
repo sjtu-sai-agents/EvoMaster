@@ -1,16 +1,41 @@
 """EvoMaster 配置管理
 
 提供统一的配置加载和管理功能，所有配置类都继承自 BaseConfig。
+支持从 .env 加载环境变量，并在配置中将 ${VAR} 替换为 os.environ 中的值。
 """
 
 from __future__ import annotations
 
+import os
+import re
 from abc import ABC
 from pathlib import Path
 from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None  # type: ignore[misc, assignment]
+
+# 匹配 ${VAR_NAME}，VAR_NAME 为字母、数字、下划线
+_ENV_PATTERN = re.compile(r"\$\{([A-Za-z0-9_]+)\}")
+
+
+def _substitute_env(value: Any) -> Any:
+    """递归将配置中的 ${VAR} 替换为 os.environ.get(\"VAR\", \"\")。"""
+    if isinstance(value, str):
+        return _ENV_PATTERN.sub(
+            lambda m: os.environ.get(m.group(1), ""),
+            value,
+        )
+    if isinstance(value, dict):
+        return {k: _substitute_env(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_substitute_env(item) for item in value]
+    return value
 
 
 # ============================================
@@ -61,7 +86,8 @@ class SchedulerConfig(BaseConfig):
 
 
 class EnvConfig(BaseConfig):
-    """环境配置"""
+    """环境配置（集群 / Docker / 调度器）。
+    Bohrium 鉴权（BOHRIUM_ACCESS_KEY, BOHRIUM_PROJECT_ID 等）由 .env 提供，供 MCP calculation path adaptor 注入到 executor/storage。"""
     cluster: ClusterConfig = Field(description="集群配置")
     docker: DockerEnvConfig = Field(description="Docker 配置")
     scheduler: SchedulerConfig = Field(description="调度器配置")
@@ -138,6 +164,12 @@ class EvoMasterConfig(BaseConfig):
     # Skill 配置
     skill: SkillConfig = Field(default_factory=SkillConfig, description="Skill 配置")
 
+    # Skills 加载（Playground 用：enabled=true 时加载 SkillRegistry，skills_root 为技能目录）
+    skills: dict[str, Any] = Field(
+        default_factory=lambda: {"enabled": False, "skills_root": "evomaster/skills"},
+        description="Skills 启用与根目录",
+    )
+
     # 日志配置
     logging: LoggingConfig = Field(default_factory=LoggingConfig, description="日志配置")
 
@@ -188,11 +220,22 @@ class ConfigManager:
     def load(self) -> EvoMasterConfig:
         """加载配置文件
 
+        会尝试从项目根目录加载 .env，并将配置中的 ${VAR} 替换为环境变量值。
         Returns:
             EvoMaster 配置对象
         """
         if self._config is not None:
             return self._config
+
+        if load_dotenv is not None:
+            # 从 config_dir 向上查找 .env（如 configs/mat_master -> 项目根）
+            for parent in [self.config_dir] + list(self.config_dir.parents):
+                env_file = parent / ".env"
+                if env_file.exists():
+                    load_dotenv(env_file)
+                    break
+            else:
+                load_dotenv()  # 回退到 cwd 及父目录
 
         config_path = self.config_dir / self.config_file
 
@@ -201,6 +244,8 @@ class ConfigManager:
 
         with open(config_path, "r", encoding="utf-8") as f:
             config_dict = yaml.safe_load(f)
+
+        config_dict = _substitute_env(config_dict)
 
         # 构造配置对象
         self._config = EvoMasterConfig(**config_dict)

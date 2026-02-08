@@ -573,6 +573,16 @@ class BasePlayground:
         # 7. 初始化 MCP 管理器
         self.logger.info("Setting up MCP tools...")
         manager = MCPToolManager()
+        if mcp_config.get("path_adaptor") == "calculation":
+            from evomaster.adaptors.calculation import get_calculation_path_adaptor
+            calc_servers = mcp_config.get("calculation_servers")
+            if calc_servers:
+                manager.path_adaptor_servers = set(calc_servers)
+            else:
+                manager.path_adaptor_servers = {s.get("name") for s in servers if s.get("name")}
+            # Pass mcp_config so adaptor gets calculation_executors (executor template + sync_tools per server)
+            manager.path_adaptor_factory = lambda: get_calculation_path_adaptor(mcp_config)
+            self.logger.info("Calculation path adaptor enabled for servers: %s", manager.path_adaptor_servers)
 
         # 8. 异步初始化 MCP 服务器
         async def init_mcp_servers():
