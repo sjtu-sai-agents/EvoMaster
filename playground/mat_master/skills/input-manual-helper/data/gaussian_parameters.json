@@ -1,0 +1,1846 @@
+{
+  "software": "Gaussian",
+  "parameters": [
+    {
+      "name": "Orders/Contact",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Orders/Contact [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Orders/Contact"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Orders/Contact"
+    },
+    {
+      "name": "ADMP",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "ADMP [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: ADMP"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: ADMP"
+    },
+    {
+      "name": "BD",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "BD [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: BD"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: BD"
+    },
+    {
+      "name": "BOMD",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "BOMD [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: BOMD"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: BOMD"
+    },
+    {
+      "name": "CacheSize",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CacheSize [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CacheSize"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CacheSize"
+    },
+    {
+      "name": "CASSCF",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CASSCF [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CASSCF"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CASSCF"
+    },
+    {
+      "name": "CBSExtrapolate",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CBSExtrapolate [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CBSExtrapolate"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CBSExtrapolate"
+    },
+    {
+      "name": "Charge",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Charge [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Charge"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Charge"
+    },
+    {
+      "name": "ChkBasis",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "ChkBasis [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: ChkBasis"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: ChkBasis"
+    },
+    {
+      "name": "CIS",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CIS [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CIS"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CIS"
+    },
+    {
+      "name": "CNDO",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CNDO [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CNDO"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CNDO"
+    },
+    {
+      "name": "Complex",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Complex [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Complex"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Complex"
+    },
+    {
+      "name": "Constants",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Constants [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Constants"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Constants"
+    },
+    {
+      "name": "Counterpoise",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Counterpoise [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Counterpoise"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Counterpoise"
+    },
+    {
+      "name": "CPHF",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "CPHF [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: CPHF"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: CPHF"
+    },
+    {
+      "name": "Density",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Density [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Density"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Density"
+    },
+    {
+      "name": "EET",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "EET [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: EET"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: EET"
+    },
+    {
+      "name": "EOMCCSD",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "EOMCCSD [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: EOMCCSD"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: EOMCCSD"
+    },
+    {
+      "name": "EPT",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "EPT [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: EPT"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: EPT"
+    },
+    {
+      "name": "External",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "External [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: External"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: External"
+    },
+    {
+      "name": "Field",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Field [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Field"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Field"
+    },
+    {
+      "name": "FMM",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "FMM [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: FMM"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: FMM"
+    },
+    {
+      "name": "Force",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Force [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Force"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Force"
+    },
+    {
+      "name": "Freq",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Freq [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Freq"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Freq"
+    },
+    {
+      "name": "GenChk",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "GenChk [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: GenChk"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: GenChk"
+    },
+    {
+      "name": "Geom",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Geom [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Geom"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Geom"
+    },
+    {
+      "name": "GFInput",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "GFInput [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: GFInput"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: GFInput"
+    },
+    {
+      "name": "GFPrint",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "GFPrint [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: GFPrint"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: GFPrint"
+    },
+    {
+      "name": "Guess",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Guess [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Guess"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Guess"
+    },
+    {
+      "name": "GVB",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "GVB [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: GVB"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: GVB"
+    },
+    {
+      "name": "HF",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "HF [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: HF"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: HF"
+    },
+    {
+      "name": "Huckel",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Huckel [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Huckel"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Huckel"
+    },
+    {
+      "name": "INDO",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "INDO [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: INDO"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: INDO"
+    },
+    {
+      "name": "Integral",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Integral [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Integral"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Integral"
+    },
+    {
+      "name": "IOp",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "IOp [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: IOp"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: IOp"
+    },
+    {
+      "name": "IRC",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "IRC [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: IRC"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: IRC"
+    },
+    {
+      "name": "IRCmax",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "IRCmax [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: IRCmax"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: IRCmax"
+    },
+    {
+      "name": "LSDA",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "LSDA [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: LSDA"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: LSDA"
+    },
+    {
+      "name": "MaxDisk",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "MaxDisk [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: MaxDisk"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: MaxDisk"
+    },
+    {
+      "name": "MINDO3",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "MINDO3 [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: MINDO3"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: MINDO3"
+    },
+    {
+      "name": "MNDO",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "MNDO [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: MNDO"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: MNDO"
+    },
+    {
+      "name": "Name",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Name [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Name"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Name"
+    },
+    {
+      "name": "NMR",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "NMR [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: NMR"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: NMR"
+    },
+    {
+      "name": "ONIOM",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "ONIOM [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: ONIOM"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: ONIOM"
+    },
+    {
+      "name": "Opt",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Opt [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Opt"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Opt"
+    },
+    {
+      "name": "Output",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Output [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Output"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Output"
+    },
+    {
+      "name": "PBC",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "PBC [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: PBC"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: PBC"
+    },
+    {
+      "name": "Polar",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Polar [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Polar"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Polar"
+    },
+    {
+      "name": "Population",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Population [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Population"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Population"
+    },
+    {
+      "name": "Pressure",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Pressure [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Pressure"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Pressure"
+    },
+    {
+      "name": "Prop",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Prop [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Prop"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Prop"
+    },
+    {
+      "name": "Pseudo",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Pseudo [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Pseudo"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Pseudo"
+    },
+    {
+      "name": "Punch",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Punch [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Punch"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Punch"
+    },
+    {
+      "name": "QCI",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "QCI [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: QCI"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: QCI"
+    },
+    {
+      "name": "Restart",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Restart [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Restart"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Restart"
+    },
+    {
+      "name": "SAC-CI",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "SAC-CI [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: SAC-CI"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: SAC-CI"
+    },
+    {
+      "name": "Scale",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Scale [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Scale"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Scale"
+    },
+    {
+      "name": "Scan",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Scan [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Scan"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Scan"
+    },
+    {
+      "name": "SCF",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "SCF [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: SCF"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: SCF"
+    },
+    {
+      "name": "SCRF",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "SCRF [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: SCRF"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: SCRF"
+    },
+    {
+      "name": "SP",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "SP [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: SP"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: SP"
+    },
+    {
+      "name": "Sparse",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Sparse [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Sparse"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Sparse"
+    },
+    {
+      "name": "Stable",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Stable [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Stable"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Stable"
+    },
+    {
+      "name": "Symmetry",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Symmetry [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Symmetry"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Symmetry"
+    },
+    {
+      "name": "TD",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "TD [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: TD"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: TD"
+    },
+    {
+      "name": "Temperature",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Temperature [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Temperature"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Temperature"
+    },
+    {
+      "name": "Test",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Test [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Test"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Test"
+    },
+    {
+      "name": "TestMO",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "TestMO [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: TestMO"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: TestMO"
+    },
+    {
+      "name": "TrackIO",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "TrackIO [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: TrackIO"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: TrackIO"
+    },
+    {
+      "name": "Transformation",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Transformation [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Transformation"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Transformation"
+    },
+    {
+      "name": "Units",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Units [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Units"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Units"
+    },
+    {
+      "name": "Volume",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "Volume [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: Volume"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: Volume"
+    },
+    {
+      "name": "ZIndo",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "ZIndo [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: ZIndo"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: ZIndo"
+    },
+    {
+      "name": "References",
+      "software": "Gaussian",
+      "paradigm": "MIXED",
+      "syntax_template": "References [options]",
+      "arguments": [
+        {
+          "name": "options",
+          "dtype": "STRING",
+          "default_value": null,
+          "unit": null,
+          "description": "Gaussian keyword: References"
+        }
+      ],
+      "parent_section": "route",
+      "description": "Gaussian 16 keyword: References"
+    }
+  ],
+  "basis_sets": [
+    {
+      "name": "Compound",
+      "syntax": "Compound",
+      "category": null,
+      "description": "Compound model chemistries: all G n , CBS and W1 methods.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "STO-3G",
+      "syntax": "STO-3G",
+      "category": null,
+      "description": "STO-3G [ Hehre69 , Collins76 ]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "3-21G",
+      "syntax": "3-21G",
+      "category": null,
+      "description": "3-21G [ Binkley80a , Gordon82 , Pietro82 , Dobbs86 , Dobbs87 , Dobbs87a ]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "6-21G",
+      "syntax": "6-21G",
+      "category": null,
+      "description": "6-21G [ Binkley80a , Gordon82 ]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "4-31G",
+      "syntax": "4-31G",
+      "category": null,
+      "description": "4-31G [ Ditchfield71 , Hehre72 , Hariharan74 , Gordon80 ]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "6-31G",
+      "syntax": "6-31G",
+      "category": null,
+      "description": "6-31G [ Ditchfield71 , Hehre72 , Hariharan73 , Hariharan74 , Gordon80 , Francl82 , Binning90 , Blaudeau97 , Rassolov98 , Rassolov01 ]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "6-311G",
+      "syntax": "6-311G",
+      "category": null,
+      "description": "6-311G : Specifies the 6-311G basis for first-row atoms and the McLean-Chandler (12s,9p) → (621111,52111) basis sets for second-row atoms [ McLean80 , Raghavachari80b ] (note that the basis sets for P, S, and Cl are those called negative ion basis sets by McLean and Chandler; these were deemed to give better results for neutral molecules as well), the basis set of Blaudeau and coworkers for Ca and",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "D95V",
+      "syntax": "D95V",
+      "category": null,
+      "description": "D95V : Dunning/Huzinaga valence double-zeta [ Dunning77 ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "D95",
+      "syntax": "D95",
+      "category": null,
+      "description": "D95 : Dunning/Huzinaga full double zeta [ Dunning77 ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SHC",
+      "syntax": "SHC",
+      "category": null,
+      "description": "SHC : D95V on first row, Goddard/Smedley ECP on second row [ Dunning77 , Rappe81 ]. Also known as SEC .",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "CEP-4G",
+      "syntax": "CEP-4G",
+      "category": null,
+      "description": "CEP-4G : Stevens/Basch/Krauss ECP minimal basis [ Stevens84 , Stevens92 , Cundari93 ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "CEP-31G",
+      "syntax": "CEP-31G",
+      "category": null,
+      "description": "CEP-31G : Stevens/Basch/Krauss ECP split valance [ Stevens84 , Stevens92 , Cundari93 ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "CEP-121G",
+      "syntax": "CEP-121G",
+      "category": null,
+      "description": "CEP-121G : Stevens/Basch/Krauss ECP triple-split basis [ Stevens84 , Stevens92 , Cundari93 ]. Note that there is only one CEP basis set defined beyond the second row, and all three keywords are equivalent for these atoms.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "LanL2MB",
+      "syntax": "LanL2MB",
+      "category": null,
+      "description": "LanL2MB : STO-3G [ Hehre69 , Collins76 ] on first row, Los Alamos ECP plus MBS on Na-La, Hf-Bi [ Hay85 , Wadt85 , Hay85a ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "LanL2DZ",
+      "syntax": "LanL2DZ",
+      "category": null,
+      "description": "LanL2DZ : D95V on first row [ Dunning77 ], Los Alamos ECP plus DZ on Na-La, Hf-Bi [ Hay85 , Wadt85 , Hay85a ].",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SDD",
+      "syntax": "SDD",
+      "category": null,
+      "description": "SDD : D95 up to Ar [ Dunning77 ] and Stuttgart/Dresden ECPs on the remainder of the periodic table [ Fuentealba82 , Szentpaly82 , Fuentealba83 , Stoll84 , Fuentealba85 , Wedig86 , Dolg87 , Igel-Mann88 , Dolg89 , Schwerdtfeger89 , Dolg89a , Andrae90 , Dolg91 , Kaupp91 , Kuechle91 , Dolg92 , Bergner93 , Dolg93 , Haeussermann93 , Dolg93a , Kuechle94 , Nicklass95 , Leininger96 , Cao01 , Cao02 ]. The S",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SDDAll",
+      "syntax": "SDDAll",
+      "category": null,
+      "description": "SDDAll : Selects Stuttgart potentials for Z > 2.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "cc-pVDZ",
+      "syntax": "cc-pVDZ",
+      "category": null,
+      "description": "cc-pVDZ , cc-pVTZ , cc-pVQZ , cc-pV5Z , cc-pV6Z : Dunning's correlation consistent basis sets [ Dunning89 , Kendall92 , Woon93 , Peterson94 , Wilson96 ] (double, triple, quadruple, quintuple-zeta and sextuple-zeta, respectively). These basis sets have had redundant functions removed and have been rotated [ Davidson96 ] in order to increase computational efficiency. These basis sets include polariz",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Basis",
+      "syntax": "Basis",
+      "category": null,
+      "description": "Basis sets of Ahlrichs and coworkers: the SV , SVP , TZV , TZVP keywords refer to the initial formations of the split valence and triple zeta basis sets from this group [ Schaefer92 , Schaefer94 ]. The newer redefinitions of these basis sets in [ Weigend05 , Weigend06 ] are requested with the keywords Def2SV , Def2SVP , Def2SVPP , Def2TZV , Def2TZVP , Def2TZVPP , Def2QZV , Def2QZVP , Def2QZVPP , a",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "EPR-II",
+      "syntax": "EPR-II",
+      "category": null,
+      "description": "EPR-II and EPR-III : The basis sets of Barone [ Barone96a ] which are optimized for the computation of hyperfine coupling constants by DFT methods (particularly B3LYP). EPR-II is a double zeta basis set with a single set of polarization functions and an enhanced s part: (6,1)/[4,1] for H and (10,5,1)/[6,2,1] for B to F. EPR-III is a triple-zeta basis set including diffuse functions, double d-polar",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "UGBS",
+      "syntax": "UGBS",
+      "category": null,
+      "description": "UGBS : The universal Gaussian basis set of de Castro, Jorge and coworkers [ Silver78 , Silver78a , Mohallem86 , Mohallem87 , daCosta87 , daSilva89 , Jorge97 , Jorge97a , deCastro98 ]. Additional polarization functions may be added by including a suffix to this keyword: UGBS n P | V | O where n is an integer indicating whether to add 1, 2 or 3 polarization functions for each function in the normal",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "CBSB7",
+      "syntax": "CBSB7",
+      "category": null,
+      "description": "CBSB7 : Selects the 6-311G(2d,d,p) basis set used by CBS-QB3 high accuracy energy method [ Montgomery99 ]. The notation specifies two additional d polarization functions on second rows atoms, one d function on first row atoms and a p function on hydrogens (note that this three-field polarization function syntax is not supported by Gaussian 16).",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "5D",
+      "syntax": "5D",
+      "category": null,
+      "description": "5D and 6D : Use 5 or 6 d functions ( pure vs. Cartesian d functions), respectively.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "7F",
+      "syntax": "7F",
+      "category": null,
+      "description": "7F and 10F : Use 7 or 10 f functions (pure vs. Cartesian f functions), respectively. These keywords also apply to all higher functions (g and beyond).",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "DGA1",
+      "syntax": "DGA1",
+      "category": null,
+      "description": "DGA1 and DGA2 [ Godbout92 , Sosa92 ]. DGA1 is available for H through Xe, and DGA2 is available for H, He and B through Ne.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SVPFit",
+      "syntax": "SVPFit",
+      "category": null,
+      "description": "SVPFit [ Eichkorn95 , Eichkorn97 ] corresponding to the SVP basis set.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "TZVPFit",
+      "syntax": "TZVPFit",
+      "category": null,
+      "description": "TZVPFit [ Eichkorn95 , Eichkorn97 ] corresponding to the TZVP basis set.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "The",
+      "syntax": "The",
+      "category": null,
+      "description": "The W06 fitting set of Ahlrichs and coworkers [ Weigend05 , Weigend06 ], designed for use with the SVP , TZV , and QZVP basis sets.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Fit",
+      "syntax": "Fit",
+      "category": null,
+      "description": "Fit : Select the fitting set corresponding to the specified basis set. If there is no such fitting set, the result will produce an error.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "NoFit",
+      "syntax": "NoFit",
+      "category": null,
+      "description": "NoFit : Turn off fitting set use for this calculation. This keyword is used to override the DensityFit keyword present within the Default.Route file.",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Auto",
+      "syntax": "Auto",
+      "category": null,
+      "description": "Auto : Generate a fitting set automatically (see below).",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Last",
+      "syntax": "Last",
+      "category": null,
+      "description": "Last updated on: 17 May 2021. [G16 Rev. C.01]",
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SEC",
+      "syntax": "SEC",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "cc-pVTZ",
+      "syntax": "cc-pVTZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "cc-pVQZ",
+      "syntax": "cc-pVQZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "cc-pV5Z",
+      "syntax": "cc-pV5Z",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "cc-pV6Z",
+      "syntax": "cc-pV6Z",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "AUG-cc-pVDZ",
+      "syntax": "AUG-cc-pVDZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "AUG-cc-pVTZ",
+      "syntax": "AUG-cc-pVTZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "AUG-cc-pVQZ",
+      "syntax": "AUG-cc-pVQZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "spAug-cc-pVDZ",
+      "syntax": "spAug-cc-pVDZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "dAug-cc-pVDZ",
+      "syntax": "dAug-cc-pVDZ",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SV",
+      "syntax": "SV",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "SVP",
+      "syntax": "SVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "TZV",
+      "syntax": "TZV",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "TZVP",
+      "syntax": "TZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2SV",
+      "syntax": "Def2SV",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2SVP",
+      "syntax": "Def2SVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2SVPP",
+      "syntax": "Def2SVPP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2TZV",
+      "syntax": "Def2TZV",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2TZVP",
+      "syntax": "Def2TZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2TZVPP",
+      "syntax": "Def2TZVPP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2QZV",
+      "syntax": "Def2QZV",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2QZVP",
+      "syntax": "Def2QZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "Def2QZVPP",
+      "syntax": "Def2QZVPP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "QZVP",
+      "syntax": "QZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "MidiX",
+      "syntax": "MidiX",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "EPR-III",
+      "syntax": "EPR-III",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "MTSmall",
+      "syntax": "MTSmall",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "DGDZVP",
+      "syntax": "DGDZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "DGDZVP2",
+      "syntax": "DGDZVP2",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "DGTZVP",
+      "syntax": "DGTZVP",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "MC-311G",
+      "syntax": "MC-311G",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "6-31G(d')",
+      "syntax": "6-31G(d')",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "6-31G(d',p')",
+      "syntax": "6-31G(d',p')",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "OldSDD",
+      "syntax": "OldSDD",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "DGA2",
+      "syntax": "DGA2",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "W06",
+      "syntax": "W06",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    },
+    {
+      "name": "PAuto",
+      "syntax": "PAuto",
+      "category": null,
+      "description": null,
+      "source_url": "https://gaussian.com/basissets/"
+    }
+  ],
+  "methods": [
+    {
+      "name": "HF",
+      "type": "HF",
+      "syntax": "HF",
+      "description": "Hartree-Fock",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "B3LYP",
+      "type": "DFT",
+      "syntax": "B3LYP",
+      "description": "Hybrid GGA functional",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "PBE",
+      "type": "DFT",
+      "syntax": "PBE",
+      "description": "GGA functional",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "PBE0",
+      "type": "DFT",
+      "syntax": "PBE0",
+      "description": "Hybrid GGA functional",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "M06-2X",
+      "type": "DFT",
+      "syntax": "M06-2X",
+      "description": "Meta-hybrid GGA functional",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "M06L",
+      "type": "DFT",
+      "syntax": "M06L",
+      "description": "Meta-GGA functional",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "wB97X-D",
+      "type": "DFT",
+      "syntax": "wB97X-D",
+      "description": "Range-separated hybrid with dispersion",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "MP2",
+      "type": "post-HF",
+      "syntax": "MP2",
+      "description": "Second-order Moller-Plesset",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "MP3",
+      "type": "post-HF",
+      "syntax": "MP3",
+      "description": "Third-order Moller-Plesset",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "CCSD",
+      "type": "post-HF",
+      "syntax": "CCSD",
+      "description": "Coupled cluster singles and doubles",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "CCSD(T)",
+      "type": "post-HF",
+      "syntax": "CCSD(T)",
+      "description": "CCSD with perturbative triples",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    },
+    {
+      "name": "CASSCF",
+      "type": "multiconfig",
+      "syntax": "CASSCF",
+      "description": "Complete active space SCF",
+      "aliases": [],
+      "source_url": "https://gaussian.com/dft/"
+    }
+  ]
+}

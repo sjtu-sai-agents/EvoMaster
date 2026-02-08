@@ -1,0 +1,920 @@
+[
+  {
+    "name": "ADAPTIVEPATH",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ADAPTIVEPATH ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Compute path collective variables that adapt to the lowest free energy path connecting states A and B. The Path Collective Variables developed by Branduardi and co-workers[28]allow one to compute the progress along a high-dimensional path and the distance from the high-dimensional path. The progress along the path (s) is computed using: \\[ s = i_2 + \\textrm{sign}(i_2-i_1) \\frac{ \\sqrt{( \\mathbf{v}"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Compute path collective variables that adapt to the lowest free energy path connecting states A and B. The Path Collective Variables developed by Branduardi and co-workers[28]allow one to compute the progress along a high-dimensional path and the distance from the high-dimensional path. The progress along the path (s) is computed using: \\[ s = i_2 + \\textrm{sign}(i_2-i_1) \\frac{ \\sqrt{( \\mathbf{v}_1\\cdot\\mathbf{v}_2 )^2 - |\\mathbf{v}_3|^2(|\\mathbf{v}_1|^2 - |\\mathbf{v}_2|^2) } }{2|\\mathbf{v}_3|^"
+  },
+  {
+    "name": "ALPHABETA",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ALPHABETA ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Measures a distance including pbc between the instantaneous values of a set of torsional angles and set of reference values. This colvar calculates the following quantity. \\[ s = \\frac{1}{2} \\sum_i \\left[ 1 + \\cos( \\phi_i - \\phi_i^{\\textrm{Ref}} ) \\right] \\] where the \\(\\phi_i\\) values are the instantaneous values for theTORSIONangles of interest. The \\(\\phi_i^{\\textrm{Ref}}\\) values are the user-"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Measures a distance including pbc between the instantaneous values of a set of torsional angles and set of reference values. This colvar calculates the following quantity. \\[ s = \\frac{1}{2} \\sum_i \\left[ 1 + \\cos( \\phi_i - \\phi_i^{\\textrm{Ref}} ) \\right] \\] where the \\(\\phi_i\\) values are the instantaneous values for theTORSIONangles of interest. The \\(\\phi_i^{\\textrm{Ref}}\\) values are the user-specified reference values for the torsional angles. The following provides an example of the input "
+  },
+  {
+    "name": "ALPHARMSD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ALPHARMSD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Probe the alpha helical content of a protein structure. Any chain of six contiguous residues in a protein chain can form an alpha helix. This colvar thus generates the set of all possible six residue sections and calculates the RMSD distance between the configuration in which the residues find themselves and an idealized alpha helical structure. These distances can be calculated by either aligning"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Probe the alpha helical content of a protein structure. Any chain of six contiguous residues in a protein chain can form an alpha helix. This colvar thus generates the set of all possible six residue sections and calculates the RMSD distance between the configuration in which the residues find themselves and an idealized alpha helical structure. These distances can be calculated by either aligning the instantaneous structure with the reference structure and measuring each atomic displacement or "
+  },
+  {
+    "name": "ANGLE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ANGLE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This command can be used to compute the angle between three atoms. Alternatively if four atoms appear in the atom specification it calculates the angle between two vectors identified by two pairs of atoms. Ifthreeatoms are given, the angle is defined as: \\[ \\theta=\\arccos\\left(\\frac{ {\\bf r}_{21}\\cdot {\\bf r}_{23}}{ |{\\bf r}_{21}| |{\\bf r}_{23}|}\\right) \\] Here \\( {\\bf r}_{ij}\\) is the distance ve"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This command can be used to compute the angle between three atoms. Alternatively if four atoms appear in the atom specification it calculates the angle between two vectors identified by two pairs of atoms. Ifthreeatoms are given, the angle is defined as: \\[ \\theta=\\arccos\\left(\\frac{ {\\bf r}_{21}\\cdot {\\bf r}_{23}}{ |{\\bf r}_{21}| |{\\bf r}_{23}|}\\right) \\] Here \\( {\\bf r}_{ij}\\) is the distance vector among the \\(i\\)th and the \\(j\\)th listed atom."
+  },
+  {
+    "name": "ANTIBETARMSD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ANTIBETARMSD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Probe the antiparallel beta sheet content of your protein structure. Two protein segments containing three contiguous residues can form an antiparallel beta sheet. Although if the two segments are part of the same protein chain they must be separated by a minimum of 2 residues to make room for the turn. This colvar thus generates the set of all possible six residue sections that could conceivably "
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Probe the antiparallel beta sheet content of your protein structure. Two protein segments containing three contiguous residues can form an antiparallel beta sheet. Although if the two segments are part of the same protein chain they must be separated by a minimum of 2 residues to make room for the turn. This colvar thus generates the set of all possible six residue sections that could conceivably form an antiparallel beta sheet and calculates the RMSD distance between the configuration in which "
+  },
+  {
+    "name": "CELL",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "CELL ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the components of the simulation cell The following input tells plumed to print the squared modulo of each of the three lattice vectors By default this Action calculates the following quantities. These quantities can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below. ( default=off ) calculate the "
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the components of the simulation cell The following input tells plumed to print the squared modulo of each of the three lattice vectors By default this Action calculates the following quantities. These quantities can be referenced elsewhere in the input by using this Action's label followed by a dot and the name of the quantity required from the list below. ( default=off ) calculate the derivatives for these quantities numerically"
+  },
+  {
+    "name": "CONSTANT",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "CONSTANT ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Return one or more constant quantities with or without derivatives. Useful in combination with functions that takes in input constants or parameters. The following input instructs plumed to compute the distance between atoms 1 and 2. If this distance is between 1.0 and 2.0, it is printed. If it is lower than 1.0 (larger than 2.0), 1.0 (2.0) is printed In case you want to pass a single value you ca"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Return one or more constant quantities with or without derivatives. Useful in combination with functions that takes in input constants or parameters. The following input instructs plumed to compute the distance between atoms 1 and 2. If this distance is between 1.0 and 2.0, it is printed. If it is lower than 1.0 (larger than 2.0), 1.0 (2.0) is printed In case you want to pass a single value you can use VALUE: By default this Action calculates the following quantities. These quantities can be ref"
+  },
+  {
+    "name": "CONTACTMAP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "CONTACTMAP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the distances between a number of pairs of atoms and transform each distance by a switching function. The transformed distance can be compared with a reference value in order to calculate the squared distance between two contact maps. Each distance can also be weighted for a given value. CONTACTMAP can be used together withFUNCPATHMSDto define a path in the contactmap space. The individu"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the distances between a number of pairs of atoms and transform each distance by a switching function. The transformed distance can be compared with a reference value in order to calculate the squared distance between two contact maps. Each distance can also be weighted for a given value. CONTACTMAP can be used together withFUNCPATHMSDto define a path in the contactmap space. The individual contact map distances related to each contact can be accessed as components namedcm.contact-1,cm."
+  },
+  {
+    "name": "COORDINATION",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "COORDINATION ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate coordination numbers. This keyword can be used to calculate the number of contacts between two groups of atoms and is defined as \\[ \\sum_{i\\in A} \\sum_{i\\in B} s_{ij} \\] where \\(s_{ij}\\) is 1 if the contact between atoms \\(i\\) and \\(j\\) is formed, zero otherwise. In actuality, \\(s_{ij}\\) is replaced with a switching function so as to ensure that the calculated CV has continuous derivativ"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate coordination numbers. This keyword can be used to calculate the number of contacts between two groups of atoms and is defined as \\[ \\sum_{i\\in A} \\sum_{i\\in B} s_{ij} \\] where \\(s_{ij}\\) is 1 if the contact between atoms \\(i\\) and \\(j\\) is formed, zero otherwise. In actuality, \\(s_{ij}\\) is replaced with a switching function so as to ensure that the calculated CV has continuous derivatives. The default switching function is: \\[ s_{ij} = \\frac{ 1 - \\left(\\frac{{\\bf r}_{ij}-d_0}{r_0}\\rig"
+  },
+  {
+    "name": "DHENERGY",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DHENERGY ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate Debye-Huckel interaction energy among GROUPA and GROUPB. This variable calculates the electrostatic interaction among GROUPA and GROUPB using a Debye-Huckel approximation defined as \\[ \\frac{1}{4\\pi\\epsilon_r\\epsilon_0} \\sum_{i\\in A} \\sum_{j \\in B} q_i q_j \\frac{e^{-\\kappa |{\\bf r}_{ij}|}}{|{\\bf r}_{ij}|} \\] This collective variable can be used to analyze or induce electrostatically driv"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate Debye-Huckel interaction energy among GROUPA and GROUPB. This variable calculates the electrostatic interaction among GROUPA and GROUPB using a Debye-Huckel approximation defined as \\[ \\frac{1}{4\\pi\\epsilon_r\\epsilon_0} \\sum_{i\\in A} \\sum_{j \\in B} q_i q_j \\frac{e^{-\\kappa |{\\bf r}_{ij}|}}{|{\\bf r}_{ij}|} \\] This collective variable can be used to analyze or induce electrostatically driven reactions[52]. Notice that the value of the DHENERGY is returned in plumed units (seeUNITS). If G"
+  },
+  {
+    "name": "DIHCOR",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DIHCOR ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Measures the degree of similarity between dihedral angles. This colvar calculates the following quantity. \\[ s = \\frac{1}{2} \\sum_i \\left[ 1 + \\cos( \\phi_i - \\psi_i ) \\right] \\] where the \\(\\phi_i\\) and \\(\\psi\\) values and the instantaneous values for theTORSIONangles of interest. The following provides an example input for the DIHCOR action"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Measures the degree of similarity between dihedral angles. This colvar calculates the following quantity. \\[ s = \\frac{1}{2} \\sum_i \\left[ 1 + \\cos( \\phi_i - \\psi_i ) \\right] \\] where the \\(\\phi_i\\) and \\(\\psi\\) values and the instantaneous values for theTORSIONangles of interest. The following provides an example input for the DIHCOR action"
+  },
+  {
+    "name": "DIMER",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DIMER ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This CV computes the dimer interaction energy for a collection of dimers. Each dimer represents an atom, as described in the dimer paper[97]. A system of N atoms is thus represented with N dimers, each Dimer being composed of two beads and eventually a virtual site representing its center of mass. A typical configuration for a dimerized system has the following ordering of atoms: 1 TAG1 X Y Z N at"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This CV computes the dimer interaction energy for a collection of dimers. Each dimer represents an atom, as described in the dimer paper[97]. A system of N atoms is thus represented with N dimers, each Dimer being composed of two beads and eventually a virtual site representing its center of mass. A typical configuration for a dimerized system has the following ordering of atoms: 1 TAG1 X Y Z N atoms representing the first bead of each Dimer"
+  },
+  {
+    "name": "DIPOLE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DIPOLE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the dipole moment for a group of atoms. When running with periodic boundary conditions, the atoms should be in the proper periodic image. This is done automatically since PLUMED 2.5, by considering the ordered list of atoms and rebuilding the molecule with a procedure that is equivalent to that done inWHOLEMOLECULES. Notice that rebuilding is local to this action. This is different fromW"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the dipole moment for a group of atoms. When running with periodic boundary conditions, the atoms should be in the proper periodic image. This is done automatically since PLUMED 2.5, by considering the ordered list of atoms and rebuilding the molecule with a procedure that is equivalent to that done inWHOLEMOLECULES. Notice that rebuilding is local to this action. This is different fromWHOLEMOLECULESwhich actually modifies the coordinates stored in PLUMED. In case you want to recover t"
+  },
+  {
+    "name": "DISTANCE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DISTANCE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the distance between a pair of atoms. By default the distance is computed taking into account periodic boundary conditions. This behavior can be changed with the NOPBC flag. Moreover, single components in Cartesian space (x,y, and z, with COMPONENTS) or single components projected to the three lattice vectors (a,b, and c, with SCALED_COMPONENTS) can be also computed. Notice that Cartesia"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the distance between a pair of atoms. By default the distance is computed taking into account periodic boundary conditions. This behavior can be changed with the NOPBC flag. Moreover, single components in Cartesian space (x,y, and z, with COMPONENTS) or single components projected to the three lattice vectors (a,b, and c, with SCALED_COMPONENTS) can be also computed. Notice that Cartesian components will not have the proper periodicity! If you have to study e.g. the permeation of a mol"
+  },
+  {
+    "name": "DISTANCEFROMCONTOUR",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "DISTANCEFROMCONTOUR ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the perpendicular distance from a Willard-Chandler dividing surface. Suppose that you have calculated a multicolvar. By doing so you have calculated a set of colvars, \\(s_i\\), and each of these colvars has a well defined position in space \\((x_i,y_i,z_i)\\). You can use this information to calculate a phase-field model of the colvar density using: \\[ p(x,y,x) = \\sum_{i} s_i K\\left[\\frac{x"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the perpendicular distance from a Willard-Chandler dividing surface. Suppose that you have calculated a multicolvar. By doing so you have calculated a set of colvars, \\(s_i\\), and each of these colvars has a well defined position in space \\((x_i,y_i,z_i)\\). You can use this information to calculate a phase-field model of the colvar density using: \\[ p(x,y,x) = \\sum_{i} s_i K\\left[\\frac{x-x_i}{\\sigma_x},\\frac{y-y_i}{\\sigma_y},\\frac{z-z_i}{\\sigma_z} \\right] \\] In this expression \\(\\sigma"
+  },
+  {
+    "name": "EEFSOLV",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "EEFSOLV ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates EEF1 solvation free energy for a group of atoms. EEF1 is a solvent-accessible surface area based model, where the free energy of solvation is computed using a pairwise interaction term for non-hydrogen atoms: \\[ \\Delta G^\\mathrm{solv}_i = \\Delta G^\\mathrm{ref}_i - \\sum_{j \\neq i} f_i(r_{ij}) V_j \\] where \\(\\Delta G^\\mathrm{solv}_i\\) is the free energy of solvation, \\(\\Delta G^\\mathrm{re"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates EEF1 solvation free energy for a group of atoms. EEF1 is a solvent-accessible surface area based model, where the free energy of solvation is computed using a pairwise interaction term for non-hydrogen atoms: \\[ \\Delta G^\\mathrm{solv}_i = \\Delta G^\\mathrm{ref}_i - \\sum_{j \\neq i} f_i(r_{ij}) V_j \\] where \\(\\Delta G^\\mathrm{solv}_i\\) is the free energy of solvation, \\(\\Delta G^\\mathrm{ref}_i\\) is the reference solvation free energy, \\(V_j\\) is the volume of atom \\(j\\) and \\[ f_i(r) 4\\p"
+  },
+  {
+    "name": "ENERGY",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ENERGY ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the total potential energy of the simulation box. The potential energy can be biased e.g. with umbrella sampling[13]or with well-tempered metadynamics[21]. Notice that this CV could be unavailable with some MD code. When it is available, and when also replica exchange is available, metadynamics applied to ENERGY can be used to decrease the number of required replicas. The following input"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the total potential energy of the simulation box. The potential energy can be biased e.g. with umbrella sampling[13]or with well-tempered metadynamics[21]. Notice that this CV could be unavailable with some MD code. When it is available, and when also replica exchange is available, metadynamics applied to ENERGY can be used to decrease the number of required replicas. The following input instructs plumed to print the energy of the system"
+  },
+  {
+    "name": "ERMSD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ERMSD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate eRMSD with respect to a reference structure. eRMSD is a metric developed for measuring distances between three-dimensional RNA structures. The standard RMSD measure is highly inaccurate when measuring distances among three-dimensional structures of nucleic acids. It is not unusual, for example, that two RNA structures with low RMSD (i.e. less than 0.4nm) display a completely different ne"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate eRMSD with respect to a reference structure. eRMSD is a metric developed for measuring distances between three-dimensional RNA structures. The standard RMSD measure is highly inaccurate when measuring distances among three-dimensional structures of nucleic acids. It is not unusual, for example, that two RNA structures with low RMSD (i.e. less than 0.4nm) display a completely different network of base-base interactions. eRMSD measures the distance between structures by considering only "
+  },
+  {
+    "name": "EXTRACV",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "EXTRACV ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Allow PLUMED to use collective variables computed in the MD engine. This feature requires the MD engine to use special instructions to pass to PLUMED the value of some pre-computed collective variable. Check the documentation of the MD code to find out which collective variables can be computed and passed to PLUMED. These variables can then be accessed by name using the EXTRACV action. This exampl"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Allow PLUMED to use collective variables computed in the MD engine. This feature requires the MD engine to use special instructions to pass to PLUMED the value of some pre-computed collective variable. Check the documentation of the MD code to find out which collective variables can be computed and passed to PLUMED. These variables can then be accessed by name using the EXTRACV action. This example takes the lambda variable pre-computed in GROMACS and apply to it a restraint to keep it close to "
+  },
+  {
+    "name": "FAKE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FAKE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This is a fake colvar container used by cltools or various other actions that supports input and period definitions ( default=off ) ignore the periodic boundary conditions when calculating distances"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This is a fake colvar container used by cltools or various other actions that supports input and period definitions ( default=off ) ignore the periodic boundary conditions when calculating distances"
+  },
+  {
+    "name": "GHBFIX",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "GHBFIX ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the GHBFIX interaction energy among GROUPA and GROUPB using a potential defined in Kührová et al., Improving the performance of the AMBER RNA force field by tuning the hydrogen-bonding interactions, JCTC, 2019. Essentially it is a switching function being -1 for small distances and 0 for large distances with a smooth interpolation in the middle. This can be scaled as desired by specify"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the GHBFIX interaction energy among GROUPA and GROUPB using a potential defined in Kührová et al., Improving the performance of the AMBER RNA force field by tuning the hydrogen-bonding interactions, JCTC, 2019. Essentially it is a switching function being -1 for small distances and 0 for large distances with a smooth interpolation in the middle. This can be scaled as desired by specifying interaction scaling parameters and energy units. This collective variable can be used to analyze"
+  },
+  {
+    "name": "GPROPERTYMAP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "GPROPERTYMAP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Property maps but with a more flexible framework for the distance metric being used. This colvar calculates a property map using the formalism developed by Spiwok[123]. In essence if you have the value of some property, \\(X_i\\), that it takes at a set of high-dimensional positions then you calculate the value of the property at some arbitrary point in the high-dimensional space using: \\[ X=\\frac{\\"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Property maps but with a more flexible framework for the distance metric being used. This colvar calculates a property map using the formalism developed by Spiwok[123]. In essence if you have the value of some property, \\(X_i\\), that it takes at a set of high-dimensional positions then you calculate the value of the property at some arbitrary point in the high-dimensional space using: \\[ X=\\frac{\\sum_i X_i*\\exp(-\\lambda D_i(x))}{\\sum_i \\exp(-\\lambda D_i(x))} \\] Within PLUMED there are multiple w"
+  },
+  {
+    "name": "GYRATION",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "GYRATION ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the radius of gyration, or other properties related to it. The different properties can be calculated and selected by the TYPE keyword: the Radius of Gyration (RADIUS); the Trace of the Gyration Tensor (TRACE); the Largest Principal Moment of the Gyration Tensor (GTPC_1); the middle Principal Moment of the Gyration Tensor (GTPC_2); the Smallest Principal Moment of the Gyration Tensor (GT"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the radius of gyration, or other properties related to it. The different properties can be calculated and selected by the TYPE keyword: the Radius of Gyration (RADIUS); the Trace of the Gyration Tensor (TRACE); the Largest Principal Moment of the Gyration Tensor (GTPC_1); the middle Principal Moment of the Gyration Tensor (GTPC_2); the Smallest Principal Moment of the Gyration Tensor (GTPC_3); the Asphericiry (ASPHERICITY); the Acylindricity (ACYLINDRICITY); the Relative Shape Anisotro"
+  },
+  {
+    "name": "PARABETARMSD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PARABETARMSD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Probe the parallel beta sheet content of your protein structure. Two protein segments containing three contiguous residues can form a parallel beta sheet. Although if the two segments are part of the same protein chain they must be separated by a minimum of 3 residues to make room for the turn. This colvar thus generates the set of all possible six residue sections that could conceivably form a pa"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Probe the parallel beta sheet content of your protein structure. Two protein segments containing three contiguous residues can form a parallel beta sheet. Although if the two segments are part of the same protein chain they must be separated by a minimum of 3 residues to make room for the turn. This colvar thus generates the set of all possible six residue sections that could conceivably form a parallel beta sheet and calculates the RMSD distance between the configuration in which the residues f"
+  },
+  {
+    "name": "PATH",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PATH ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Path collective variables with a more flexible framework for the distance metric being used. The Path Collective Variables developed by Branduardi and co-workers[28]allow one to compute the progress along a high-dimensional path and the distance from the high-dimensional path. The progress along the path (s) is computed using: \\[ s = \\frac{ \\sum_{i=1}^N i \\exp( -\\lambda R[X - X_i] ) }{ \\sum_{i=1}^"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Path collective variables with a more flexible framework for the distance metric being used. The Path Collective Variables developed by Branduardi and co-workers[28]allow one to compute the progress along a high-dimensional path and the distance from the high-dimensional path. The progress along the path (s) is computed using: \\[ s = \\frac{ \\sum_{i=1}^N i \\exp( -\\lambda R[X - X_i] ) }{ \\sum_{i=1}^N \\exp( -\\lambda R[X - X_i] ) } \\] while the distance from the path (z) is measured using: \\[ z = -\\"
+  },
+  {
+    "name": "PATHMSD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PATHMSD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This Colvar calculates path collective variables. This is the Path Collective Variables implementation ( see[28]). This variable computes the progress along a given set of frames that is provided in input (\"sss\" component) and the distance from them (\"zzz\" component). (see below). When running with periodic boundary conditions, the atoms should be in the proper periodic image. This is done automat"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This Colvar calculates path collective variables. This is the Path Collective Variables implementation ( see[28]). This variable computes the progress along a given set of frames that is provided in input (\"sss\" component) and the distance from them (\"zzz\" component). (see below). When running with periodic boundary conditions, the atoms should be in the proper periodic image. This is done automatically since PLUMED 2.5, by considering the ordered list of atoms and rebuilding molecules with a pr"
+  },
+  {
+    "name": "PCAVARS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PCAVARS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Projection on principal component eigenvectors or other high dimensional linear subspace The collective variables described inDistances from reference configurationsallow one to calculate the distance between the instantaneous structure adopted by the system and some high-dimensional, reference configuration. The problem with doing this is that, as one gets further and further from the reference c"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Projection on principal component eigenvectors or other high dimensional linear subspace The collective variables described inDistances from reference configurationsallow one to calculate the distance between the instantaneous structure adopted by the system and some high-dimensional, reference configuration. The problem with doing this is that, as one gets further and further from the reference configuration, the distance from it becomes a progressively poorer and poorer collective variable. Th"
+  },
+  {
+    "name": "POSITION",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "POSITION ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the components of the position of an atom. Notice that single components will not have the proper periodicity! If you need the values to be consistent through PBC you should use SCALED_COMPONENTS, which defines values that by construction are in the -0.5,0.5 domain. This is similar to the equivalent flag forDISTANCE. Also notice that by default the minimal image distance from the origin "
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the components of the position of an atom. Notice that single components will not have the proper periodicity! If you need the values to be consistent through PBC you should use SCALED_COMPONENTS, which defines values that by construction are in the -0.5,0.5 domain. This is similar to the equivalent flag forDISTANCE. Also notice that by default the minimal image distance from the origin is considered (can be changed with NOPBC). This variable can be safely used only if Hamiltonian is n"
+  },
+  {
+    "name": "PROJECTIONONAXIS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PROJECTIONONAXIS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate a position based on the projection along and extension from a defined axis. This variable takes 3 input atoms or pseudoatoms, using the two AXIS_ATOMS to define a linear vector. The position of the ATOM is then calculated relative to this vector, with two output components. The projection on the axis (proj) is the distance along the axis from the ATOM to the origin. The extension (ext) i"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate a position based on the projection along and extension from a defined axis. This variable takes 3 input atoms or pseudoatoms, using the two AXIS_ATOMS to define a linear vector. The position of the ATOM is then calculated relative to this vector, with two output components. The projection on the axis (proj) is the distance along the axis from the ATOM to the origin. The extension (ext) is the orthogonal distance between the ATOM and the axis. This command tells plumed to define an axis"
+  },
+  {
+    "name": "PROPERTYMAP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PROPERTYMAP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate generic property maps. This Colvar calculates the property maps according to the work of Spiwok[123]. Basically it calculates \\begin{eqnarray*} X=\\frac{\\sum_i X_i*\\exp(-\\lambda D_i(x))}{\\sum_i \\exp(-\\lambda D_i(x))} \\\\ Y=\\frac{\\sum_i Y_i*\\exp(-\\lambda D_i(x))}{\\sum_i \\exp(-\\lambda D_i(x))} \\\\ \\cdots\\\\ zzz=-\\frac{1}{\\lambda}\\log(\\sum_i \\exp(-\\lambda D_i(x))) \\end{eqnarray*} where the para"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate generic property maps. This Colvar calculates the property maps according to the work of Spiwok[123]. Basically it calculates \\begin{eqnarray*} X=\\frac{\\sum_i X_i*\\exp(-\\lambda D_i(x))}{\\sum_i \\exp(-\\lambda D_i(x))} \\\\ Y=\\frac{\\sum_i Y_i*\\exp(-\\lambda D_i(x))}{\\sum_i \\exp(-\\lambda D_i(x))} \\\\ \\cdots\\\\ zzz=-\\frac{1}{\\lambda}\\log(\\sum_i \\exp(-\\lambda D_i(x))) \\end{eqnarray*} where the parameters \\(X_i\\) and \\(Y_i\\) are provided in the input pdb (allv.pdb in this case) and \\(D_i(x)\\) is t"
+  },
+  {
+    "name": "PUCKERING",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PUCKERING ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate sugar pseudorotation coordinates. This command can be used to calculate ring's pseudorotations in sugars (puckers). It works for both 5-membered and 6-membered rings. Notice that there are two different implementations depending if one passes 5 or 6 atoms in the ATOMS keyword. For 5-membered rings the implementation is the one discussed in[68]. This implementation is simple and can be us"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate sugar pseudorotation coordinates. This command can be used to calculate ring's pseudorotations in sugars (puckers). It works for both 5-membered and 6-membered rings. Notice that there are two different implementations depending if one passes 5 or 6 atoms in the ATOMS keyword. For 5-membered rings the implementation is the one discussed in[68]. This implementation is simple and can be used in RNA to distinguish C2'-endo and C3'-endo conformations. Both the polar coordinates (phs and am"
+  },
+  {
+    "name": "TORSION",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "TORSION ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate a torsional angle. This command can be used to compute the torsion between four atoms or alternatively to calculate the angle between two vectors projected on the plane orthogonal to an axis. This input tells plumed to print the torsional angle between atoms 1, 2, 3 and 4 on file COLVAR. If you are working with a protein you can specify the special named torsion angles \\(\\phi\\), \\(\\psi\\)"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate a torsional angle. This command can be used to compute the torsion between four atoms or alternatively to calculate the angle between two vectors projected on the plane orthogonal to an axis. This input tells plumed to print the torsional angle between atoms 1, 2, 3 and 4 on file COLVAR. If you are working with a protein you can specify the special named torsion angles \\(\\phi\\), \\(\\psi\\), \\(\\omega\\) and \\(\\chi_1\\) by using TORSION in combination with theMOLINFOcommand. This can be done"
+  },
+  {
+    "name": "VOLUME",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "VOLUME ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the volume of the simulation box. The following input tells plumed to print the volume of the system ( default=off ) calculate the derivatives for these quantities numerically"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the volume of the simulation box. The following input tells plumed to print the volume of the system ( default=off ) calculate the derivatives for these quantities numerically"
+  },
+  {
+    "name": "ISDB",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "ISDB ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Here are listed the collective variables, functions and biases originally developed for the Integrative Structural and Dynamical Biology module of PLUMED. They are related but not limited to the interpretation and modelling of experimental data in molecular modelling. Additional tutorials focused on the ISDB module are included in the following and are meant as advanced tutorials."
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Here are listed the collective variables, functions and biases originally developed for the Integrative Structural and Dynamical Biology module of PLUMED. They are related but not limited to the interpretation and modelling of experimental data in molecular modelling. Additional tutorials focused on the ISDB module are included in the following and are meant as advanced tutorials."
+  },
+  {
+    "name": "EMMI",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "EMMI ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate the fit of a structure or ensemble of structures with a cryo-EM density map. This action implements the multi-scale Bayesian approach to cryo-EM data fitting introduced in Ref.[63]. This method allows efficient and accurate structural modeling of cryo-electron microscopy density maps at multiple scales, from coarse-grained to atomistic resolution, by addressing the presence of random and"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate the fit of a structure or ensemble of structures with a cryo-EM density map. This action implements the multi-scale Bayesian approach to cryo-EM data fitting introduced in Ref.[63]. This method allows efficient and accurate structural modeling of cryo-electron microscopy density maps at multiple scales, from coarse-grained to atomistic resolution, by addressing the presence of random and systematic errors in the data, sample heterogeneity, data correlation, and noise correlation. The e"
+  },
+  {
+    "name": "FRET",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FRET ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the FRET efficiency between a pair of atoms. The efficiency is calculated using the Forster relation: \\[ E=\\frac{1}{1+(R/R_0)^6} \\] where \\(R\\) is the distance and \\(R_0\\) is the Forster radius. By default the distance is computed taking into account periodic boundary conditions. This behavior can be changed with the NOPBC flag. The following input tells plumed to print the FRET efficie"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the FRET efficiency between a pair of atoms. The efficiency is calculated using the Forster relation: \\[ E=\\frac{1}{1+(R/R_0)^6} \\] where \\(R\\) is the distance and \\(R_0\\) is the Forster radius. By default the distance is computed taking into account periodic boundary conditions. This behavior can be changed with the NOPBC flag. The following input tells plumed to print the FRET efficiencies calculated as a function of the distance between atoms 3 and 5 and the distance between atoms "
+  },
+  {
+    "name": "FUNNELPS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FUNNELPS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "FUNNEL_PS implements the Funnel-Metadynamics (FM) technique in PLUMED 2. Please read the FM[85][118]papers to better understand the notions hereby reported. This colvar evaluates the position of a ligand of interest with respect to a given line, built from the two points A and B, and should be used together with theFUNNELbias. The constructed line represents the axis of the funnel-shape restraint "
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "FUNNEL_PS implements the Funnel-Metadynamics (FM) technique in PLUMED 2. Please read the FM[85][118]papers to better understand the notions hereby reported. This colvar evaluates the position of a ligand of interest with respect to a given line, built from the two points A and B, and should be used together with theFUNNELbias. The constructed line represents the axis of the funnel-shape restraint potential, which should be placed so as to include the portion of a macromolecule (i.e., protein, DN"
+  },
+  {
+    "name": "FUNNELMOD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FUNNELMOD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "FM is a combination of Metadynamics bias potential[80]with a funnel-shape restraint potential applied to the target structure of a binding interaction. The latter is composed of a cone restraint, which covers the ligand binding site, and a cylindrical one that heads towards the solvent[85]. When inside the funnel volume, the ligand does not feel any restraint potential, proceeding as regular Metad"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "FM is a combination of Metadynamics bias potential[80]with a funnel-shape restraint potential applied to the target structure of a binding interaction. The latter is composed of a cone restraint, which covers the ligand binding site, and a cylindrical one that heads towards the solvent[85]. When inside the funnel volume, the ligand does not feel any restraint potential, proceeding as regular Metadynamics. Upon reaching the boundaries of the funnel, a repulsive bias is applied forcing the ligand "
+  },
+  {
+    "name": "FUSIONPOREEXPANSIONP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FUSIONPOREEXPANSIONP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "A CV for inducing the expansion of a fusion pore from a nucleated fusion pore. Calculate the collective variable designed by Hub[70]and implemented into PLUMED by Masone and collaborators. This CV is capable of inducing the expansion of the fusion pore from a nucleated fusion pore. \\[ \\xi_e = \\frac{R(r) - R_0}{R_0} \\] Where \\(\\xi_e\\) is the CV, \\(R_0\\) is a normalization constant that makes zero t"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "A CV for inducing the expansion of a fusion pore from a nucleated fusion pore. Calculate the collective variable designed by Hub[70]and implemented into PLUMED by Masone and collaborators. This CV is capable of inducing the expansion of the fusion pore from a nucleated fusion pore. \\[ \\xi_e = \\frac{R(r) - R_0}{R_0} \\] Where \\(\\xi_e\\) is the CV, \\(R_0\\) is a normalization constant that makes zero the initial value of \\(\\xi_e\\), and \\(R(r)\\) is the approximate radius of the fusion pore, which is d"
+  },
+  {
+    "name": "MEMBRANEFUSIONMOD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "MEMBRANEFUSIONMOD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Membrane fusion process, when two separate membranes merge, is crucial in life. The fusion of lipid bilayers follows a series of discrete steps with two relevant intermediates: hemifusion structures and fusion pores. The hemifusion structures mix lipids from the involved membranes without cargo exchange, while the fusion pore require an aqueous channel to connect the contents. To study the hemifus"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Membrane fusion process, when two separate membranes merge, is crucial in life. The fusion of lipid bilayers follows a series of discrete steps with two relevant intermediates: hemifusion structures and fusion pores. The hemifusion structures mix lipids from the involved membranes without cargo exchange, while the fusion pore require an aqueous channel to connect the contents. To study the hemifusion stage computationally, Hub and Awasthi developed a CV that initially nucleated hydrophilic pores"
+  },
+  {
+    "name": "FUSIONPORENUCLEATIONP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "FUSIONPORENUCLEATIONP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "A CV for inducing the nucleation of the fusion pore from a hemifusion stalk. Calculate the collective variable designed by Hub and collaborators[69]and implemented into PLUMED by Masone and collaborators. This CV is capable of inducing the nucleation of the fusion pore from a hemifusion stalk. \\[ \\xi_n = \\frac{1}{N_{sn}} \\sum_{s=0}^{N_{sn}-1} \\delta_{sn} (N_{sn}^{(p)}) \\] Where \\(\\xi_n\\) is the CV"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "A CV for inducing the nucleation of the fusion pore from a hemifusion stalk. Calculate the collective variable designed by Hub and collaborators[69]and implemented into PLUMED by Masone and collaborators. This CV is capable of inducing the nucleation of the fusion pore from a hemifusion stalk. \\[ \\xi_n = \\frac{1}{N_{sn}} \\sum_{s=0}^{N_{sn}-1} \\delta_{sn} (N_{sn}^{(p)}) \\] Where \\(\\xi_n\\) is the CV, \\(N_{sn}\\) is the number of slices of the cylinder that make up the CV, \\(\\delta_{sn}\\) is a conti"
+  },
+  {
+    "name": "JCOUPLING",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "JCOUPLING ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates 3J coupling constants for a dihedral angle. The J-coupling between two atoms is given by the Karplus relation: \\[ ^3J(\\theta)=A\\cos^2(\\theta+\\Delta\\theta)+B\\cos(\\theta+\\Delta\\theta)+C \\] where \\(A\\), \\(B\\) and \\(C\\) are the Karplus parameters and \\(\\Delta\\theta\\) is an additional constant added on to the dihedral angle \\(\\theta\\). The Karplus parameters are determined empirically and ar"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates 3J coupling constants for a dihedral angle. The J-coupling between two atoms is given by the Karplus relation: \\[ ^3J(\\theta)=A\\cos^2(\\theta+\\Delta\\theta)+B\\cos(\\theta+\\Delta\\theta)+C \\] where \\(A\\), \\(B\\) and \\(C\\) are the Karplus parameters and \\(\\Delta\\theta\\) is an additional constant added on to the dihedral angle \\(\\theta\\). The Karplus parameters are determined empirically and are dependent on the type of J-coupling. This collective variable computes the J-couplings for a set o"
+  },
+  {
+    "name": "MEMFUSIONP",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "MEMFUSIONP ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculate a CV that can induce the formation of the hemifusion stalk between two initially flat and planar bilayers. Calculate the collective variable designed by Hub and collaborators[69]and implemented into PLUMED by Masone and collaborators[50]. This CV is capable of inducing the formation of the hemifusion stalk between two initially flat and planar bilayers surrounded by water molecules. \\[ \\"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculate a CV that can induce the formation of the hemifusion stalk between two initially flat and planar bilayers. Calculate the collective variable designed by Hub and collaborators[69]and implemented into PLUMED by Masone and collaborators[50]. This CV is capable of inducing the formation of the hemifusion stalk between two initially flat and planar bilayers surrounded by water molecules. \\[ \\xi_f = \\frac{1}{N_{sf}} \\sum_{s=0}^{N_{sf}-1} \\delta_{sf} (N_{sf}^{(p)}) \\] Where \\(\\xi_f\\) is the C"
+  },
+  {
+    "name": "NOE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "NOE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates NOE intensities as sums of 1/r^6, also averaging over multiple equivalent atoms or ambiguous NOE. Each NOE is defined by two groups containing the same number of atoms, distances are calculated in pairs, transformed in 1/r^6, summed and saved as components. \\[ NOE() = (\\frac{1}{N_{eq}}\\sum_j^{N_{eq}} (\\frac{1}{r_j^6})) \\] NOE can be used to calculate a Metainference score over one or mo"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates NOE intensities as sums of 1/r^6, also averaging over multiple equivalent atoms or ambiguous NOE. Each NOE is defined by two groups containing the same number of atoms, distances are calculated in pairs, transformed in 1/r^6, summed and saved as components. \\[ NOE() = (\\frac{1}{N_{eq}}\\sum_j^{N_{eq}} (\\frac{1}{r_j^6})) \\] NOE can be used to calculate a Metainference score over one or more replicas using the intrinsic implementation ofMETAINFERENCEthat is activated by DOSCORE. By defau"
+  },
+  {
+    "name": "PCS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PCS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the Pseudo-contact shift of a nucleus determined by the presence of a metal ion susceptible to anisotropic magnetization. The PCS of an atomic nucleus depends on the \\(\\theta\\) angle between the vector from the spin-label to the nucleus and the external magnetic field and the module of the vector itself[35]. While in principle the averaging resulting from the tumbling should remove the "
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the Pseudo-contact shift of a nucleus determined by the presence of a metal ion susceptible to anisotropic magnetization. The PCS of an atomic nucleus depends on the \\(\\theta\\) angle between the vector from the spin-label to the nucleus and the external magnetic field and the module of the vector itself[35]. While in principle the averaging resulting from the tumbling should remove the pseudo-contact shift, in presence of the NMR magnetic field the magnetically anisotropic molecule bo"
+  },
+  {
+    "name": "PIV",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PIV ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the PIV-distance. PIV distance is the squared Cartesian distance between the PIV[55][112]associated to the configuration of the system during the dynamics and a reference configuration provided as input (PDB file format). PIV can be used together withFUNCPATHMSDto define a path in the PIV space. The following example calculates PIV-distances from three reference configurations in Ref1.p"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the PIV-distance. PIV distance is the squared Cartesian distance between the PIV[55][112]associated to the configuration of the system during the dynamics and a reference configuration provided as input (PDB file format). PIV can be used together withFUNCPATHMSDto define a path in the PIV space. The following example calculates PIV-distances from three reference configurations in Ref1.pdb, Ref2.pdb and Ref3.pdb and prints the results in a file named colvar. Three atoms (PIVATOMS=3) wi"
+  },
+  {
+    "name": "PIVMOD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PIVMOD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This module is not installed by default. Add '--enable-modules=piv' to your './configure' command when building PLUMED to enable these features. Currently, all features of the PIV module are included in a single PIV collective variable:PIV"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This module is not installed by default. Add '--enable-modules=piv' to your './configure' command when building PLUMED to enable these features. Currently, all features of the PIV module are included in a single PIV collective variable:PIV"
+  },
+  {
+    "name": "PRE",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "PRE ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the Paramagnetic Resonance Enhancement intensity ratio between a spin label atom and a list of atoms . The reference atom for the spin label is added with SPINLABEL, the affected atom(s) are give as numbered GROUPA1, GROUPA2, ... The additional parameters needed for the calculation are given as INEPT, the inept time, TAUC the correlation time, OMEGA, the Larmor frequency and RTWO for th"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the Paramagnetic Resonance Enhancement intensity ratio between a spin label atom and a list of atoms . The reference atom for the spin label is added with SPINLABEL, the affected atom(s) are give as numbered GROUPA1, GROUPA2, ... The additional parameters needed for the calculation are given as INEPT, the inept time, TAUC the correlation time, OMEGA, the Larmor frequency and RTWO for the relaxation time. METAINFERENCEcan be activated using DOSCORE and the other relevant keywords. In t"
+  },
+  {
+    "name": "RDC",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "RDC ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the (Residual) Dipolar Coupling between two atoms. The Dipolar Coupling between two nuclei depends on the \\(\\theta\\) angle between the inter-nuclear vector and the external magnetic field. \\[ D=D_{max}0.5(3\\cos^2(\\theta)-1) \\] \\[ D_{max}=-\\mu_0\\gamma_1\\gamma_2h/(8\\pi^3r^3) \\]"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the (Residual) Dipolar Coupling between two atoms. The Dipolar Coupling between two nuclei depends on the \\(\\theta\\) angle between the inter-nuclear vector and the external magnetic field. \\[ D=D_{max}0.5(3\\cos^2(\\theta)-1) \\] \\[ D_{max}=-\\mu_0\\gamma_1\\gamma_2h/(8\\pi^3r^3) \\]"
+  },
+  {
+    "name": "SANS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "SANS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates SANS intensity. SANS intensities are calculated for a set of scattering vectors using QVALUE keywords numbered from 1. Form factors are automatically assigned to atoms using the ATOMISTIC flag by reading a PDB file or, alternatively, a ONEBEAD coarse-grained implementation is available. Both for ATOMISTIC and ONEBEAD the user must provide an all-atom PDB file via MOLINFO before the SANS"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates SANS intensity. SANS intensities are calculated for a set of scattering vectors using QVALUE keywords numbered from 1. Form factors are automatically assigned to atoms using the ATOMISTIC flag by reading a PDB file or, alternatively, a ONEBEAD coarse-grained implementation is available. Both for ATOMISTIC and ONEBEAD the user must provide an all-atom PDB file via MOLINFO before the SANS instruction. ONEBEAD scheme consists in a single-bead per amino acid residue or three-bead for nucl"
+  },
+  {
+    "name": "SASAHASEL",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "SASAHASEL ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the solvent accessible surface area (SASA) of a protein molecule, or other properties related to it. The atoms for which the SASA is desired should be indicated with the keyword ATOMS, and a pdb file of the protein must be provided in input with the MOLINFO keyword. The algorithm described in[65]is used for the calculation. The radius of the solvent is assumed to be 0.14 nm, which is th"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the solvent accessible surface area (SASA) of a protein molecule, or other properties related to it. The atoms for which the SASA is desired should be indicated with the keyword ATOMS, and a pdb file of the protein must be provided in input with the MOLINFO keyword. The algorithm described in[65]is used for the calculation. The radius of the solvent is assumed to be 0.14 nm, which is the radius of water molecules. Using the keyword NL_STRIDE it is also possible to specify the frequenc"
+  },
+  {
+    "name": "SASAMOD",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "SASAMOD ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "This SASA module contains methods for the calculation of the solvent accessible surface area (SASA) of proteins using either the fast algorithm by Hasel et al.[65]or the LCPO algorithm[143]. This module can be used to include the SASA as a collective variable in metadynamics simulations, and also for implicit solvent simulations as described in[7],[6]and[5]. This module is not installed by default"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "This SASA module contains methods for the calculation of the solvent accessible surface area (SASA) of proteins using either the fast algorithm by Hasel et al.[65]or the LCPO algorithm[143]. This module can be used to include the SASA as a collective variable in metadynamics simulations, and also for implicit solvent simulations as described in[7],[6]and[5]. This module is not installed by default. Add '--enable-modules=sasa' to your './configure' command when building PLUMED to enable these fea"
+  },
+  {
+    "name": "SASALCPO",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "SASALCPO ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates the solvent accessible surface area (SASA) of a protein molecule, or other properties related to it. The atoms for which the SASA is desired should be indicated with the keyword ATOMS, and a pdb file of the protein must be provided in input with the MOLINFO keyword. The LCPO algorithm is used for the calculation (please, read and cite[143]). The radius of the solvent is assumed to be 0."
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates the solvent accessible surface area (SASA) of a protein molecule, or other properties related to it. The atoms for which the SASA is desired should be indicated with the keyword ATOMS, and a pdb file of the protein must be provided in input with the MOLINFO keyword. The LCPO algorithm is used for the calculation (please, read and cite[143]). The radius of the solvent is assumed to be 0.14 nm, which is the radius of water molecules. Using the keyword NL_STRIDE it is also possible to sp"
+  },
+  {
+    "name": "SAXS",
+    "software": "PLUMED",
+    "paradigm": "KEYWORD_LINE",
+    "syntax_template": "SAXS ...",
+    "arguments": [
+      {
+        "name": "args",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Calculates SAXS intensity. SAXS intensities are calculated for a set of scattering vectors using QVALUE keywords numbered from 1. Form factors can be assigned either by polynomial expansion of any order by using the PARAMETERS keywords, or automatically matched to atoms using the ATOMISTIC flag by reading a PDB file. Alternatively to the atomistic representation, two types of coarse-grained mappin"
+      }
+    ],
+    "parent_section": "colvar",
+    "description": "Calculates SAXS intensity. SAXS intensities are calculated for a set of scattering vectors using QVALUE keywords numbered from 1. Form factors can be assigned either by polynomial expansion of any order by using the PARAMETERS keywords, or automatically matched to atoms using the ATOMISTIC flag by reading a PDB file. Alternatively to the atomistic representation, two types of coarse-grained mapping are available: Whether for PARAMETERS, ATOMISTIC, and ONEBEAD the user must provide an all-atom PD"
+  }
+]

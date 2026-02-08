@@ -1,0 +1,818 @@
+[
+  {
+    "name": "ADDGRID",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ADDGRID {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "ADDGRID =",
+        "unit": null,
+        "description": "ADDGRID determines whether an additional support grid is used for the evaluation of the augmentation charges. When ADDGRID =.TRUE. VASP uses an additional support grid for the evaluation of the augmentation charges. This grid contains 8 times more points than the standard \"fine\" grid ( NGXF × NGYF × NGZF ). Whenever terms involving augmentation charges are evaluated, this additional grid is used. "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "ADDGRID determines whether an additional support grid is used for the evaluation of the augmentation charges. When ADDGRID =.TRUE. VASP uses an additional support grid for the evaluation of the augmentation charges. This grid contains 8 times more points than the standard \"fine\" grid ( NGXF × NGYF × NGZF ). Whenever terms involving augmentation charges are evaluated, this additional grid is used. For instance: The augmentation charge is evaluated first in real space on this additional grid, FFT-"
+  },
+  {
+    "name": "AEXX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AEXX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AEXX = 0",
+        "unit": null,
+        "description": "AEXX specifies the fraction of exact exchange in a Hartree-Fock-type/hybrid-functional calculation. Mind: For versions of VASP prior to 6.4.0, ALDAX was constrained to be equal to 1.0- AEXX . This constraint is lifted since VASP.6.4.0. For AEXX =1.0, VASP switches off correlation by default ( ALDAC =0.0, AGGAC =0.0, and AMGGAC =0.0) and thus runs a full Hartree-Fock calculation. Related tags and a"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AEXX specifies the fraction of exact exchange in a Hartree-Fock-type/hybrid-functional calculation. Mind: For versions of VASP prior to 6.4.0, ALDAX was constrained to be equal to 1.0- AEXX . This constraint is lifted since VASP.6.4.0. For AEXX =1.0, VASP switches off correlation by default ( ALDAC =0.0, AGGAC =0.0, and AMGGAC =0.0) and thus runs a full Hartree-Fock calculation. Related tags and articles ALDAX , ALDAC , AGGAX , AGGAC , AMGGAX , AMGGAC , LHFCALC , HFSCREEN , LRHFCALC , List of hy"
+  },
+  {
+    "name": "AGGAC",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AGGAC {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AGGAC = 1",
+        "unit": null,
+        "description": "AGGAC is a parameter that multiplies the gradient correction in the GGA correlation functional. AGGAC can be used as the fraction of gradient correction in the GGA correlation in a Hartree-Fock/DFT hybrid functional. Mind: AGGAC is implemented for all functionals listed at GGA except AM05. AGGAC is implemented for the functionals from Libxc (see LIBXC1 for details). Related tags and articles AEXX "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AGGAC is a parameter that multiplies the gradient correction in the GGA correlation functional. AGGAC can be used as the fraction of gradient correction in the GGA correlation in a Hartree-Fock/DFT hybrid functional. Mind: AGGAC is implemented for all functionals listed at GGA except AM05. AGGAC is implemented for the functionals from Libxc (see LIBXC1 for details). Related tags and articles AEXX , ALDAX , ALDAC , AGGAX , AMGGAX , AMGGAC , LHFCALC , List of hybrid functionals , Hybrid functional"
+  },
+  {
+    "name": "AGGAX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AGGAX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AGGAX = 1",
+        "unit": null,
+        "description": "AGGAX is a parameter that multiplies the gradient correction in the GGA exchange functional. AGGAX can be used as the fraction of gradient correction in the GGA exchange in a Hartree-Fock/GGA hybrid functional. Important: AGGAX can be used only if LHFCALC =.TRUE. Mind: AGGAX is implemented for all functionals listed at GGA except AM05. AGGAX is implemented for the functionals from Libxc (see LIBXC"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AGGAX is a parameter that multiplies the gradient correction in the GGA exchange functional. AGGAX can be used as the fraction of gradient correction in the GGA exchange in a Hartree-Fock/GGA hybrid functional. Important: AGGAX can be used only if LHFCALC =.TRUE. Mind: AGGAX is implemented for all functionals listed at GGA except AM05. AGGAX is implemented for the functionals from Libxc (see LIBXC1 for details). Related tags and articles AEXX , ALDAX , ALDAC , AGGAC , AMGGAX , AMGGAC , LHFCALC ,"
+  },
+  {
+    "name": "ALDAC",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ALDAC {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "ALDAC = 1",
+        "unit": null,
+        "description": "ALDAC is a parameter that multiplies the LDA correlation functional or the LDA part of the GGA correlation functional. ALDAC can be used as the fraction of LDA correlation in a Hartree-Fock/DFT hybrid functional. Mind: ALDAC is implemented for all functionals listed at GGA except AM05. ALDAC is implemented for the functionals from Libxc (see LIBXC1 for details). Related tags and articles AEXX , AL"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "ALDAC is a parameter that multiplies the LDA correlation functional or the LDA part of the GGA correlation functional. ALDAC can be used as the fraction of LDA correlation in a Hartree-Fock/DFT hybrid functional. Mind: ALDAC is implemented for all functionals listed at GGA except AM05. ALDAC is implemented for the functionals from Libxc (see LIBXC1 for details). Related tags and articles AEXX , ALDAX , AGGAX , AGGAC , AMGGAX , AMGGAC , LHFCALC , List of hybrid functionals , Hybrid functionals: f"
+  },
+  {
+    "name": "ALDAX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ALDAX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "ALDAX = 1",
+        "unit": null,
+        "description": "ALDAX is a parameter that multiplies the LDA exchange functional or the LDA part of the GGA exchange functional. ALDAX can be used as the fraction of LDA exchange in a Hartree-Fock/DFT hybrid functional. Important: ALDAX can be used only if LHFCALC =.TRUE. Mind: For versions of VASP prior to 6.4.0, ALDAX was constrained to be equal to 1.0- AEXX . This constraint is lifted since VASP.6.4.0. ALDAX i"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "ALDAX is a parameter that multiplies the LDA exchange functional or the LDA part of the GGA exchange functional. ALDAX can be used as the fraction of LDA exchange in a Hartree-Fock/DFT hybrid functional. Important: ALDAX can be used only if LHFCALC =.TRUE. Mind: For versions of VASP prior to 6.4.0, ALDAX was constrained to be equal to 1.0- AEXX . This constraint is lifted since VASP.6.4.0. ALDAX is implemented for all functionals listed at GGA except AM05. ALDAX is implemented for the functional"
+  },
+  {
+    "name": "ALGO",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ALGO {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "ALGO =  Normal Description: the ALGO tag is a convenient option to specify the electronic minimization algorithm (as of VASP",
+        "unit": null,
+        "description": "the ALGO tag is a convenient option to specify the electronic minimization algorithm (as of VASP.4.5) and/or to select the type of GW calculations . ALGO =Normal selects IALGO =38 ( blocked-Davidson-iteration scheme ). ALGO =VeryFast selects IALGO =48 ( RMM-DIIS ). This algorithm has been updated for vasp.6 to increase robustness. To select the version that was available in vasp.5, select \"Old Ver"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "the ALGO tag is a convenient option to specify the electronic minimization algorithm (as of VASP.4.5) and/or to select the type of GW calculations . ALGO =Normal selects IALGO =38 ( blocked-Davidson-iteration scheme ). ALGO =VeryFast selects IALGO =48 ( RMM-DIIS ). This algorithm has been updated for vasp.6 to increase robustness. To select the version that was available in vasp.5, select \"Old VeryFast\". hybrid functionals are not supported for ALGO =VeryFast. The algorithm can be combined with "
+  },
+  {
+    "name": "ALPHA_VDW",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ALPHA_VDW {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "ALPHA_VDW = 0",
+        "unit": null,
+        "description": "Specify [math]\\displaystyle{ \\alpha }[/math] in vdW-DF3-opt1/vdW-DF3-opt2. The ALPHA_VDW tag allows to specify the value of the parameter [math]\\displaystyle{ \\alpha }[/math] in the kernel of the vdW-DF3-opt1/vdW-DF3-opt2 nonlocal van der Waals functionals. [1] Related tags and articles GAMMA_VDW , PARAM1 , PARAM2 , Nonlocal vdW-DF functionals Examples that use this tag References ↑ D. Chakraborty"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "Specify [math]\\displaystyle{ \\alpha }[/math] in vdW-DF3-opt1/vdW-DF3-opt2. The ALPHA_VDW tag allows to specify the value of the parameter [math]\\displaystyle{ \\alpha }[/math] in the kernel of the vdW-DF3-opt1/vdW-DF3-opt2 nonlocal van der Waals functionals. [1] Related tags and articles GAMMA_VDW , PARAM1 , PARAM2 , Nonlocal vdW-DF functionals Examples that use this tag References ↑ D. Chakraborty, K. Berland, and T. Thonhauser, Next-Generation Nonlocal van der Waals Density Functional , J. Chem"
+  },
+  {
+    "name": "AMGGAC",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AMGGAC {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AMGGAC = 1",
+        "unit": null,
+        "description": "AMGGAC is a parameter that multiplies the meta-GGA correlation functional (available as of VASP.6.4.0). AMGGAC can be used as the fraction of meta-GGA correlation in a Hartree-Fock/DFT hybrid functional. Mind: Note the difference with respect to AGGAC : AMGGAC multiplies the whole meta-GGA correlation functional, while AGGAC multiplies only the gradient-correction term of a GGA correlation functio"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AMGGAC is a parameter that multiplies the meta-GGA correlation functional (available as of VASP.6.4.0). AMGGAC can be used as the fraction of meta-GGA correlation in a Hartree-Fock/DFT hybrid functional. Mind: Note the difference with respect to AGGAC : AMGGAC multiplies the whole meta-GGA correlation functional, while AGGAC multiplies only the gradient-correction term of a GGA correlation functional. Related tags and articles AEXX , ALDAX , ALDAC , AGGAX , AGGAC , AMGGAX , LHFCALC , List of hyb"
+  },
+  {
+    "name": "AMGGAX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AMGGAX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AMGGAX = 1",
+        "unit": null,
+        "description": "AMGGAX is a parameter that multiplies the meta-GGA exchange functional (available as of VASP.6.4.0). AMGGAX can be used as the fraction of meta-GGA exchange in a Hartree-Fock/DFT hybrid functional (possible since VASP.6.4.0). Important: AMGGAX can be used only if LHFCALC =.TRUE. Mind: Note the difference with respect to AGGAX : AMGGAX multiplies the whole meta-GGA exchange functional, while AGGAX "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AMGGAX is a parameter that multiplies the meta-GGA exchange functional (available as of VASP.6.4.0). AMGGAX can be used as the fraction of meta-GGA exchange in a Hartree-Fock/DFT hybrid functional (possible since VASP.6.4.0). Important: AMGGAX can be used only if LHFCALC =.TRUE. Mind: Note the difference with respect to AGGAX : AMGGAX multiplies the whole meta-GGA exchange functional, while AGGAX multiplies only the gradient-correction term of a GGA exchange functional. AMGGAX is implemented for"
+  },
+  {
+    "name": "AMIN",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AMIN {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AMIN = min(0",
+        "unit": null,
+        "description": "AMIN specifies the minimal mixing parameter in Kerker's initial approximation [1] to the charge-dielectric function used in the Broyden [2] [3] /Pulay [4] mixing scheme ( IMIX =4, INIMIX =1). Kerker's initial approximation [1] for the charge-dielectric function is given by [math]\\displaystyle{ \\max\\left(\\frac{AG^2}{G^2+B^2},A_{\\rm min}\\right), }[/math] where [math]\\displaystyle{ A }[/math] = AMIX "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AMIN specifies the minimal mixing parameter in Kerker's initial approximation [1] to the charge-dielectric function used in the Broyden [2] [3] /Pulay [4] mixing scheme ( IMIX =4, INIMIX =1). Kerker's initial approximation [1] for the charge-dielectric function is given by [math]\\displaystyle{ \\max\\left(\\frac{AG^2}{G^2+B^2},A_{\\rm min}\\right), }[/math] where [math]\\displaystyle{ A }[/math] = AMIX , [math]\\displaystyle{ B }[/math] = BMIX , and [math]\\displaystyle{ A_{\\rm min} }[/math] = AMIN . Re"
+  },
+  {
+    "name": "AMIX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AMIX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AMIX = 0",
+        "unit": null,
+        "description": "AMIX specifies the linear mixing parameter. In VASP the eigenvalue spectrum of the charge dielectric matrix is calculated and written to the OUTCAR file at each electronic step. This allows a rather easy optimization of the mixing parameters, if required. Search in the OUTCAR file for eigenvalues of (default mixing * dielectric matrix) The parameters for the mixing are optimal if the mean eigenval"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "AMIX specifies the linear mixing parameter. In VASP the eigenvalue spectrum of the charge dielectric matrix is calculated and written to the OUTCAR file at each electronic step. This allows a rather easy optimization of the mixing parameters, if required. Search in the OUTCAR file for eigenvalues of (default mixing * dielectric matrix) The parameters for the mixing are optimal if the mean eigenvalue Γ mean =1, and if the width of the eigenvalue spectrum is minimal. For an initial linear mixing ("
+  },
+  {
+    "name": "AMIX_MAG",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "AMIX_MAG {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "AMIX_MAG = 1",
+        "unit": null,
+        "description": "Linear mixing parameter for the magnetization density. The default mixing parameters for spinpolarized calculations are: IMIX =4, AMIX =0.4, AMIN =min(0.1, AMIX , AMIX_MAG ), BMIX =1.0, AMIX_MAG =1.6, and BMIX_MAG =1.0. These settings are consistent with an (initial) spin enhancement factor of 4, which is usually a reasonable approximation. There are only a few other parameter combinations that ca"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "Linear mixing parameter for the magnetization density. The default mixing parameters for spinpolarized calculations are: IMIX =4, AMIX =0.4, AMIN =min(0.1, AMIX , AMIX_MAG ), BMIX =1.0, AMIX_MAG =1.6, and BMIX_MAG =1.0. These settings are consistent with an (initial) spin enhancement factor of 4, which is usually a reasonable approximation. There are only a few other parameter combinations that can be tried if convergence turns out to be very slow. In particular, for slabs, magnetic systems, and"
+  },
+  {
+    "name": "ANDERSEN_PROB",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ANDERSEN_PROB {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "ANDERSEN_PROB = 0 Description: ANDERSEN_PROB sets the collision probability for the Anderson thermostat (in case VASP was compiled with -Dtbdyn )",
+        "unit": null,
+        "description": "ANDERSEN_PROB sets the collision probability for the Anderson thermostat (in case VASP was compiled with -Dtbdyn ). In the approach proposed by Andersen [1] the system is thermally coupled to a fictitious heat bath with the desired temperature. The coupling is represented by stochastic impulsive forces that act occasionally on randomly selected particles. The collision probability is defined as an"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "ANDERSEN_PROB sets the collision probability for the Anderson thermostat (in case VASP was compiled with -Dtbdyn ). In the approach proposed by Andersen [1] the system is thermally coupled to a fictitious heat bath with the desired temperature. The coupling is represented by stochastic impulsive forces that act occasionally on randomly selected particles. The collision probability is defined as an average number of collisions per atom and time-step. This quantity can be controlled by the flag AN"
+  },
+  {
+    "name": "ANTIRES",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ANTIRES {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "ANTIRES = 0 Description: ANTIRES determines whether the Tamm-Dancoff approximation is used or not",
+        "unit": null,
+        "description": "ANTIRES determines whether the Tamm-Dancoff approximation is used or not. ANTIRES =0 Tamm-Dancoff approximation (TDA) ANTIRES =1 yields exact results at ω=0 at roughly the same cost as TDA ANTIRES =2 beyond Tamm-Dancoff, coupling between positive and negative frequencies VASP uses the procedures outlined in reference [1] to include contributions beyond TDA. Beyond-TDA calculations increase the com"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "ANTIRES determines whether the Tamm-Dancoff approximation is used or not. ANTIRES =0 Tamm-Dancoff approximation (TDA) ANTIRES =1 yields exact results at ω=0 at roughly the same cost as TDA ANTIRES =2 beyond Tamm-Dancoff, coupling between positive and negative frequencies VASP uses the procedures outlined in reference [1] to include contributions beyond TDA. Beyond-TDA calculations increase the computational time and memory requirements by typically a factor of 2. Related tags and articles BSE ca"
+  },
+  {
+    "name": "APACO",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "APACO {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "APACO = 10 Description: APACO sets the maximum distance in the evaluation of the pair-correlation function (in Å)",
+        "unit": null,
+        "description": "APACO sets the maximum distance in the evaluation of the pair-correlation function (in Å). VASP evaluates the pair-correlation function each NBLOCK steps and writes it after NBLOCK × KBLOCK steps to the PCDAT file. Related tags and articles NPACO , NBLOCK , KBLOCK , PCDAT Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=APACO&oldid=16360 \" Categories : INCAR tag Mol"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "APACO sets the maximum distance in the evaluation of the pair-correlation function (in Å). VASP evaluates the pair-correlation function each NBLOCK steps and writes it after NBLOCK × KBLOCK steps to the PCDAT file. Related tags and articles NPACO , NBLOCK , KBLOCK , PCDAT Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=APACO&oldid=16360 \" Categories : INCAR tag Molecular dynamics"
+  },
+  {
+    "name": "BANDGAP",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BANDGAP {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "BANDGAP = COMPACT Description: BANDGAP determines the verbosity for reporting the bandgap to the OUTCAR file",
+        "unit": null,
+        "description": "BANDGAP determines the verbosity for reporting the bandgap to the OUTCAR file. Only the first character is significant. For semiconductors, the direct and fundamental bandgap have a clear definition. For semimetals, the Fermi energy cuts through bands so depending on the method one defines either a zero or a negative fundamental bandgap. For metals, defining a bandgap is not meaningful. The bandga"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "BANDGAP determines the verbosity for reporting the bandgap to the OUTCAR file. Only the first character is significant. For semiconductors, the direct and fundamental bandgap have a clear definition. For semimetals, the Fermi energy cuts through bands so depending on the method one defines either a zero or a negative fundamental bandgap. For metals, defining a bandgap is not meaningful. The bandgap of the system separates the occupied valence bands from the unoccupied conduction bands. Of partic"
+  },
+  {
+    "name": "BEXT",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BEXT {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "BEXT = 0",
+        "unit": null,
+        "description": "Specifies an external magnetic field in eV. BEXT tag sets an external magnetic field that acts on the electrons in a Zeeman-like manner. An additional potential of the following form carries this interaction: For spin-polarized calculations ( ISPIN = 2): [math]\\displaystyle{ V^{\\uparrow} = V^{\\uparrow} + B_{\\rm ext} }[/math] [math]\\displaystyle{ V^{\\downarrow} = V^{\\downarrow} - B_{\\rm ext} }[/mat"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "Specifies an external magnetic field in eV. BEXT tag sets an external magnetic field that acts on the electrons in a Zeeman-like manner. An additional potential of the following form carries this interaction: For spin-polarized calculations ( ISPIN = 2): [math]\\displaystyle{ V^{\\uparrow} = V^{\\uparrow} + B_{\\rm ext} }[/math] [math]\\displaystyle{ V^{\\downarrow} = V^{\\downarrow} - B_{\\rm ext} }[/math] and [math]\\displaystyle{ B_{\\rm ext} }[/math] = BEXT (in eV). For noncollinear calculations ( LNO"
+  },
+  {
+    "name": "BMIX",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BMIX {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "BMIX = 1",
+        "unit": null,
+        "description": "BMIX sets the cutoff wave vector for Kerker mixing scheme ( IMIX =1 and/or INIMIX =1). The mixed density is given by [math]\\displaystyle{ \\rho_{\\rm mix}\\left(G\\right)=\\rho_{\\rm in}\\left(G\\right)+A \\frac{G^2}{G^2+B^2}\\Bigl(\\rho_{\\rm out}\\left(G\\right)-\\rho_{\\rm in}\\left(G\\right)\\Bigr) }[/math] with [math]\\displaystyle{ A }[/math] = AMIX and [math]\\displaystyle{ B }[/math] = BMIX In VASP the eigenva"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "BMIX sets the cutoff wave vector for Kerker mixing scheme ( IMIX =1 and/or INIMIX =1). The mixed density is given by [math]\\displaystyle{ \\rho_{\\rm mix}\\left(G\\right)=\\rho_{\\rm in}\\left(G\\right)+A \\frac{G^2}{G^2+B^2}\\Bigl(\\rho_{\\rm out}\\left(G\\right)-\\rho_{\\rm in}\\left(G\\right)\\Bigr) }[/math] with [math]\\displaystyle{ A }[/math] = AMIX and [math]\\displaystyle{ B }[/math] = BMIX In VASP the eigenvalue spectrum of the charge dielectric matrix is calculated and written to the OUTCAR file at each el"
+  },
+  {
+    "name": "BMIX_MAG",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BMIX_MAG {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "BMIX_MAG = 1",
+        "unit": null,
+        "description": "Sets the cutoff wave vector for Kerker mixing scheme ( IMIX =1 and/or INIMIX =1) for the magnetization density [1] . The default mixing parameters for spinpolarized calculations are: IMIX =4, AMIX =0.4, AMIN =min(0.1, AMIX , AMIX_MAG ), BMIX =1.0, AMIX_MAG =1.6, and BMIX_MAG =1.0. These settings are consistent with an (initial) spin enhancement factor of 4, which is usually a reasonable approximat"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "Sets the cutoff wave vector for Kerker mixing scheme ( IMIX =1 and/or INIMIX =1) for the magnetization density [1] . The default mixing parameters for spinpolarized calculations are: IMIX =4, AMIX =0.4, AMIN =min(0.1, AMIX , AMIX_MAG ), BMIX =1.0, AMIX_MAG =1.6, and BMIX_MAG =1.0. These settings are consistent with an (initial) spin enhancement factor of 4, which is usually a reasonable approximation. There are only a few other parameter combinitions which can be tried, if convergence turns out "
+  },
+  {
+    "name": "BPARAM",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BPARAM {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "BPARAM = 6",
+        "unit": null,
+        "description": "The tag BPARAM specifies the value of the parameter [math]\\displaystyle{ b }[/math] in the kernel of the nonlocal rVV10 correlation functional. BPARAM should be set to 6.3, 15.7, 10, or 11.95 for the rVV10, [1] SCAN+rVV10, [2] PBE+rVV10L, [3] and r [math]\\displaystyle{ ^2 }[/math] SCAN+rVV10 [4] functionals, respectively. Related tags and articles CPARAM , Nonlocal vdW-DF functionals References ↑ "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "The tag BPARAM specifies the value of the parameter [math]\\displaystyle{ b }[/math] in the kernel of the nonlocal rVV10 correlation functional. BPARAM should be set to 6.3, 15.7, 10, or 11.95 for the rVV10, [1] SCAN+rVV10, [2] PBE+rVV10L, [3] and r [math]\\displaystyle{ ^2 }[/math] SCAN+rVV10 [4] functionals, respectively. Related tags and articles CPARAM , Nonlocal vdW-DF functionals References ↑ R. Sabatini, T. Gorni, and S. de Gironcoli, Phys. Rev. B 87 , 041108(R) (2013). ↑ H. Peng, Z.-H. Yan"
+  },
+  {
+    "name": "BSEELECTRON",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BSEELECTRON {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "BSEELECTRON sets the coordinates of the fixed electron of the exciton wavefunction If BSEELECTRON is set in a BSE calculation, VASP computes exciton wavefunction for the first NBSEEIG states. The coordinates are provided in direct (fractional) coordinates. When fixing the position of the particle, ensure that it is not fixed exactly at the center of an atom or coincides with a node of the wavefunc"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "BSEELECTRON sets the coordinates of the fixed electron of the exciton wavefunction If BSEELECTRON is set in a BSE calculation, VASP computes exciton wavefunction for the first NBSEEIG states. The coordinates are provided in direct (fractional) coordinates. When fixing the position of the particle, ensure that it is not fixed exactly at the center of an atom or coincides with a node of the wavefunction. To avoid that, shift the fixed coordinate slightly away from the center of the atom. Furthermo"
+  },
+  {
+    "name": "BSEHOLE",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BSEHOLE {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "BSEHOLE sets the coordinates of the fixed hole of the exciton wavefunction If BSEHOLE is set in a BSE calculation, VASP computes exciton wavefunction for the first NBSEEIG states. The coordinates are provided in direct (fractional) coordinates. When fixing the position of the particle, ensure that it is not fixed exactly at the center of an atom or coincides with a node of the wavefunction. To avo"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "BSEHOLE sets the coordinates of the fixed hole of the exciton wavefunction If BSEHOLE is set in a BSE calculation, VASP computes exciton wavefunction for the first NBSEEIG states. The coordinates are provided in direct (fractional) coordinates. When fixing the position of the particle, ensure that it is not fixed exactly at the center of an atom or coincides with a node of the wavefunction. To avoid that, shift the fixed coordinate slightly away from the center of the atom. Furthermore, the wave"
+  },
+  {
+    "name": "BSEPREC",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "BSEPREC {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "BSEPREC =  Medium Description: Determines the precision of the time-evolution algorithm , where it controls the timestep and the number of steps, and the precision of the Lanczos algorithms , where it",
+        "unit": null,
+        "description": "Determines the precision of the time-evolution algorithm , where it controls the timestep and the number of steps, and the precision of the Lanczos algorithms , where it sets the convergence threshold for the dielectric function. Time-evolution algorithm The timestep in the time-evolution calculation is inversely proportional to the maximum transition energy OMEGAMAX and the number of steps is inv"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "Determines the precision of the time-evolution algorithm , where it controls the timestep and the number of steps, and the precision of the Lanczos algorithms , where it sets the convergence threshold for the dielectric function. Time-evolution algorithm The timestep in the time-evolution calculation is inversely proportional to the maximum transition energy OMEGAMAX and the number of steps is inversely proportional to the broadening CSHIFT . Depending on the BSEPREC stable these parameters are "
+  },
+  {
+    "name": "CH_AMPLIFICATION",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CH_AMPLIFICATION {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CH_AMPLIFICATION = 1",
+        "unit": null,
+        "description": "This tag is used to scale (amplify) the calculated dielectric function within the supercell core-hole method and the BSE+GW method for core electrons. Related tags and articles CH_LSPEC , CH_NEDOS , ICORELEVEL , CLNT , CLN , CLL , CLZ , CH_SIGMA Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CH_AMPLIFICATION&oldid=30083 \" Categories : INCAR tag Linear response Die"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "This tag is used to scale (amplify) the calculated dielectric function within the supercell core-hole method and the BSE+GW method for core electrons. Related tags and articles CH_LSPEC , CH_NEDOS , ICORELEVEL , CLNT , CLN , CLL , CLZ , CH_SIGMA Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CH_AMPLIFICATION&oldid=30083 \" Categories : INCAR tag Linear response Dielectric properties XAS"
+  },
+  {
+    "name": "CH_LSPEC",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CH_LSPEC {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "BOOL",
+        "default_value": "CH_LSPEC =",
+        "unit": null,
+        "description": "This flag controls whether the dielecectric function using the supercell core-hole method is calculated or not. How to calculate X-ray absorption spectra from the supercell core-hole method are is explained here . This tag should be used in combination with the following important tags for the core-hole approximation: ICORELEVEL : To enable core-hole calculations in the final-state approximation w"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "This flag controls whether the dielecectric function using the supercell core-hole method is calculated or not. How to calculate X-ray absorption spectra from the supercell core-hole method are is explained here . This tag should be used in combination with the following important tags for the core-hole approximation: ICORELEVEL : To enable core-hole calculations in the final-state approximation with self-consistent field cycles (SCF) one has to set ICORELEVEL =2. Core-hole calculations in the i"
+  },
+  {
+    "name": "CH_NEDOS",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CH_NEDOS {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "CH_NEDOS = 1000 Description: This tag specifies the number of frequency (energy) grid points on the x-axis in the calculation of the dielectric function in the supercell core-hole method",
+        "unit": null,
+        "description": "This tag specifies the number of frequency (energy) grid points on the x-axis in the calculation of the dielectric function in the supercell core-hole method. Related tags and articles CH_LSPEC , CH_SIGMA , CH_AMPLIFICATION , ICORELEVEL , CLNT , CLN , CLL , CLZ Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CH_NEDOS&oldid=28410 \" Categories : INCAR tag Linear resp"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "This tag specifies the number of frequency (energy) grid points on the x-axis in the calculation of the dielectric function in the supercell core-hole method. Related tags and articles CH_LSPEC , CH_SIGMA , CH_AMPLIFICATION , ICORELEVEL , CLNT , CLN , CLL , CLZ Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CH_NEDOS&oldid=28410 \" Categories : INCAR tag Linear response Dielectric properties XAS"
+  },
+  {
+    "name": "CH_SIGMA",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CH_SIGMA {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CH_SIGMA = 0",
+        "unit": null,
+        "description": "This tag specifies the width of the Gaussian broadening in eV of the imaginary dielectric function within the supercell core-hole method. At the moment only Gaussian broadening of the dielectric function is implemented within the supercell core-hole method. Related tags and articles CH_LSPEC , CH_NEDOS , CH_AMPLIFICATION , ICORELEVEL , CLNT , CLN , CLL , CLZ Examples that use this tag Retrieved fr"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "This tag specifies the width of the Gaussian broadening in eV of the imaginary dielectric function within the supercell core-hole method. At the moment only Gaussian broadening of the dielectric function is implemented within the supercell core-hole method. Related tags and articles CH_LSPEC , CH_NEDOS , CH_AMPLIFICATION , ICORELEVEL , CLNT , CLN , CLL , CLZ Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CH_SIGMA&oldid=28409 \" Categories : INCAR tag Linear respo"
+  },
+  {
+    "name": "CLL",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CLL {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "CLL =  0 Description: CLL selects the angular quantum number [math]\\displaystyle{ l }[/math] of the excited core electron when using ICORELEVEL >0",
+        "unit": null,
+        "description": "CLL selects the angular quantum number [math]\\displaystyle{ l }[/math] of the excited core electron when using ICORELEVEL >0. Mind: Currently the spin-orbit coupling is only supported in the valence and conduction states but not in the core states. Hence, the splitting of an absorption edge with the orbital quantum number L>0 is not captured. For example, the splitting to L2 and L3 -edges is not c"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CLL selects the angular quantum number [math]\\displaystyle{ l }[/math] of the excited core electron when using ICORELEVEL >0. Mind: Currently the spin-orbit coupling is only supported in the valence and conduction states but not in the core states. Hence, the splitting of an absorption edge with the orbital quantum number L>0 is not captured. For example, the splitting to L2 and L3 -edges is not captured in the calculations and instead, a single L -edge is shown. Related tags and articles ICOREL"
+  },
+  {
+    "name": "CLN",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CLN {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "CLN =  1 Description: CLN selects the main quantum number [math]\\displaystyle{ n }[/math] of the excited core electron when using ICORELEVEL >0",
+        "unit": null,
+        "description": "CLN selects the main quantum number [math]\\displaystyle{ n }[/math] of the excited core electron when using ICORELEVEL >0. Mind: Currently the spin-orbit coupling is only supported in the valence and conduction states but not in the core states. Hence, the splitting of an absorption edge with the orbital quantum number L>0 is not captured. For example, the splitting to L2 and L3 -edges is not capt"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CLN selects the main quantum number [math]\\displaystyle{ n }[/math] of the excited core electron when using ICORELEVEL >0. Mind: Currently the spin-orbit coupling is only supported in the valence and conduction states but not in the core states. Hence, the splitting of an absorption edge with the orbital quantum number L>0 is not captured. For example, the splitting to L2 and L3 -edges is not captured in the calculations and instead, a single L -edge is shown. Related tags and articles ICORELEVE"
+  },
+  {
+    "name": "CLNT",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CLNT {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "CLNT =  1 Description: CLNT selects the type of the excited atoms in XAS calculations with ICORELEVEL >0",
+        "unit": null,
+        "description": "CLNT selects the type of the excited atoms in XAS calculations with ICORELEVEL >0. All atoms of the selected type are excited in the XAS calculation with ICORELEVEL =2. Hence, it is recommended that the excited atom is separated into a dedicated type with a single atom. Exciting multiple atoms in the supercell core-hole approach causes the interaction between core holes in neighboring atoms and sh"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CLNT selects the type of the excited atoms in XAS calculations with ICORELEVEL >0. All atoms of the selected type are excited in the XAS calculation with ICORELEVEL =2. Hence, it is recommended that the excited atom is separated into a dedicated type with a single atom. Exciting multiple atoms in the supercell core-hole approach causes the interaction between core holes in neighboring atoms and should be avoided. Exciting multiple atoms in BSE proportionately increases the number of core states "
+  },
+  {
+    "name": "CLZ",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CLZ {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CLZ =  0 Description: CLZ selects a fractional or the full electron charge for the core hole in the core-excitation calculations with ICORELEVEL =2",
+        "unit": null,
+        "description": "CLZ selects a fractional or the full electron charge for the core hole in the core-excitation calculations with ICORELEVEL =2. In SCH CLZ can be used to introduce a fraction of the core hole. For example, a half-core hole can be created to simulate a transition state in the X-ray excitation process. Related tags and articles ICORELEVEL , CLNT , CLN , CLL LADDER , LHARTREE , NBANDSV , NBANDSO , OME"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CLZ selects a fractional or the full electron charge for the core hole in the core-excitation calculations with ICORELEVEL =2. In SCH CLZ can be used to introduce a fraction of the core hole. For example, a half-core hole can be created to simulate a transition state in the X-ray excitation process. Related tags and articles ICORELEVEL , CLNT , CLN , CLL LADDER , LHARTREE , NBANDSV , NBANDSO , OMEGAMAX , ANTIRES Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CLZ"
+  },
+  {
+    "name": "CMBJ",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CMBJ {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "CMBJ = calculated self-consistently Description: defines the [math]\\displaystyle{ c }[/math] parameter in the MBJ potential",
+        "unit": null,
+        "description": "defines the [math]\\displaystyle{ c }[/math] parameter in the MBJ potential. The CMBJ tag can be set in the following ways: Specify a constant that is used at every point of space [math]\\displaystyle{ \\mathbf{r} }[/math] CMBJ = c Specify one entry per atomic type CMBJ = c_1 c_2 .. c_n where the order and number [math]\\displaystyle{ n }[/math] is in accordance with atomic types in your POSCAR file. "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "defines the [math]\\displaystyle{ c }[/math] parameter in the MBJ potential. The CMBJ tag can be set in the following ways: Specify a constant that is used at every point of space [math]\\displaystyle{ \\mathbf{r} }[/math] CMBJ = c Specify one entry per atomic type CMBJ = c_1 c_2 .. c_n where the order and number [math]\\displaystyle{ n }[/math] is in accordance with atomic types in your POSCAR file. The MBJ exchange potential at a point [math]\\displaystyle{ \\mathbf{r} }[/math] will then be calculat"
+  },
+  {
+    "name": "CMBJA",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CMBJA {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CMBJA = −0",
+        "unit": null,
+        "description": "sets the [math]\\displaystyle{ \\alpha }[/math] parameter in the MBJ and LMBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJB , CMBJE , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJA&oldid=29389 \" Categories : INCAR tag Exchange-correlation functionals"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "sets the [math]\\displaystyle{ \\alpha }[/math] parameter in the MBJ and LMBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJB , CMBJE , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJA&oldid=29389 \" Categories : INCAR tag Exchange-correlation functionals"
+  },
+  {
+    "name": "CMBJB",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CMBJB {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CMBJB = 1",
+        "unit": null,
+        "description": "sets the [math]\\displaystyle{ \\beta }[/math] parameter in the MBJ and LMBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJA , CMBJE , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJB&oldid=29390 \" Categories : INCAR tag Exchange-correlation functionals"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "sets the [math]\\displaystyle{ \\beta }[/math] parameter in the MBJ and LMBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJA , CMBJE , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJB&oldid=29390 \" Categories : INCAR tag Exchange-correlation functionals"
+  },
+  {
+    "name": "CMBJE",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CMBJE {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CMBJE = 0",
+        "unit": null,
+        "description": "sets the [math]\\displaystyle{ e }[/math] parameter in the MBJ and local MBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJA , CMBJB , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJE&oldid=29398 \" Categories : INCAR tag Exchange-correlation functionals"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "sets the [math]\\displaystyle{ e }[/math] parameter in the MBJ and local MBJ potentials. See the description of the METAGGA tag. Related tags and articles METAGGA , CMBJ , CMBJA , CMBJB , SMBJ , RSMBJ , LASPH , LMAXTAU , LMIXTAU Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=CMBJE&oldid=29398 \" Categories : INCAR tag Exchange-correlation functionals"
+  },
+  {
+    "name": "CPARAM",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CPARAM {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CPARAM = 0",
+        "unit": null,
+        "description": "The tag CPARAM allows to specify the value of the parameter [math]\\displaystyle{ C }[/math] in the kernel of the nonlocal rVV10 correlation functional. [1] Related tags and articles BPARAM , Nonlocal vdW-DF functionals References ↑ R. Sabatini, T. Gorni, and S. de Gironcoli, Phys. Rev. B 87 , 041108(R) (2013). Retrieved from \" https://vasp.at/wiki/index.php?title=CPARAM&oldid=24546 \" Categories : "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "The tag CPARAM allows to specify the value of the parameter [math]\\displaystyle{ C }[/math] in the kernel of the nonlocal rVV10 correlation functional. [1] Related tags and articles BPARAM , Nonlocal vdW-DF functionals References ↑ R. Sabatini, T. Gorni, and S. de Gironcoli, Phys. Rev. B 87 , 041108(R) (2013). Retrieved from \" https://vasp.at/wiki/index.php?title=CPARAM&oldid=24546 \" Categories : INCAR tag Exchange-correlation functionals Van der Waals functionals"
+  },
+  {
+    "name": "CSHIFT",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CSHIFT {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CSHIFT = 0",
+        "unit": null,
+        "description": "CSHIFT sets a Lorentzian broadening in eV of the dielectric tensor via the complex shift η in the Kramers-Kronig transformation of the response function. The default CSHIFT =0.1 is perfectly acceptable for most calculations and causes a slight smoothing of the real part of the dielectric function. If the gap is very small (i.e. approaching two times CSHIFT ), slight inaccuracies in the static diel"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CSHIFT sets a Lorentzian broadening in eV of the dielectric tensor via the complex shift η in the Kramers-Kronig transformation of the response function. The default CSHIFT =0.1 is perfectly acceptable for most calculations and causes a slight smoothing of the real part of the dielectric function. If the gap is very small (i.e. approaching two times CSHIFT ), slight inaccuracies in the static dielectric constant are possible, which can be remedied by decreasing CSHIFT . If CSHIFT is further decr"
+  },
+  {
+    "name": "CUTOFF_MU",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CUTOFF_MU {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CUTOFF_MU =  0",
+        "unit": null,
+        "description": "CUTOFF_MU specifies the energy cutoff [math]\\displaystyle{ \\mu }[/math] in eV for the function specified by CUTOFF_MU . The value [math]\\displaystyle{ \\mu }[/math] of CUTOFF_MU corresponds to the energy cutoff of the cutoff function used to obtain Wannier functions with the one-shot method . The meaning of [math]\\displaystyle{ \\mu }[/math] depends on the CUTOFF_TYPE tag. For spin-polarized calcula"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CUTOFF_MU specifies the energy cutoff [math]\\displaystyle{ \\mu }[/math] in eV for the function specified by CUTOFF_MU . The value [math]\\displaystyle{ \\mu }[/math] of CUTOFF_MU corresponds to the energy cutoff of the cutoff function used to obtain Wannier functions with the one-shot method . The meaning of [math]\\displaystyle{ \\mu }[/math] depends on the CUTOFF_TYPE tag. For spin-polarized calculations ( ISPIN = 2 ), two values can be specified for CUTOFF_MU , one for each spin channel. If only "
+  },
+  {
+    "name": "CUTOFF_SIGMA",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CUTOFF_SIGMA {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "CUTOFF_SIGMA = 0",
+        "unit": null,
+        "description": "CUTOFF_SIGMA specifies the broadening [math]\\displaystyle{ \\sigma }[/math] in eV for the cutoff function specified by CUTOFF_TYPE . Corresponds to a broadening of the cutoff function used in the one-shot method to obtain Wannier functions. The meaning of [math]\\displaystyle{ \\sigma }[/math] depends on the CUTOFF_TYPE tag. For spin-polarized calculations ( ISPIN = 2 ), two values can be specified f"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CUTOFF_SIGMA specifies the broadening [math]\\displaystyle{ \\sigma }[/math] in eV for the cutoff function specified by CUTOFF_TYPE . Corresponds to a broadening of the cutoff function used in the one-shot method to obtain Wannier functions. The meaning of [math]\\displaystyle{ \\sigma }[/math] depends on the CUTOFF_TYPE tag. For spin-polarized calculations ( ISPIN = 2 ), two values can be specified for CUTOFF_SIGMA , one for each spin channel. If only a single value is specified, it will be used fo"
+  },
+  {
+    "name": "CUTOFF_TYPE",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "CUTOFF_TYPE {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "CUTOFF_TYPE = erfc Description: CUTOFF_TYPE chooses the type of cutoff function to be used before performing the singular-value decomposition (SVD) of the initial projections matrix",
+        "unit": null,
+        "description": "CUTOFF_TYPE chooses the type of cutoff function to be used before performing the singular-value decomposition (SVD) of the initial projections matrix. This tag governs how much weight should be given in the SVD during the one-shot Wannierization to a certain orbital with energy [math]\\displaystyle{ \\epsilon_{n\\mathbf{k}} }[/math] . If the weight is zero the orbital is not included in the fitting w"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "CUTOFF_TYPE chooses the type of cutoff function to be used before performing the singular-value decomposition (SVD) of the initial projections matrix. This tag governs how much weight should be given in the SVD during the one-shot Wannierization to a certain orbital with energy [math]\\displaystyle{ \\epsilon_{n\\mathbf{k}} }[/math] . If the weight is zero the orbital is not included in the fitting while if it is one it is included with the maximum importance. This behavior is similar to the wannie"
+  },
+  {
+    "name": "DEPER",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "DEPER {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "DEPER = 0",
+        "unit": null,
+        "description": "DEPER specifies a relative stopping criterion for the optimization of an eigenvalue. The tags DEPER , WEIMIN , and EBREAK allow fine tuning of the iterative matrix diagonalization, and are best not changed. They are optimized for a large variety of systems, and changing one of the parameters usually decreases performance or can even screw up the iterative matrix diagonalization totally. In general"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "DEPER specifies a relative stopping criterion for the optimization of an eigenvalue. The tags DEPER , WEIMIN , and EBREAK allow fine tuning of the iterative matrix diagonalization, and are best not changed. They are optimized for a large variety of systems, and changing one of the parameters usually decreases performance or can even screw up the iterative matrix diagonalization totally. In general, these tags control when the optimization of a single band is stopped within the iterative matrix d"
+  },
+  {
+    "name": "DIMER_DIST",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "DIMER_DIST {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "DIMER_DIST = 0",
+        "unit": null,
+        "description": "The flag DIMER_DIST defines the step size for the numerical differentiation (in [math]\\displaystyle{ \\AA }[/math] ) for the Improved Dimer Method . Related tags and articles Improved Dimer Method Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=DIMER_DIST&oldid=22488 \" Categories : INCAR tag Transition states Molecules"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "The flag DIMER_DIST defines the step size for the numerical differentiation (in [math]\\displaystyle{ \\AA }[/math] ) for the Improved Dimer Method . Related tags and articles Improved Dimer Method Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=DIMER_DIST&oldid=22488 \" Categories : INCAR tag Transition states Molecules"
+  },
+  {
+    "name": "DIPOL",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "DIPOL {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "specifies the center of the cell in direct lattice coordinates with respect to which the total dipole-moment in the cell is calculated. The center of the cell w.r.t. which the total dipole-moment in the cell is calculated is specified as DIPOL = R x R y R z where R x , R y and R z are given in direct lattice coordinates. Calculations using the dipole correction, i.e. using tags IDIPOL or LDIPOL , "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "specifies the center of the cell in direct lattice coordinates with respect to which the total dipole-moment in the cell is calculated. The center of the cell w.r.t. which the total dipole-moment in the cell is calculated is specified as DIPOL = R x R y R z where R x , R y and R z are given in direct lattice coordinates. Calculations using the dipole correction, i.e. using tags IDIPOL or LDIPOL , require a definition of the center of the cell. Results of the computed dipole moment might differ f"
+  },
+  {
+    "name": "DQ",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "DQ {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "DQ =  0",
+        "unit": null,
+        "description": "step size for the finite difference k -space derivative in the linear response calculation of chemical shifts. Typical values for DQ are in the range [0.001 - 0.003]. The default is often sufficient. Related tags and articles LCHIMAG , ICHIBARE , LNMR_SYM_RED , NLSPLINE Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=DQ&oldid=29599 \" Categories : INCAR tag NMR"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "step size for the finite difference k -space derivative in the linear response calculation of chemical shifts. Typical values for DQ are in the range [0.001 - 0.003]. The default is often sufficient. Related tags and articles LCHIMAG , ICHIBARE , LNMR_SYM_RED , NLSPLINE Examples that use this tag Retrieved from \" https://vasp.at/wiki/index.php?title=DQ&oldid=29599 \" Categories : INCAR tag NMR"
+  },
+  {
+    "name": "EBREAK",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "EBREAK {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "EBREAK = EDIFF / NBANDS /4 Description: EBREAK specifies an absolute stopping criterion for the optimization of an eigenvalue",
+        "unit": null,
+        "description": "EBREAK specifies an absolute stopping criterion for the optimization of an eigenvalue. The tags EBREAK , DEPER , and WEIMIN allow fine tuning of the iterative matrix diagonalization, and are best not changed. They are optimized for a large variety of systems, and changing one of the parameters usually decreases performance or can even screw up the iterative matrix diagonalization totally. In gener"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "EBREAK specifies an absolute stopping criterion for the optimization of an eigenvalue. The tags EBREAK , DEPER , and WEIMIN allow fine tuning of the iterative matrix diagonalization, and are best not changed. They are optimized for a large variety of systems, and changing one of the parameters usually decreases performance or can even screw up the iterative matrix diagonalization totally. In general, these tags control when the optimization of a single band is stopped within the iterative matrix"
+  },
+  {
+    "name": "EDIFF",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "EDIFF {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "EDIFF = [math]\\displaystyle{ 10^{-4} }[/math] Description: EDIFF specifies the global break condition for the electronic SC-loop",
+        "unit": null,
+        "description": "EDIFF specifies the global break condition for the electronic SC-loop. EDIFF is specified in units of eV. The relaxation of the electronic degrees of freedom stops if the total (free) energy change and the band-structure-energy change ('change of eigenvalues') between two steps are both smaller than EDIFF (in eV). For EDIFF =0, strictly NELM electronic self-consistency steps will be performed. In "
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "EDIFF specifies the global break condition for the electronic SC-loop. EDIFF is specified in units of eV. The relaxation of the electronic degrees of freedom stops if the total (free) energy change and the band-structure-energy change ('change of eigenvalues') between two steps are both smaller than EDIFF (in eV). For EDIFF =0, strictly NELM electronic self-consistency steps will be performed. In most cases, the convergence speed is quadratic, so often the cost for the additional iterations is s"
+  },
+  {
+    "name": "EDIFFG",
+    "software": "VASP",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "EDIFFG {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "EDIFFG = EDIFF ×10 Description: EDIFFG defines the break condition for the ionic relaxation loop",
+        "unit": null,
+        "description": "EDIFFG defines the break condition for the ionic relaxation loop. When EDIFFG is positive, the relaxation is stopped when the change of the total energy is smaller than EDIFFG between two ionic steps. When EDIFFG is negative, the relaxation is stopped when the norms of all the forces are smaller than | EDIFFG |. This is usually a more convenient setting. If EDIFFG = 0, the ionic relaxation is stop"
+      }
+    ],
+    "parent_section": "INCAR",
+    "description": "EDIFFG defines the break condition for the ionic relaxation loop. When EDIFFG is positive, the relaxation is stopped when the change of the total energy is smaller than EDIFFG between two ionic steps. When EDIFFG is negative, the relaxation is stopped when the norms of all the forces are smaller than | EDIFFG |. This is usually a more convenient setting. If EDIFFG = 0, the ionic relaxation is stopped after NSW steps. Warning: EDIFFG does not apply to molecular-dynamics simulations. Tip: You can "
+  }
+]

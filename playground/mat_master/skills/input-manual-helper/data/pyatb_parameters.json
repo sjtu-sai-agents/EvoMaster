@@ -1,0 +1,2467 @@
+[
+  {
+    "name": "nspin",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nspin {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "Indicates the spin component of the wave function, related to the structure of the HR file. 1: regardless of spin. 2: the wave function is divided into two groups, one group is all up and one group is all down. 4: the wave function has both up and down components. Default : No default value"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Indicates the spin component of the wave function, related to the structure of the HR file. 1: regardless of spin. 2: the wave function is divided into two groups, one group is all up and one group is all down. 4: the wave function has both up and down components. Default : No default value"
+  },
+  {
+    "name": "package",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "package {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "ABACUS",
+        "unit": null,
+        "description": "Indicates data sources for HR, SR, rR. Default : ABACUS"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Indicates data sources for HR, SR, rR. Default : ABACUS"
+  },
+  {
+    "name": "fermi_energy",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "fermi_energy {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "Auto",
+        "unit": null,
+        "description": "Indicates the Fermi energy of the system. When set to Auto, the FERMI_ENERGY function needs to be added. Default : Auto"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Indicates the Fermi energy of the system. When set to Auto, the FERMI_ENERGY function needs to be added. Default : Auto"
+  },
+  {
+    "name": "fermi_energy_unit",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "fermi_energy_unit {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "eV",
+        "unit": null,
+        "description": "The unit of Fermi. Can be set to Ry, eV. Default : eV"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "The unit of Fermi. Can be set to Ry, eV. Default : eV"
+  },
+  {
+    "name": "HR_route",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "HR_route {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Path to HR matrix file. When nspin=2, two sets of paths need to be provided. Default : No default value"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Path to HR matrix file. When nspin=2, two sets of paths need to be provided. Default : No default value"
+  },
+  {
+    "name": "SR_route",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "SR_route {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Path to the SR matrix file. Default : No default value"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Path to the SR matrix file. Default : No default value"
+  },
+  {
+    "name": "rR_route",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "rR_route {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Path to the rR matrix file. Default : No default value"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Path to the rR matrix file. Default : No default value"
+  },
+  {
+    "name": "binary",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "binary {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "BOOL",
+        "default_value": "0",
+        "unit": null,
+        "description": "Whether HR, SR, and rR files are binary files. Default : 0"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Whether HR, SR, and rR files are binary files. Default : 0"
+  },
+  {
+    "name": "HR_unit",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "HR_unit {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "Ry",
+        "unit": null,
+        "description": "The unit of HR. Can be set to Ry, eV. Default : Ry"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "The unit of HR. Can be set to Ry, eV. Default : Ry"
+  },
+  {
+    "name": "rR_unit",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "rR_unit {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "Bohr",
+        "unit": null,
+        "description": "The unit of rR. Can be set to Bohr, Angstrom. Default : Bohr"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "The unit of rR. Can be set to Bohr, Angstrom. Default : Bohr"
+  },
+  {
+    "name": "max_kpoint_num",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "max_kpoint_num {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "8000",
+        "unit": null,
+        "description": "The upper limit of the number of k points stored in the memory during program calculation, which is used to control the memory consumption during calculation. Default : 8000"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "The upper limit of the number of k points stored in the memory during program calculation, which is used to control the memory consumption during calculation. Default : 8000"
+  },
+  {
+    "name": "sparse_format",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "sparse_format {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "BOOL",
+        "default_value": "0",
+        "unit": null,
+        "description": "Whether HR, SR, rR matrices are stored in memory is sparse storage. Default : 0"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Whether HR, SR, rR matrices are stored in memory is sparse storage. Default : 0"
+  },
+  {
+    "name": "w90_TB_route",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "w90_TB_route {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Specify the tight-binding file generated by Wannier90. Default : No default value"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Specify the tight-binding file generated by Wannier90. Default : No default value"
+  },
+  {
+    "name": "w90_TB_has_r",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "w90_TB_has_r {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "BOOL",
+        "default_value": "0",
+        "unit": null,
+        "description": "Whether the tight‑binding file generated by Wannier90 contain rR information. Default : 0"
+      }
+    ],
+    "parent_section": "INPUT_PARAMETERS",
+    "description": "Whether the tight‑binding file generated by Wannier90 contain rR information. Default : 0"
+  },
+  {
+    "name": "lattice_constant",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "lattice_constant {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The lattice constant of the system. Default : No default value"
+      }
+    ],
+    "parent_section": "LATTICE",
+    "description": "The lattice constant of the system. Default : No default value"
+  },
+  {
+    "name": "lattice_constant_unit",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "lattice_constant_unit {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "Bohr",
+        "unit": null,
+        "description": "The unit of the lattice constant. Can be set to Bohr, Angstrom. Default : Bohr"
+      }
+    ],
+    "parent_section": "LATTICE",
+    "description": "The unit of the lattice constant. Can be set to Bohr, Angstrom. Default : Bohr"
+  },
+  {
+    "name": "lattice_vector",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "lattice_vector {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The 3 lattice vectors of the system. Each lattice vector is a row, with a total of 3 rows and 9 parameters. Default : No default value"
+      }
+    ],
+    "parent_section": "LATTICE",
+    "description": "The 3 lattice vectors of the system. Each lattice vector is a row, with a total of 3 rows and 9 parameters. Default : No default value"
+  },
+  {
+    "name": "wf_collect",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "wf_collect {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "BOOL",
+        "default_value": null,
+        "unit": null,
+        "description": "Whether to output wave function matrix information. Default : No default value"
+      }
+    ],
+    "parent_section": "BAND_STRUCTURE",
+    "description": "Whether to output wave function matrix information. Default : No default value"
+  },
+  {
+    "name": "band_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "band_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "There are two numbers (separated by spaces) to indicate which bands are selected, counting from 1. Default : No default value"
+      }
+    ],
+    "parent_section": "BAND_STRUCTURE",
+    "description": "There are two numbers (separated by spaces) to indicate which bands are selected, counting from 1. Default : No default value"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "BAND_STRUCTURE",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "stru_file",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "stru_file {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Specify the strucutre file path. Default : No default value"
+      }
+    ],
+    "parent_section": "BANDUNFOLDING",
+    "description": "Specify the strucutre file path. Default : No default value"
+  },
+  {
+    "name": "ecut",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "ecut {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "10",
+        "unit": null,
+        "description": "Used to determine the number of plane wave basis sets. Unit is Ry. Default : 10"
+      }
+    ],
+    "parent_section": "BANDUNFOLDING",
+    "description": "Used to determine the number of plane wave basis sets. Unit is Ry. Default : 10"
+  },
+  {
+    "name": "band_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "band_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "Specifies the range of supercell energy band index within which the energy bands will be calculated. There are two parameters, representing the starting band index and the end band index, the index counts from 1. Default : No default value"
+      }
+    ],
+    "parent_section": "BANDUNFOLDING",
+    "description": "Specifies the range of supercell energy band index within which the energy bands will be calculated. There are two parameters, representing the starting band index and the end band index, the index counts from 1. Default : No default value"
+  },
+  {
+    "name": "m_matrix",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "m_matrix {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The lattice vector transformation matrix between the supercell and the primitive cell, with 9 parameters, is written on the same line. Default : No default value"
+      }
+    ],
+    "parent_section": "BANDUNFOLDING",
+    "description": "The lattice vector transformation matrix between the supercell and the primitive cell, with 9 parameters, is written on the same line. Default : No default value"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point of unitcell. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "BANDUNFOLDING",
+    "description": "Used to set the k point of unitcell. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "temperature",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "temperature {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0",
+        "unit": null,
+        "description": "temperature. The unit is K Default : 0"
+      }
+    ],
+    "parent_section": "FERMI_ENERGY",
+    "description": "temperature. The unit is K Default : 0"
+  },
+  {
+    "name": "electron_num",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "electron_num {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The total number of electrons in the system. Default : No default value"
+      }
+    ],
+    "parent_section": "FERMI_ENERGY",
+    "description": "The total number of electrons in the system. Default : No default value"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "10 10 10",
+        "unit": null,
+        "description": "The grid to use for Newton interpolation. There are three parameters. Default : 10 10 10"
+      }
+    ],
+    "parent_section": "FERMI_ENERGY",
+    "description": "The grid to use for Newton interpolation. There are three parameters. Default : 10 10 10"
+  },
+  {
+    "name": "epsilon",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "epsilon {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.001",
+        "unit": null,
+        "description": "Newton interpolation parameters, absolute accuracy. Default : 0.001"
+      }
+    ],
+    "parent_section": "FERMI_ENERGY",
+    "description": "Newton interpolation parameters, absolute accuracy. Default : 0.001"
+  },
+  {
+    "name": "bar",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "bar {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The max tolerable error bar for the Fermi surface Default : No default value"
+      }
+    ],
+    "parent_section": "FERMI_SURFACE",
+    "description": "The max tolerable error bar for the Fermi surface Default : No default value"
+  },
+  {
+    "name": "nbands",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nbands {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0 0",
+        "unit": null,
+        "description": "If you know the energy band range where the Fermi energy is located, you can set this parameter to speed up the calculation. There are two numbers in total, indicating the range of the energy band. The default value is 0 0 , that is, all energy bands are considered. Default : 0 0"
+      }
+    ],
+    "parent_section": "FERMI_SURFACE",
+    "description": "If you know the energy band range where the Fermi energy is located, you can set this parameter to speed up the calculation. There are two numbers in total, indicating the range of the energy band. The default value is 0 0 , that is, all energy bands are considered. Default : 0 0"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "FERMI_SURFACE",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "energy_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "energy_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy range in which the program searches for degenerate points, the energy unit is eV. Default : No default value"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The energy range in which the program searches for degenerate points, the energy unit is eV. Default : No default value"
+  },
+  {
+    "name": "k_start",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_start {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 0.0",
+        "unit": null,
+        "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1.0 0.0 0.0",
+        "unit": null,
+        "description": "The expansion vector used to describe a Brillouin zone plane. Default : 1.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The expansion vector used to describe a Brillouin zone plane. Default : 1.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 1.0 0.0",
+        "unit": null,
+        "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 1.0 0.0"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 1.0 0.0"
+  },
+  {
+    "name": "k_vect3",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect3 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 1.0",
+        "unit": null,
+        "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 0.0 1.0"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 0.0 1.0"
+  },
+  {
+    "name": "initial_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "initial_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "10 10 10",
+        "unit": null,
+        "description": "Set the initial grid for searching degenerate k points. There are three parameters. Default : 10 10 10"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "Set the initial grid for searching degenerate k points. There are three parameters. Default : 10 10 10"
+  },
+  {
+    "name": "initial_threshold",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "initial_threshold {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.1",
+        "unit": null,
+        "description": "The energy unit is eV. In the initial grid, only the k-points whose band differences are less than the threshold can enter the search for the next round of degenerate points. Default : 0.1"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The energy unit is eV. In the initial grid, only the k-points whose band differences are less than the threshold can enter the search for the next round of degenerate points. Default : 0.1"
+  },
+  {
+    "name": "adaptive_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "adaptive_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "20 20 20",
+        "unit": null,
+        "description": "The refined grid will refine the k-points that reach the initial_threshold in the initial grid. There are three parameters. Default : 20 20 20"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The refined grid will refine the k-points that reach the initial_threshold in the initial grid. There are three parameters. Default : 20 20 20"
+  },
+  {
+    "name": "adaptive_threshold",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "adaptive_threshold {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.001",
+        "unit": null,
+        "description": "The minimum difference considered in independent bands, the energy unit is eV. This means if the band gap is below this bar, it will be recognized as degenerate bands. Default : 0.001"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "The minimum difference considered in independent bands, the energy unit is eV. This means if the band gap is below this bar, it will be recognized as degenerate bands. Default : 0.001"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "FIND_NODES",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "stru_file",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "stru_file {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "The structure file name. This file records the structure of the lattice, the types of elements, and the atomic orbitals used. Make sure that both the structure file and the orbital file exist. Default : No default value"
+      }
+    ],
+    "parent_section": "PDOS",
+    "description": "The structure file name. This file records the structure of the lattice, the types of elements, and the atomic orbitals used. Make sure that both the structure file and the orbital file exist. Default : No default value"
+  },
+  {
+    "name": "e_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "e_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The range of energy E. There are two parameters, indicating the starting point and the ending point. Default : No default value"
+      }
+    ],
+    "parent_section": "PDOS",
+    "description": "The range of energy E. There are two parameters, indicating the starting point and the ending point. Default : No default value"
+  },
+  {
+    "name": "de",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "de {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "The interval dE for the energy E. Default : 0.01"
+      }
+    ],
+    "parent_section": "PDOS",
+    "description": "The interval dE for the energy E. Default : 0.01"
+  },
+  {
+    "name": "sigma",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "sigma {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.001",
+        "unit": null,
+        "description": "Parameters for gauss smearing. Default : 0.001"
+      }
+    ],
+    "parent_section": "PDOS",
+    "description": "Parameters for gauss smearing. Default : 0.001"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "PDOS",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "band_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "band_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "There are two numbers (separated by spaces) to indicate which bands are selected for projection, counting from 1. Default : No default value"
+      }
+    ],
+    "parent_section": "FAT_BAND",
+    "description": "There are two numbers (separated by spaces) to indicate which bands are selected for projection, counting from 1. Default : No default value"
+  },
+  {
+    "name": "stru_file",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "stru_file {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "The structure file name. This file indicates the crystal structure and the corresponding orbital file. Make sure that both the structure file and the orbital file exist. Default : No default value"
+      }
+    ],
+    "parent_section": "FAT_BAND",
+    "description": "The structure file name. This file indicates the crystal structure and the corresponding orbital file. Make sure that both the structure file and the orbital file exist. Default : No default value"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point of unitcell. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "FAT_BAND",
+    "description": "Used to set the k point of unitcell. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "band_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "band_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "There are two numbers (separated by spaces) to indicate which bands are selected, counting from 1. Default : No default value"
+      }
+    ],
+    "parent_section": "SPIN_TEXTURE",
+    "description": "There are two numbers (separated by spaces) to indicate which bands are selected, counting from 1. Default : No default value"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "SPIN_TEXTURE",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "cal_surface_method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "cal_surface_method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "green_fun",
+        "unit": null,
+        "description": "Perform calculations using the surface Green’s function. Default : green_fun"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Perform calculations using the surface Green’s function. Default : green_fun"
+  },
+  {
+    "name": "surface_direction",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "surface_direction {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "c",
+        "unit": null,
+        "description": "Set the orientation of the material surface: a, b, and c represent the a, b, and c axes of the lattice vectors. Default : c"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Set the orientation of the material surface: a, b, and c represent the a, b, and c axes of the lattice vectors. Default : c"
+  },
+  {
+    "name": "energy_windows",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "energy_windows {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "-1.0 1.0",
+        "unit": null,
+        "description": "Set the energy range of the bands centered on the fermi_energy . There are two values. Default : -1.0 1.0"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Set the energy range of the bands centered on the fermi_energy . There are two values. Default : -1.0 1.0"
+  },
+  {
+    "name": "de",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "de {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Energy intervals dividing the energy_windows. Default : 0.01"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Energy intervals dividing the energy_windows. Default : 0.01"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Set the broadening of the Green’s function, \\(G = (E + i*\\eta - H)^{-1}\\) . Default : 0.01"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Set the broadening of the Green’s function, \\(G = (E + i*\\eta - H)^{-1}\\) . Default : 0.01"
+  },
+  {
+    "name": "coupling_layers",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "coupling_layers {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "By setting the number of principal layers, it is possible to ensure that interactions occur only between adjacent principal layers. Default : No default value"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "By setting the number of principal layers, it is possible to ensure that interactions occur only between adjacent principal layers. Default : No default value"
+  },
+  {
+    "name": "calculate_layer",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "calculate_layer {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "Specify the number of layers of the spectral function to output. Default : No default value"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Specify the number of layers of the spectral function to output. Default : No default value"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "SURFACE_STATE",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. Default : No default value"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "The number of occupied energy bands of an insulator. Default : No default value"
+  },
+  {
+    "name": "k_start",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_start {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 0.0",
+        "unit": null,
+        "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1.0 0.0 0.0",
+        "unit": null,
+        "description": "The expansion vector is a vector used to define a Brillouin zone plane, and it is also the direction of integration for calculations. Default : 1.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "The expansion vector is a vector used to define a Brillouin zone plane, and it is also the direction of integration for calculations. Default : 1.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 1.0 0.0",
+        "unit": null,
+        "description": "The expansion vector is a vector used to define a Brillouin zone plane, and it is also the direction of Wilson loop evolution for calculations. Default : 0.0 1.0 0.0"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "The expansion vector is a vector used to define a Brillouin zone plane, and it is also the direction of Wilson loop evolution for calculations. Default : 0.0 1.0 0.0"
+  },
+  {
+    "name": "nk1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nk1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "100",
+        "unit": null,
+        "description": "k_vect1 is divided into nk1 k-points. Default : 100"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "k_vect1 is divided into nk1 k-points. Default : 100"
+  },
+  {
+    "name": "nk2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nk2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "100",
+        "unit": null,
+        "description": "k_vect2 is divided into nk2 k-points. Default : 100"
+      }
+    ],
+    "parent_section": "WILSON_LOOP",
+    "description": "k_vect2 is divided into nk2 k-points. Default : 100"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of occupied energy bands of an insulator. Default : No default value"
+  },
+  {
+    "name": "nk1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nk1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of samples in the x direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of samples in the x direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+  },
+  {
+    "name": "nk2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nk2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of samples in the y direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of samples in the y direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+  },
+  {
+    "name": "nk3",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "nk3 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of samples in the z direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of samples in the z direction of reciprocal lattice vector \\(\\mathbf{G}\\) . Default : No default value"
+  },
+  {
+    "name": "atom_type",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "atom_type {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of element types in the system. Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of element types in the system. Default : No default value"
+  },
+  {
+    "name": "stru_file",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "stru_file {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Specify the strucutre file. NAOs files are not required. Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "Specify the strucutre file. NAOs files are not required. Default : No default value"
+  },
+  {
+    "name": "valence_e",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "valence_e {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of valence electrons per element. Default : No default value"
+      }
+    ],
+    "parent_section": "POLARIZATION",
+    "description": "The number of valence electrons per element. Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0",
+        "unit": null,
+        "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE",
+    "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "-1",
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE",
+    "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+  },
+  {
+    "name": "kpoint_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to set the k point. See Setting of k points Default : No default value"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE",
+    "description": "Used to set the k point. See Setting of k points Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0",
+        "unit": null,
+        "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+      }
+    ],
+    "parent_section": "AHC",
+    "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+  },
+  {
+    "name": "integrate_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "integrate_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used for integration settings. See Setting of integration . Default : No default value"
+      }
+    ],
+    "parent_section": "AHC",
+    "description": "Used for integration settings. See Setting of integration . Default : No default value"
+  },
+  {
+    "name": "fermi_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "fermi_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "-1.0 1.0",
+        "unit": null,
+        "description": "Provide the range of the Fermi energy with respect to the reference point fermi_energy . Specify two floating-point numbers. Default : -1.0 1.0"
+      }
+    ],
+    "parent_section": "ANC",
+    "description": "Provide the range of the Fermi energy with respect to the reference point fermi_energy . Specify two floating-point numbers. Default : -1.0 1.0"
+  },
+  {
+    "name": "de",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "de {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Energy intervals dividing the Fermi energy range. Default : 0.01"
+      }
+    ],
+    "parent_section": "ANC",
+    "description": "Energy intervals dividing the Fermi energy range. Default : 0.01"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "When calculating the Berry curvature using the Kubo formula, the energy difference in the denominator is modified as \\( E_{n\\mathbf{k}} - E_{m\\mathbf{k}} \\to E_{n\\mathbf{k}} - E_{m\\mathbf{k}} + i\\eta \\) to avoid numerical issues caused by degeneracy. Default : 0.01"
+      }
+    ],
+    "parent_section": "ANC",
+    "description": "When calculating the Berry curvature using the Kubo formula, the energy difference in the denominator is modified as \\( E_{n\\mathbf{k}} - E_{m\\mathbf{k}} \\to E_{n\\mathbf{k}} - E_{m\\mathbf{k}} + i\\eta \\) to avoid numerical issues caused by degeneracy. Default : 0.01"
+  },
+  {
+    "name": "integrate_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "integrate_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "ANC",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "alpha",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "alpha {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "x",
+        "unit": null,
+        "description": "Specify the current direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : x"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "Specify the current direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : x"
+  },
+  {
+    "name": "beta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "beta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "y",
+        "unit": null,
+        "description": "Specify the electric field direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : y"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "Specify the electric field direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : y"
+  },
+  {
+    "name": "gamma",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "gamma {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": "z",
+        "unit": null,
+        "description": "Specify the spin polarization direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : z"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "Specify the spin polarization direction of the SHC, \\(\\sigma_{\\alpha \\beta}^{\\gamma}\\) . Default : z"
+  },
+  {
+    "name": "fermi_range",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "fermi_range {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "-1.0 1.0",
+        "unit": null,
+        "description": "Provide the range of the Fermi energy with respect to the reference point fermi_energy . Specify two floating-point numbers. Default : -1.0 1.0"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "Provide the range of the Fermi energy with respect to the reference point fermi_energy . Specify two floating-point numbers. Default : -1.0 1.0"
+  },
+  {
+    "name": "de",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "de {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Energy intervals dividing the Fermi energy range. Default : 0.01"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "Energy intervals dividing the Fermi energy range. Default : 0.01"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "When calculating the Berry curvature using the Kubo formula, the energy difference in the denominator is modified as \\( E_{n\\mathbf{k}} - E_{m\\mathbf{k}} \\to E_{n\\mathbf{k}} - E_{m\\mathbf{k}} + i\\eta \\) to avoid numerical issues caused by degeneracy. Default : 0.01"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "When calculating the Berry curvature using the Kubo formula, the energy difference in the denominator is modified as \\( E_{n\\mathbf{k}} - E_{m\\mathbf{k}} \\to E_{n\\mathbf{k}} - E_{m\\mathbf{k}} + i\\eta \\) to avoid numerical issues caused by degeneracy. Default : 0.01"
+  },
+  {
+    "name": "integrate_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "integrate_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "SHC",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0",
+        "unit": null,
+        "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "-1",
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+  },
+  {
+    "name": "k_start",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_start {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 0.0",
+        "unit": null,
+        "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "The origin point coordinates used to describe a Brillouin zone plane. Default : 0.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1.0 0.0 0.0",
+        "unit": null,
+        "description": "The expansion vector used to describe a Brillouin zone plane. Default : 1.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "The expansion vector used to describe a Brillouin zone plane. Default : 1.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 1.0 0.0",
+        "unit": null,
+        "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 1.0 0.0"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "The expansion vector used to describe a Brillouin zone plane. Default : 0.0 1.0 0.0"
+  },
+  {
+    "name": "integrate_mode",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "integrate_mode {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Used for integration settings. See Setting of integration . Default : No default value"
+      }
+    ],
+    "parent_section": "CHERN_NUMBER",
+    "description": "Used for integration settings. See Setting of integration . Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0",
+        "unit": null,
+        "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+      }
+    ],
+    "parent_section": "CHIRALITY",
+    "description": "Method for calculating berry curvature. 0 means direct calculation, 1 means calculation by Kubo formula. Default : 0"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "-1",
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+      }
+    ],
+    "parent_section": "CHIRALITY",
+    "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+  },
+  {
+    "name": "k_vect",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The k-point coordinates need to be calculated. There are three parameters to represent the coordinates. Default : No default value"
+      }
+    ],
+    "parent_section": "CHIRALITY",
+    "description": "The k-point coordinates need to be calculated. There are three parameters to represent the coordinates. Default : No default value"
+  },
+  {
+    "name": "radius",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "radius {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The radius of the integrating sphere. The unit is \\(\\AA^{-1}\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "CHIRALITY",
+    "description": "The radius of the integrating sphere. The unit is \\(\\AA^{-1}\\) . Default : No default value"
+  },
+  {
+    "name": "point_num",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "point_num {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of k-points that are uniformly sampled on a spherical surface. Default : No default value"
+      }
+    ],
+    "parent_section": "CHIRALITY",
+    "description": "The number of k-points that are uniformly sampled on a spherical surface. Default : No default value"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "Specifies the occupied energy band of the system. Currently, only insulator or semiconductor materials can be calculated. Default : No default value"
+      }
+    ],
+    "parent_section": "JDOS",
+    "description": "Specifies the occupied energy band of the system. Currently, only insulator or semiconductor materials can be calculated. Default : No default value"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "Specifies the photon energy, the unit is eV. There are two parameters, indicating the starting point and the ending point. Default : No default value"
+      }
+    ],
+    "parent_section": "JDOS",
+    "description": "Specifies the photon energy, the unit is eV. There are two parameters, indicating the starting point and the ending point. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "JDOS",
+    "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Specify the parameters of Gaussian smearing. Default : 0.01"
+      }
+    ],
+    "parent_section": "JDOS",
+    "description": "Specify the parameters of Gaussian smearing. Default : 0.01"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "JDOS",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "-1",
+        "unit": null,
+        "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+      }
+    ],
+    "parent_section": "OPTICAL_CONDUCTIVITY",
+    "description": "The number of occupied energy bands of an insulator. When this value is not set, it will be determined according to the Fermi energy. Default : -1"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+      }
+    ],
+    "parent_section": "OPTICAL_CONDUCTIVITY",
+    "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "OPTICAL_CONDUCTIVITY",
+    "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Parameters for triangular smearing. Default : 0.01"
+      }
+    ],
+    "parent_section": "OPTICAL_CONDUCTIVITY",
+    "description": "Parameters for triangular smearing. Default : 0.01"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "OPTICAL_CONDUCTIVITY",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "occ_band",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "occ_band {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "Used to specify the occupied energy band of an insulator or semiconductor. Currently this function can only calculate insulators or semiconductors. Default : No default value"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "Used to specify the occupied energy band of an insulator or semiconductor. Currently this function can only calculate insulators or semiconductors. Default : No default value"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+  },
+  {
+    "name": "smearing_method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "smearing_method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "1",
+        "unit": null,
+        "description": "The method of smearing. 0 : no smearing. 1 : Gaussian smearing. 2 : adaptive smearing. Default : 1"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "The method of smearing. 0 : no smearing. 1 : Gaussian smearing. 2 : adaptive smearing. Default : 1"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.01",
+        "unit": null,
+        "description": "Specify the parameters of Gaussian smearing. Default : 0.01"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "Specify the parameters of Gaussian smearing. Default : 0.01"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "1",
+        "unit": null,
+        "description": "Specify the method to calculate the shift current. 0 represents calculation using the Sternheimer equation, 1 represents the first order partial derivative calculation. Default : 1"
+      }
+    ],
+    "parent_section": "SHIFT_CURRENT",
+    "description": "Specify the method to calculate the shift current. 0 represents calculation using the Sternheimer equation, 1 represents the first order partial derivative calculation. Default : 1"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "To set the energy range for the Berry curvature dipole, you can adjust it based on the Fermi energy level. The unit is eV. There are two parameters. Default : No default value"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE_DIPOLE",
+    "description": "To set the energy range for the Berry curvature dipole, you can adjust it based on the Fermi energy level. The unit is eV. There are two parameters. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "Specifies the energy interval of the omega. Default : No default value"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE_DIPOLE",
+    "description": "Specifies the energy interval of the omega. Default : No default value"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "BERRY_CURVATURE_DIPOLE",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "method",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "method {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "0",
+        "unit": null,
+        "description": "Specify the method to calculate the SHG. 0 represents calculation using the inter- and intra-band formula, 1 represents the velocity matrices formula. Default : 0"
+      }
+    ],
+    "parent_section": "SHG",
+    "description": "Specify the method to calculate the SHG. 0 represents calculation using the inter- and intra-band formula, 1 represents the velocity matrices formula. Default : 0"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+      }
+    ],
+    "parent_section": "SHG",
+    "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "SHG",
+    "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+  },
+  {
+    "name": "eta",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "eta {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.05",
+        "unit": null,
+        "description": "\\(\\hbar\\omega \\to \\hbar\\omega + i \\eta\\) is used to prevent numerical divergence caused by a zero denominator. Default : 0.05"
+      }
+    ],
+    "parent_section": "SHG",
+    "description": "\\(\\hbar\\omega \\to \\hbar\\omega + i \\eta\\) is used to prevent numerical divergence caused by a zero denominator. Default : 0.05"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "SHG",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "omega1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0",
+        "unit": null,
+        "description": "The frequency of external electric field, normally a rather small number. Unit is eV. Default : 0"
+      }
+    ],
+    "parent_section": "POCKELS",
+    "description": "The frequency of external electric field, normally a rather small number. Unit is eV. Default : 0"
+  },
+  {
+    "name": "omega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "omega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+      }
+    ],
+    "parent_section": "POCKELS",
+    "description": "The range of \\(\\omega\\) . There are two parameters, indicating the starting point and the ending point. Unit is eV. Default : No default value"
+  },
+  {
+    "name": "domega",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "domega {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+      }
+    ],
+    "parent_section": "POCKELS",
+    "description": "The energy interval of \\(\\omega\\) . Default : No default value"
+  },
+  {
+    "name": "grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+      }
+    ],
+    "parent_section": "POCKELS",
+    "description": "The grid for integration. There are 3 parameters in total. Default : No default value"
+  },
+  {
+    "name": "mp_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "mp_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The grid dividing the Brillouin zone. There are three parameters to divide the three-dimensional Brillouin zone. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘mp’",
+    "description": "The grid dividing the Brillouin zone. There are three parameters to divide the three-dimensional Brillouin zone. Default : No default value"
+  },
+  {
+    "name": "k_start",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_start {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 0.0",
+        "unit": null,
+        "description": "The origin point coordinates of the Brillouin zone. Default : 0.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘mp’",
+    "description": "The origin point coordinates of the Brillouin zone. Default : 0.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect1",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect1 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1.0 0.0 0.0",
+        "unit": null,
+        "description": "Expanded vector of the Brillouin zone. Default : 1.0 0.0 0.0"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘mp’",
+    "description": "Expanded vector of the Brillouin zone. Default : 1.0 0.0 0.0"
+  },
+  {
+    "name": "k_vect2",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect2 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 1.0 0.0",
+        "unit": null,
+        "description": "Expanded vector of the Brillouin zone. Default : 0.0 1.0 0.0"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘mp’",
+    "description": "Expanded vector of the Brillouin zone. Default : 0.0 1.0 0.0"
+  },
+  {
+    "name": "k_vect3",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "k_vect3 {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.0 0.0 1.0",
+        "unit": null,
+        "description": "Expanded vector of the Brillouin zone. Default : 0.0 0.0 1.0"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘mp’",
+    "description": "Expanded vector of the Brillouin zone. Default : 0.0 0.0 1.0"
+  },
+  {
+    "name": "kpoint_num",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_num {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "The number of high symmetry points. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘line’",
+    "description": "The number of high symmetry points. Default : No default value"
+  },
+  {
+    "name": "kpoint_label",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_label {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Specify the labels of high symmetry points, separated by spaces. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘line’",
+    "description": "Specify the labels of high symmetry points, separated by spaces. Default : No default value"
+  },
+  {
+    "name": "high_symmetry_kpoint",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "high_symmetry_kpoint {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "Fractional coordinates of high symmetry points and line densities of corresponding k-lines. The first three parameters are the fractional coordinates of the high symmetry points, and the fourth parameter is the line density. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘line’",
+    "description": "Fractional coordinates of high symmetry points and line densities of corresponding k-lines. The first three parameters are the fractional coordinates of the high symmetry points, and the fourth parameter is the line density. Default : No default value"
+  },
+  {
+    "name": "kpoint_num",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_num {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": null,
+        "unit": null,
+        "description": "the number of k points. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘direct’",
+    "description": "the number of k points. Default : No default value"
+  },
+  {
+    "name": "kpoint_direct_coor",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "kpoint_direct_coor {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": null,
+        "unit": null,
+        "description": "Fractional coordinates of the k point. Default : No default value"
+      }
+    ],
+    "parent_section": "When_kpoint_mode_is_‘direct’",
+    "description": "Fractional coordinates of the k point. Default : No default value"
+  },
+  {
+    "name": "integrate_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "integrate_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "4 4 4",
+        "unit": null,
+        "description": "Low precision grid for integration. There are three parameters. Default : 4 4 4"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Grid’",
+    "description": "Low precision grid for integration. There are three parameters. Default : 4 4 4"
+  },
+  {
+    "name": "adaptive_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "adaptive_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "INT",
+        "default_value": "4 4 4",
+        "unit": null,
+        "description": "High precision grid for integration. There are three parameters. Default : 4 4 4"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Grid’",
+    "description": "High precision grid for integration. There are three parameters. Default : 4 4 4"
+  },
+  {
+    "name": "adaptive_grid_threshold",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "adaptive_grid_threshold {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "50.0",
+        "unit": null,
+        "description": "If the value of a k point is greater than this value, then the k point will be adapted. Default : 50.0"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Grid’",
+    "description": "If the value of a k point is greater than this value, then the k point will be adapted. Default : 50.0"
+  },
+  {
+    "name": "relative_error",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "relative_error {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1e-6",
+        "unit": null,
+        "description": "The relative error of the adaptive integral. Default : 1e-6"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Adaptive’",
+    "description": "The relative error of the adaptive integral. Default : 1e-6"
+  },
+  {
+    "name": "absolute_error",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "absolute_error {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "0.1",
+        "unit": null,
+        "description": "The absolute error of the adaptive integral. Default : 0.1"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Adaptive’",
+    "description": "The absolute error of the adaptive integral. Default : 0.1"
+  },
+  {
+    "name": "initial_grid",
+    "software": "PyATB",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "initial_grid {value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "FLOAT",
+        "default_value": "1 1 1",
+        "unit": null,
+        "description": "The initial grid for adaptive integration. There are three parameters. Default : 1 1 1"
+      }
+    ],
+    "parent_section": "When_integrate_mode_is_‘Adaptive’",
+    "description": "The initial grid for adaptive integration. There are three parameters. Default : 1 1 1"
+  }
+]

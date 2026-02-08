@@ -1,0 +1,223 @@
+[
+  {
+    "name": "xyz",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "xyz={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Simple xyz-format"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "Simple xyz-format"
+  },
+  {
+    "name": "cube",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "cube={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Gaussian cube file"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "Gaussian cube file"
+  },
+  {
+    "name": "pdb",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "pdb={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Protein data bank file"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "Protein data bank file"
+  },
+  {
+    "name": "traj",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "traj={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "ASE’s own trajectory format"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "ASE’s own trajectory format"
+  },
+  {
+    "name": "py",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "py={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "Python script"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "Python script"
+  },
+  {
+    "name": "bool",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "bool={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "boolean"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "boolean"
+  },
+  {
+    "name": "int",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "int={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "integer"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "integer"
+  },
+  {
+    "name": "float",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "float={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "floating point number"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "floating point number"
+  },
+  {
+    "name": "complex",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "complex={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "complex number"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "complex number"
+  },
+  {
+    "name": "str",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "str={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "string"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "string"
+  },
+  {
+    "name": "tuple",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "tuple={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "tuple"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "tuple"
+  },
+  {
+    "name": "list",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "list={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "list"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "list"
+  },
+  {
+    "name": "dict",
+    "software": "ASE",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "dict={value}",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "dictionary"
+      }
+    ],
+    "parent_section": "calculators",
+    "description": "dictionary"
+  }
+]

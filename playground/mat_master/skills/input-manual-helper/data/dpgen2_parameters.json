@@ -1,0 +1,3572 @@
+[
+  {
+    "name": "dflow_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"dflow_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:dflow_configThe configuration passed to dflow"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:dflow_configThe configuration passed to dflow"
+  },
+  {
+    "name": "dflow_s3_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"dflow_s3_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:dflow_s3_configThe S3 configuration passed to dflow"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:dflow_s3_configThe S3 configuration passed to dflow"
+  },
+  {
+    "name": "default_step_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"default_step_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{}argument path:default_step_configThe default step configuration.template_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:default_step_config/template_configThe configs passed to the PythonOPTemplate.image:#type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step.timeout:#type:NoneType|int, optional, default:Noneargument path:default_step_config/tem"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dict, optional, default:{}argument path:default_step_configThe default step configuration.template_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:default_step_config/template_configThe configs passed to the PythonOPTemplate.image:#type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step.timeout:#type:NoneType|int, optional, default:Noneargument path:default_step_config/tem"
+  },
+  {
+    "name": "template_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"template_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:default_step_config/template_configThe configs passed to the PythonOPTemplate.image:#type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step.timeout:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/timeoutThe time limit of the OP. Unit is second.retry_on_transient_error:#type:NoneType|int, option"
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:default_step_config/template_configThe configs passed to the PythonOPTemplate.image:#type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step.timeout:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/timeoutThe time limit of the OP. Unit is second.retry_on_transient_error:#type:NoneType|int, option"
+  },
+  {
+    "name": "image",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"image\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:str, optional, default:dptechnology/dpgen2:latestargument path:default_step_config/template_config/imageThe image to run the step."
+  },
+  {
+    "name": "timeout",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"timeout\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/timeoutThe time limit of the OP. Unit is second."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/timeoutThe time limit of the OP. Unit is second."
+  },
+  {
+    "name": "retry_on_transient_error",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"retry_on_transient_error\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/retry_on_transient_errorThe number of retry times if a TransientError is raised."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_config/retry_on_transient_errorThe number of retry times if a TransientError is raised."
+  },
+  {
+    "name": "timeout_as_transient_error",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"timeout_as_transient_error\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:default_step_config/template_config/timeout_as_transient_errorTreat the timeout as TransientError."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:bool, optional, default:Falseargument path:default_step_config/template_config/timeout_as_transient_errorTreat the timeout as TransientError."
+  },
+  {
+    "name": "envs",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"envs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:default_step_config/template_config/envsThe environmental variables."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:default_step_config/template_config/envsThe environmental variables."
+  },
+  {
+    "name": "template_slice_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"template_slice_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:default_step_config/template_slice_configThe configs passed to the Slices.group_size:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/group_sizeThe number of tasks running on a single node. It is efficient for a large number of short tasks.pool_size:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/pool_sizeThe number of tasks running at the same time on one node."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:dict, optionalargument path:default_step_config/template_slice_configThe configs passed to the Slices.group_size:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/group_sizeThe number of tasks running on a single node. It is efficient for a large number of short tasks.pool_size:#type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/pool_sizeThe number of tasks running at the same time on one node."
+  },
+  {
+    "name": "group_size",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"group_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/group_sizeThe number of tasks running on a single node. It is efficient for a large number of short tasks."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/group_sizeThe number of tasks running on a single node. It is efficient for a large number of short tasks."
+  },
+  {
+    "name": "pool_size",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pool_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/pool_sizeThe number of tasks running at the same time on one node."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/template_slice_config/pool_sizeThe number of tasks running at the same time on one node."
+  },
+  {
+    "name": "continue_on_failed",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"continue_on_failed\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:default_step_config/continue_on_failedIf continue the the step is failed (FatalError, TransientError, A certain number of retrial is reached…)."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:bool, optional, default:Falseargument path:default_step_config/continue_on_failedIf continue the the step is failed (FatalError, TransientError, A certain number of retrial is reached…)."
+  },
+  {
+    "name": "continue_on_num_success",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"continue_on_num_success\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/continue_on_num_successOnly in the sliced OP case. Continue the workflow if a certain number of the sliced jobs are successful."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/continue_on_num_successOnly in the sliced OP case. Continue the workflow if a certain number of the sliced jobs are successful."
+  },
+  {
+    "name": "continue_on_success_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"continue_on_success_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:default_step_config/continue_on_success_ratioOnly in the sliced OP case. Continue the workflow if a certain ratio of the sliced jobs are successful."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|float, optional, default:Noneargument path:default_step_config/continue_on_success_ratioOnly in the sliced OP case. Continue the workflow if a certain ratio of the sliced jobs are successful."
+  },
+  {
+    "name": "parallelism",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"parallelism\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/parallelismThe parallelism for the step"
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:NoneType|int, optional, default:Noneargument path:default_step_config/parallelismThe parallelism for the step"
+  },
+  {
+    "name": "executor",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"executor\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:default_step_config/executorThe executor of the step.Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:default_step_config/executor/typepossible choices:dispatcherThe type of the executor.Whentypeis set todispatcher:"
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:default_step_config/executorThe executor of the step.Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:default_step_config/executor/typepossible choices:dispatcherThe type of the executor.Whentypeis set todispatcher:"
+  },
+  {
+    "name": "type",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"type\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str(flag key)argument path:default_step_config/executor/typepossible choices:dispatcherThe type of the executor."
+      }
+    ],
+    "parent_section": "default_step_config",
+    "description": "type:str(flag key)argument path:default_step_config/executor/typepossible choices:dispatcherThe type of the executor."
+  },
+  {
+    "name": "bohrium_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"bohrium_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:bohrium_configConfigurations for the Bohrium platform.username:#type:strargument path:bohrium_config/usernameThe username of the Bohrium platformpassword:#type:strargument path:bohrium_config/passwordThe password of the Bohrium platformproject_id:#type:intargument path:bohrium_config/project_idThe project ID of the Bohrium platformhost:#type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/hostThe host n"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:bohrium_configConfigurations for the Bohrium platform.username:#type:strargument path:bohrium_config/usernameThe username of the Bohrium platformpassword:#type:strargument path:bohrium_config/passwordThe password of the Bohrium platformproject_id:#type:intargument path:bohrium_config/project_idThe project ID of the Bohrium platformhost:#type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/hostThe host n"
+  },
+  {
+    "name": "username",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"username\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:bohrium_config/usernameThe username of the Bohrium platform"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:strargument path:bohrium_config/usernameThe username of the Bohrium platform"
+  },
+  {
+    "name": "password",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"password\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:bohrium_config/passwordThe password of the Bohrium platform"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:strargument path:bohrium_config/passwordThe password of the Bohrium platform"
+  },
+  {
+    "name": "project_id",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"project_id\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:bohrium_config/project_idThe project ID of the Bohrium platform"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:intargument path:bohrium_config/project_idThe project ID of the Bohrium platform"
+  },
+  {
+    "name": "host",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"host\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/hostThe host name of the Bohrium platform. Will overwritedflow_config[‘host’]"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/hostThe host name of the Bohrium platform. Will overwritedflow_config[‘host’]"
+  },
+  {
+    "name": "k8s_api_server",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"k8s_api_server\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/k8s_api_serverThe k8s server of the Bohrium platform. Will overwritedflow_config[‘k8s_api_server’]"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:str, optional, default:https://workflows.deepmodeling.comargument path:bohrium_config/k8s_api_serverThe k8s server of the Bohrium platform. Will overwritedflow_config[‘k8s_api_server’]"
+  },
+  {
+    "name": "repo_key",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"repo_key\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:oss-bohriumargument path:bohrium_config/repo_keyThe repo key of the Bohrium platform. Will overwritedflow_s3_config[‘repo_key’]"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:str, optional, default:oss-bohriumargument path:bohrium_config/repo_keyThe repo key of the Bohrium platform. Will overwritedflow_s3_config[‘repo_key’]"
+  },
+  {
+    "name": "storage_client",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"storage_client\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:dflow.plugins.bohrium.TiefblueClientargument path:bohrium_config/storage_clientThe storage client of the Bohrium platform. Will overwritedflow_s3_config[‘storage_client’]"
+      }
+    ],
+    "parent_section": "bohrium_config",
+    "description": "type:str, optional, default:dflow.plugins.bohrium.TiefblueClientargument path:bohrium_config/storage_clientThe storage client of the Bohrium platform. Will overwritedflow_s3_config[‘storage_client’]"
+  },
+  {
+    "name": "step_configs",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"step_configs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{}argument path:step_configsConfigurations for executing dflow stepsprep_train_config:#type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_train_configConfiguration for prepare trainte"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dict, optional, default:{}argument path:step_configsConfigurations for executing dflow stepsprep_train_config:#type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_train_configConfiguration for prepare trainte"
+  },
+  {
+    "name": "prep_train_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"prep_train_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_train_configConfiguration for prepare traintemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/prep_tr"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_train_configConfiguration for prepare traintemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/prep_tr"
+  },
+  {
+    "name": "run_train_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_train_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_train_configConfiguration for run traintemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_train_co"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_train_configConfiguration for run traintemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_train_co"
+  },
+  {
+    "name": "prep_explore_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"prep_explore_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_explore_configConfiguration for prepare explorationtemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_explore_configConfiguration for prepare explorationtemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs"
+  },
+  {
+    "name": "run_explore_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_explore_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_explore_configConfiguration for run explorationtemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_explore_configConfiguration for run explorationtemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_"
+  },
+  {
+    "name": "prep_fp_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"prep_fp_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_fp_configConfiguration for prepare fptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/prep_fp_confi"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/prep_fp_configConfiguration for prepare fptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/prep_fp_confi"
+  },
+  {
+    "name": "run_fp_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_fp_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_fp_configConfiguration for run fptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_fp_config/temp"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/run_fp_configConfiguration for run fptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/run_fp_config/temp"
+  },
+  {
+    "name": "select_confs_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"select_confs_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/select_confs_configConfiguration for the select confstemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/se"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/select_confs_configConfiguration for the select confstemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/se"
+  },
+  {
+    "name": "collect_data_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"collect_data_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/collect_data_configConfiguration for the collect datatemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/co"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/collect_data_configConfiguration for the collect datatemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_configs/co"
+  },
+  {
+    "name": "cl_step_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cl_step_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/cl_step_configConfiguration for the concurrent learning steptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_con"
+      }
+    ],
+    "parent_section": "step_configs",
+    "description": "type:dict, optional, default:{'template_config':{'image':'dptechnology/dpgen2:latest','timeout':None,'retry_on_transient_error':None,'timeout_as_transient_error':False,'envs':None},'continue_on_failed':False,'continue_on_num_success':None,'continue_on_success_ratio':None,'parallelism':None,'executor':None}argument path:step_configs/cl_step_configConfiguration for the concurrent learning steptemplate_config:#type:dict, optional, default:{'image':'dptechnology/dpgen2:latest'}argument path:step_con"
+  },
+  {
+    "name": "upload_python_packages",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"upload_python_packages\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|typing.List[str]|NoneType, optional, default:None, alias:upload_python_packageargument path:upload_python_packagesUpload python package, for debug purpose"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:str|typing.List[str]|NoneType, optional, default:None, alias:upload_python_packageargument path:upload_python_packagesUpload python package, for debug purpose"
+  },
+  {
+    "name": "inputs",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"inputs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:inputsThe input parameter and artifacts for dpgen2type_map:#type:typing.List[str]argument path:inputs/type_mapThe type map. e.g. [“Al”, “Mg”]. Al and Mg will have type 0 and 1, respectively.mass_map:#type:typing.List[float]argument path:inputs/mass_mapThe mass map. e.g. [27., 24.]. Al and Mg will be set with mass 27. and 24. amu, respectively.init_data_prefix:#type:str|NoneType, optional, default:Noneargument path:inputs/init_data_prefixThe prefix of initial data systemsmi"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dictargument path:inputsThe input parameter and artifacts for dpgen2type_map:#type:typing.List[str]argument path:inputs/type_mapThe type map. e.g. [“Al”, “Mg”]. Al and Mg will have type 0 and 1, respectively.mass_map:#type:typing.List[float]argument path:inputs/mass_mapThe mass map. e.g. [27., 24.]. Al and Mg will be set with mass 27. and 24. amu, respectively.init_data_prefix:#type:str|NoneType, optional, default:Noneargument path:inputs/init_data_prefixThe prefix of initial data systemsmi"
+  },
+  {
+    "name": "type_map",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"type_map\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:typing.List[str]argument path:inputs/type_mapThe type map. e.g. [“Al”, “Mg”]. Al and Mg will have type 0 and 1, respectively."
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:typing.List[str]argument path:inputs/type_mapThe type map. e.g. [“Al”, “Mg”]. Al and Mg will have type 0 and 1, respectively."
+  },
+  {
+    "name": "mass_map",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mass_map\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:typing.List[float]argument path:inputs/mass_mapThe mass map. e.g. [27., 24.]. Al and Mg will be set with mass 27. and 24. amu, respectively."
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:typing.List[float]argument path:inputs/mass_mapThe mass map. e.g. [27., 24.]. Al and Mg will be set with mass 27. and 24. amu, respectively."
+  },
+  {
+    "name": "init_data_prefix",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_data_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/init_data_prefixThe prefix of initial data systems"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/init_data_prefixThe prefix of initial data systems"
+  },
+  {
+    "name": "mixed_type",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mixed_type\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:inputs/mixed_typeUsedeepmd/npy/mixedformat for storing training data."
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:bool, optional, default:Falseargument path:inputs/mixed_typeUsedeepmd/npy/mixedformat for storing training data."
+  },
+  {
+    "name": "do_finetune",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"do_finetune\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:inputs/do_finetuneFinetune the pretrained model during the first iteration. If it is set to True, then in the first iteration, the internal flag finetune_mode is set to “finetune”. In this step, we finetune the pretrained model in the train step. After that, in the following iterations, init_model_policy is forced to be “yes”, the flag finetune_mode is set as “no”, which means we use–init-frz-modelor–init-modelto train based on models from the prev"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:bool, optional, default:Falseargument path:inputs/do_finetuneFinetune the pretrained model during the first iteration. If it is set to True, then in the first iteration, the internal flag finetune_mode is set to “finetune”. In this step, we finetune the pretrained model in the train step. After that, in the following iterations, init_model_policy is forced to be “yes”, the flag finetune_mode is set as “no”, which means we use–init-frz-modelor–init-modelto train based on models from the prev"
+  },
+  {
+    "name": "init_data_sys",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_data_sys\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|typing.List[str]|NoneType, optional, default:Noneargument path:inputs/init_data_sysThe inital data systems"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|typing.List[str]|NoneType, optional, default:Noneargument path:inputs/init_data_sysThe inital data systems"
+  },
+  {
+    "name": "init_data_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_data_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/init_data_uriThe URI of initial data"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/init_data_uriThe URI of initial data"
+  },
+  {
+    "name": "multitask",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multitask\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:inputs/multitaskDo multitask training"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:bool, optional, default:Falseargument path:inputs/multitaskDo multitask training"
+  },
+  {
+    "name": "head",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"head\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/headHead to use in the multitask training"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/headHead to use in the multitask training"
+  },
+  {
+    "name": "multi_init_data",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multi_init_data\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:inputs/multi_init_dataThe inital data for multitask, it should be a dict, whose keys are task names and each value is a dictcontaining fieldsprefixandsysfor initial data of each task"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:inputs/multi_init_dataThe inital data for multitask, it should be a dict, whose keys are task names and each value is a dictcontaining fieldsprefixandsysfor initial data of each task"
+  },
+  {
+    "name": "multi_init_data_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multi_init_data_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/multi_init_data_uriThe URI of initial data for multitask"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/multi_init_data_uriThe URI of initial data for multitask"
+  },
+  {
+    "name": "valid_data_prefix",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"valid_data_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/valid_data_prefixThe prefix of validation data systems"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/valid_data_prefixThe prefix of validation data systems"
+  },
+  {
+    "name": "valid_data_sys",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"valid_data_sys\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|typing.List[str]|NoneType, optional, default:Noneargument path:inputs/valid_data_sysThe validation data systems"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|typing.List[str]|NoneType, optional, default:Noneargument path:inputs/valid_data_sysThe validation data systems"
+  },
+  {
+    "name": "valid_data_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"valid_data_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/valid_data_uriThe URI of validation data"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/valid_data_uriThe URI of validation data"
+  },
+  {
+    "name": "use_ele_temp",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_ele_temp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:inputs/use_ele_tempWhether to use electronic temperature, 0 for no, 1 for frame temperature, and 2 for atomic temperature"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:int, optional, default:0argument path:inputs/use_ele_tempWhether to use electronic temperature, 0 for no, 1 for frame temperature, and 2 for atomic temperature"
+  },
+  {
+    "name": "multi_valid_data",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multi_valid_data\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:inputs/multi_valid_dataThe validation data for multitask, it should be a dict, whose keys are task names and each value is a dictcontaining fieldsprefixandsysfor initial data of each task"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:inputs/multi_valid_dataThe validation data for multitask, it should be a dict, whose keys are task names and each value is a dictcontaining fieldsprefixandsysfor initial data of each task"
+  },
+  {
+    "name": "multi_valid_data_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multi_valid_data_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:inputs/multi_valid_data_uriThe URI of validation data for multitask"
+      }
+    ],
+    "parent_section": "inputs",
+    "description": "type:str|NoneType, optional, default:Noneargument path:inputs/multi_valid_data_uriThe URI of validation data for multitask"
+  },
+  {
+    "name": "train",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"train\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:trainThe configuration for trainingDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:train/typepossible choices:dp,dp-distthe type of the trainingWhentypeis set todp:config:#type:dict, optional, default:{'command':'dp','impl':'tensorflow','init_model_policy':'no','init_model_old_ratio':0.9,'init_model_numb_steps':400000,'init_model_start_lr':0.0001,'init_model_start_pref_e':0.1,'init_model_start_pref_f':100,'init_model_sta"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dictargument path:trainThe configuration for trainingDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:train/typepossible choices:dp,dp-distthe type of the trainingWhentypeis set todp:config:#type:dict, optional, default:{'command':'dp','impl':'tensorflow','init_model_policy':'no','init_model_old_ratio':0.9,'init_model_numb_steps':400000,'init_model_start_lr':0.0001,'init_model_start_pref_e':0.1,'init_model_start_pref_f':100,'init_model_sta"
+  },
+  {
+    "name": "config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{'command':'dp','impl':'tensorflow','init_model_policy':'no','init_model_old_ratio':0.9,'init_model_numb_steps':400000,'init_model_start_lr':0.0001,'init_model_start_pref_e':0.1,'init_model_start_pref_f':100,'init_model_start_pref_v':0.0,'init_model_with_finetune':False,'finetune_args':'','multitask':False,'head':None,'train_args':'','split_last_iter_valid_ratio':None}argument path:train[dp]/configNumber of models trained for evaluating the model deviationcommand:#ty"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:dict, optional, default:{'command':'dp','impl':'tensorflow','init_model_policy':'no','init_model_old_ratio':0.9,'init_model_numb_steps':400000,'init_model_start_lr':0.0001,'init_model_start_pref_e':0.1,'init_model_start_pref_f':100,'init_model_start_pref_v':0.0,'init_model_with_finetune':False,'finetune_args':'','multitask':False,'head':None,'train_args':'','split_last_iter_valid_ratio':None}argument path:train[dp]/configNumber of models trained for evaluating the model deviationcommand:#ty"
+  },
+  {
+    "name": "command",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"command\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:dpargument path:train[dp]/config/commandThe command for DP, ‘dp’ for default"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str, optional, default:dpargument path:train[dp]/config/commandThe command for DP, ‘dp’ for default"
+  },
+  {
+    "name": "impl",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"impl\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:tensorflow, alias:backendargument path:train[dp]/config/implThe implementation/backend of DP. It can be ‘tensorflow’ or ‘pytorch’. ‘tensorflow’ for default."
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str, optional, default:tensorflow, alias:backendargument path:train[dp]/config/implThe implementation/backend of DP. It can be ‘tensorflow’ or ‘pytorch’. ‘tensorflow’ for default."
+  },
+  {
+    "name": "init_model_policy",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_policy\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:noargument path:train[dp]/config/init_model_policyThe policy of init-model training. It can be‘no’: No init-model training. Traing from scratch.‘yes’: Do init-model training.‘old_data_larger_than:XXX’: Do init-model if the training data size of the previous model is larger than XXX. XXX is an int number."
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str, optional, default:noargument path:train[dp]/config/init_model_policyThe policy of init-model training. It can be‘no’: No init-model training. Traing from scratch.‘yes’: Do init-model training.‘old_data_larger_than:XXX’: Do init-model if the training data size of the previous model is larger than XXX. XXX is an int number."
+  },
+  {
+    "name": "init_model_old_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_old_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.9argument path:train[dp]/config/init_model_old_ratioThe frequency ratio of old data over new data"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:float, optional, default:0.9argument path:train[dp]/config/init_model_old_ratioThe frequency ratio of old data over new data"
+  },
+  {
+    "name": "init_model_numb_steps",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_numb_steps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:400000, alias:init_model_stop_batchargument path:train[dp]/config/init_model_numb_stepsThe number of training steps when init-model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:int, optional, default:400000, alias:init_model_stop_batchargument path:train[dp]/config/init_model_numb_stepsThe number of training steps when init-model"
+  },
+  {
+    "name": "init_model_start_lr",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_start_lr\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.0001argument path:train[dp]/config/init_model_start_lrThe start learning rate when init-model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:float, optional, default:0.0001argument path:train[dp]/config/init_model_start_lrThe start learning rate when init-model"
+  },
+  {
+    "name": "init_model_start_pref_e",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_start_pref_e\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.1argument path:train[dp]/config/init_model_start_pref_eThe start energy prefactor in loss when init-model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:float, optional, default:0.1argument path:train[dp]/config/init_model_start_pref_eThe start energy prefactor in loss when init-model"
+  },
+  {
+    "name": "init_model_start_pref_f",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_start_pref_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:100argument path:train[dp]/config/init_model_start_pref_fThe start force prefactor in loss when init-model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:float, optional, default:100argument path:train[dp]/config/init_model_start_pref_fThe start force prefactor in loss when init-model"
+  },
+  {
+    "name": "init_model_start_pref_v",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_start_pref_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.0argument path:train[dp]/config/init_model_start_pref_vThe start virial prefactor in loss when init-model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:float, optional, default:0.0argument path:train[dp]/config/init_model_start_pref_vThe start virial prefactor in loss when init-model"
+  },
+  {
+    "name": "init_model_with_finetune",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_model_with_finetune\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:train[dp]/config/init_model_with_finetuneUse finetune for init model"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:bool, optional, default:Falseargument path:train[dp]/config/init_model_with_finetuneUse finetune for init model"
+  },
+  {
+    "name": "finetune_args",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"finetune_args\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default: (empty string)argument path:train[dp]/config/finetune_argsExtra arguments for finetuning"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str, optional, default: (empty string)argument path:train[dp]/config/finetune_argsExtra arguments for finetuning"
+  },
+  {
+    "name": "train_args",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"train_args\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default: (empty string)argument path:train[dp]/config/train_argsExtra arguments for dp train"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str, optional, default: (empty string)argument path:train[dp]/config/train_argsExtra arguments for dp train"
+  },
+  {
+    "name": "split_last_iter_valid_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"split_last_iter_valid_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:train[dp]/config/split_last_iter_valid_ratioRatio of valid data if split data of last iter"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:train[dp]/config/split_last_iter_valid_ratioRatio of valid data if split data of last iter"
+  },
+  {
+    "name": "numb_models",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_models\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:4argument path:train[dp]/numb_modelsNumber of models trained for evaluating the model deviation"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:int, optional, default:4argument path:train[dp]/numb_modelsNumber of models trained for evaluating the model deviation"
+  },
+  {
+    "name": "template_script",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"template_script\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|typing.List[str]argument path:train[dp]/template_scriptFile names of the template training script. It can be aList[str], the length of which is the same asnumb_models. Each template script in the list is used to train a model. Can be astr, the models share the same template training script."
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str|typing.List[str]argument path:train[dp]/template_scriptFile names of the template training script. It can be aList[str], the length of which is the same asnumb_models. Each template script in the list is used to train a model. Can be astr, the models share the same template training script."
+  },
+  {
+    "name": "init_models_paths",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_models_paths\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:typing.List[str]|NoneType, optional, default:None, alias:training_iter0_model_pathargument path:train[dp]/init_models_pathsthe paths to initial models"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:typing.List[str]|NoneType, optional, default:None, alias:training_iter0_model_pathargument path:train[dp]/init_models_pathsthe paths to initial models"
+  },
+  {
+    "name": "init_models_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_models_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:train[dp]/init_models_uriThe URI of initial models"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:train[dp]/init_models_uriThe URI of initial models"
+  },
+  {
+    "name": "optional_files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"optional_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|NoneType, optional, default:Noneargument path:train[dp]/optional_filesOptional files for training"
+      }
+    ],
+    "parent_section": "train[dp]",
+    "description": "type:list|NoneType, optional, default:Noneargument path:train[dp]/optional_filesOptional files for training"
+  },
+  {
+    "name": "student_model_path",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"student_model_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:train[dp-dist]/student_model_pathThe path of student model"
+      }
+    ],
+    "parent_section": "train[dp-dist]",
+    "description": "type:str, optionalargument path:train[dp-dist]/student_model_pathThe path of student model"
+  },
+  {
+    "name": "student_model_uri",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"student_model_uri\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:train[dp-dist]/student_model_uriThe URI of student model"
+      }
+    ],
+    "parent_section": "train[dp-dist]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:train[dp-dist]/student_model_uriThe URI of student model"
+  },
+  {
+    "name": "explore",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"explore\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:exploreThe configuration for explorationDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore/typepossible choices:lmp,calypso,calypso:default,calypso:merge,diffcspThe type of the explorationlmp: The exploration by LAMMPS simulationscalypso: The exploration by CALYPSO structure predictioncalypso:default: The exploration by CALYPSO structure predictioncalypso:merge: The exploration by CALYPSO structure predictiondiffcsp"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dictargument path:exploreThe configuration for explorationDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore/typepossible choices:lmp,calypso,calypso:default,calypso:merge,diffcspThe type of the explorationlmp: The exploration by LAMMPS simulationscalypso: The exploration by CALYPSO structure predictioncalypso:default: The exploration by CALYPSO structure predictioncalypso:merge: The exploration by CALYPSO structure predictiondiffcsp"
+  },
+  {
+    "name": "teacher_model_path",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"teacher_model_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|BinaryFileInput|NoneType, optional, default:Noneargument path:explore[lmp]/config/teacher_model_pathThe teacher model inKnowledge Distillation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str|BinaryFileInput|NoneType, optional, default:Noneargument path:explore[lmp]/config/teacher_model_pathThe teacher model inKnowledge Distillation"
+  },
+  {
+    "name": "shuffle_models",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"shuffle_models\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:explore[lmp]/config/shuffle_modelsRandomly pick a model from the group of models to drive theexploration MD simulation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:bool, optional, default:Falseargument path:explore[lmp]/config/shuffle_modelsRandomly pick a model from the group of models to drive theexploration MD simulation"
+  },
+  {
+    "name": "model_frozen_head",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_frozen_head\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:explore[lmp]/config/model_frozen_headSelect a head from multitask"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:explore[lmp]/config/model_frozen_headSelect a head from multitask"
+  },
+  {
+    "name": "use_hdf5",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_hdf5\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:explore[lmp]/config/use_hdf5Use HDF5 to store trajs and model_devis"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:bool, optional, default:Falseargument path:explore[lmp]/config/use_hdf5Use HDF5 to store trajs and model_devis"
+  },
+  {
+    "name": "extra_output_files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"extra_output_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, default:[]argument path:explore[lmp]/config/extra_output_filesExtra output file names, support wildcards"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list, optional, default:[]argument path:explore[lmp]/config/extra_output_filesExtra output file names, support wildcards"
+  },
+  {
+    "name": "max_numb_iter",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"max_numb_iter\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:10argument path:explore[lmp]/max_numb_iterMaximum number of iterations per stage"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:int, optional, default:10argument path:explore[lmp]/max_numb_iterMaximum number of iterations per stage"
+  },
+  {
+    "name": "fatal_at_max",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fatal_at_max\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Trueargument path:explore[lmp]/fatal_at_maxFatal when the number of iteration per stage reaches themax_numb_iter"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:bool, optional, default:Trueargument path:explore[lmp]/fatal_at_maxFatal when the number of iteration per stage reaches themax_numb_iter"
+  },
+  {
+    "name": "output_nopbc",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_nopbc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:explore[lmp]/output_nopbcRemove pbc of the output configurations"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:bool, optional, default:Falseargument path:explore[lmp]/output_nopbcRemove pbc of the output configurations"
+  },
+  {
+    "name": "convergence",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"convergence\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:explore[lmp]/convergenceThe method of convergence check.Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/convergence/typepossible choices:fixed-levels,fixed-levels-max-select,adaptive-lowerthe type of the condidate selection and convergence check method.fixed-levels: The configurations with force model deviation betweenlevel_f_lo,level_f_hior virial model deviation betweenlevel_v_loandlevel_v_hiare treated as"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:dictargument path:explore[lmp]/convergenceThe method of convergence check.Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/convergence/typepossible choices:fixed-levels,fixed-levels-max-select,adaptive-lowerthe type of the condidate selection and convergence check method.fixed-levels: The configurations with force model deviation betweenlevel_f_lo,level_f_hior virial model deviation betweenlevel_v_loandlevel_v_hiare treated as"
+  },
+  {
+    "name": "level_f_lo",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"level_f_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:explore[lmp]/convergence[fixed-levels]/level_f_loThe lower trust level of force model deviation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:floatargument path:explore[lmp]/convergence[fixed-levels]/level_f_loThe lower trust level of force model deviation"
+  },
+  {
+    "name": "level_f_hi",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"level_f_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:explore[lmp]/convergence[fixed-levels]/level_f_hiThe higher trust level of force model deviation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:floatargument path:explore[lmp]/convergence[fixed-levels]/level_f_hiThe higher trust level of force model deviation"
+  },
+  {
+    "name": "level_v_lo",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"level_v_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:explore[lmp]/convergence[fixed-levels]/level_v_loThe lower trust level of virial model deviation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:explore[lmp]/convergence[fixed-levels]/level_v_loThe lower trust level of virial model deviation"
+  },
+  {
+    "name": "level_v_hi",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"level_v_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:explore[lmp]/convergence[fixed-levels]/level_v_hiThe higher trust level of virial model deviation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:explore[lmp]/convergence[fixed-levels]/level_v_hiThe higher trust level of virial model deviation"
+  },
+  {
+    "name": "conv_accuracy",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"conv_accuracy\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.9argument path:explore[lmp]/convergence[fixed-levels]/conv_accuracyIf the ratio of accurate frames is larger than this value, the stage is converged"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.9argument path:explore[lmp]/convergence[fixed-levels]/conv_accuracyIf the ratio of accurate frames is larger than this value, the stage is converged"
+  },
+  {
+    "name": "numb_candi_f",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_candi_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:200argument path:explore[lmp]/convergence[adaptive-lower]/numb_candi_fThe number of force frames that has a model deviation lower thanlevel_f_hitreated as candidate."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:int, optional, default:200argument path:explore[lmp]/convergence[adaptive-lower]/numb_candi_fThe number of force frames that has a model deviation lower thanlevel_f_hitreated as candidate."
+  },
+  {
+    "name": "rate_candi_f",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"rate_candi_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.01argument path:explore[lmp]/convergence[adaptive-lower]/rate_candi_fThe ratio of force frames that has a model deviation lower thanlevel_f_hitreated as candidate."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.01argument path:explore[lmp]/convergence[adaptive-lower]/rate_candi_fThe ratio of force frames that has a model deviation lower thanlevel_f_hitreated as candidate."
+  },
+  {
+    "name": "numb_candi_v",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_candi_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:explore[lmp]/convergence[adaptive-lower]/numb_candi_vThe number of virial frames that has a model deviation lower thanlevel_v_hitreated as candidate."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:int, optional, default:0argument path:explore[lmp]/convergence[adaptive-lower]/numb_candi_vThe number of virial frames that has a model deviation lower thanlevel_v_hitreated as candidate."
+  },
+  {
+    "name": "rate_candi_v",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"rate_candi_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.0argument path:explore[lmp]/convergence[adaptive-lower]/rate_candi_vThe ratio of virial frames that has a model deviation lower thanlevel_v_hitreated as candidate."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.0argument path:explore[lmp]/convergence[adaptive-lower]/rate_candi_vThe ratio of virial frames that has a model deviation lower thanlevel_v_hitreated as candidate."
+  },
+  {
+    "name": "n_checked_steps",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"n_checked_steps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:2argument path:explore[lmp]/convergence[adaptive-lower]/n_checked_stepsThe number of steps to check the convergence."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:int, optional, default:2argument path:explore[lmp]/convergence[adaptive-lower]/n_checked_stepsThe number of steps to check the convergence."
+  },
+  {
+    "name": "conv_tolerance",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"conv_tolerance\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.05argument path:explore[lmp]/convergence[adaptive-lower]/conv_toleranceThe convergence tolerance."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.05argument path:explore[lmp]/convergence[adaptive-lower]/conv_toleranceThe convergence tolerance."
+  },
+  {
+    "name": "candi_sel_prob",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"candi_sel_prob\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:uniformargument path:explore[lmp]/convergence[adaptive-lower]/candi_sel_probThe method for selecting candidates. It can be ‘uniform’: all candidates are of the same probability. ‘inv_pop_f’ or ‘inv_pop_f:nhist’: the probability is inversely propotional to the population of a histogram between leven_f_lo and level_f_hi. The number of bins in the histogram is set by nhist, which should be an integer. The default is 10."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str, optional, default:uniformargument path:explore[lmp]/convergence[adaptive-lower]/candi_sel_probThe method for selecting candidates. It can be ‘uniform’: all candidates are of the same probability. ‘inv_pop_f’ or ‘inv_pop_f:nhist’: the probability is inversely propotional to the population of a histogram between leven_f_lo and level_f_hi. The number of bins in the histogram is set by nhist, which should be an integer. The default is 10."
+  },
+  {
+    "name": "configurations",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"configurations\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, alias:configurationargument path:explore[lmp]/configurationsA list of initial configurations.This argument takes a list with each element containing the following:Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/configurations/typepossible choices:alloy,filethe type of the initial configuration generator.alloy: Generate alloys witha certain lattice or user proided structure, the elements randomly occuping the lattice wit"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list, alias:configurationargument path:explore[lmp]/configurationsA list of initial configurations.This argument takes a list with each element containing the following:Depending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/configurations/typepossible choices:alloy,filethe type of the initial configuration generator.alloy: Generate alloys witha certain lattice or user proided structure, the elements randomly occuping the lattice wit"
+  },
+  {
+    "name": "numb_confs",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_confs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:1argument path:explore[lmp]/configurations[alloy]/numb_confsThe number of configurations to generate"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:int, optional, default:1argument path:explore[lmp]/configurations[alloy]/numb_confsThe number of configurations to generate"
+  },
+  {
+    "name": "lattice",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"lattice\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|tupleargument path:explore[lmp]/configurations[alloy]/latticeThe lattice. Should be a list providing [ “lattice_type”, lattice_const ], or a list providing [ “/path/to/dpdata/system”, “fmt” ]. The two styles are distinguished by the type of the second element. Currently “lattice_type” can be “bcc”, “fcc”, “hcp”, “sc” or “diamond”."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list|tupleargument path:explore[lmp]/configurations[alloy]/latticeThe lattice. Should be a list providing [ “lattice_type”, lattice_const ], or a list providing [ “/path/to/dpdata/system”, “fmt” ]. The two styles are distinguished by the type of the second element. Currently “lattice_type” can be “bcc”, “fcc”, “hcp”, “sc” or “diamond”."
+  },
+  {
+    "name": "replicate",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"replicate\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[alloy]/replicateThe number of replicates in each direction"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[alloy]/replicateThe number of replicates in each direction"
+  },
+  {
+    "name": "concentration",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"concentration\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[alloy]/concentrationThe concentration of each element.List[List[float]]orList[float]orNone. IfList[float], the concentrations of each element. The length of the list should be the same as thetype_map. IfList[List[float]], a list of concentrations (List[float]) is randomly picked from the List. IfNone, the elements are assumed to be of equal concentration."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[alloy]/concentrationThe concentration of each element.List[List[float]]orList[float]orNone. IfList[float], the concentrations of each element. The length of the list should be the same as thetype_map. IfList[List[float]], a list of concentrations (List[float]) is randomly picked from the List. IfNone, the elements are assumed to be of equal concentration."
+  },
+  {
+    "name": "cell_pert_frac",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cell_pert_frac\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.0argument path:explore[lmp]/configurations[alloy]/cell_pert_fracThe faction of cell perturbation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.0argument path:explore[lmp]/configurations[alloy]/cell_pert_fracThe faction of cell perturbation"
+  },
+  {
+    "name": "atom_pert_dist",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"atom_pert_dist\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.0argument path:explore[lmp]/configurations[alloy]/atom_pert_distThe distance of atomic position perturbation"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:0.0argument path:explore[lmp]/configurations[alloy]/atom_pert_distThe distance of atomic position perturbation"
+  },
+  {
+    "name": "files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|listargument path:explore[lmp]/configurations[file]/filesThe paths to the configuration files. widecards are supported."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str|listargument path:explore[lmp]/configurations[file]/filesThe paths to the configuration files. widecards are supported."
+  },
+  {
+    "name": "prefix",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[file]/prefixThe prefix of file paths."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:explore[lmp]/configurations[file]/prefixThe prefix of file paths."
+  },
+  {
+    "name": "fmt",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fmt\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:autoargument path:explore[lmp]/configurations[file]/fmtThe format (dpdata accepted formats) of the files."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:str, optional, default:autoargument path:explore[lmp]/configurations[file]/fmtThe format (dpdata accepted formats) of the files."
+  },
+  {
+    "name": "remove_pbc",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"remove_pbc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:explore[lmp]/configurations[file]/remove_pbcThe remove the pbc of the data. shift the coords to the center of box so it can be used with lammps."
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:bool, optional, default:Falseargument path:explore[lmp]/configurations[file]/remove_pbcThe remove the pbc of the data. shift the coords to the center of box so it can be used with lammps."
+  },
+  {
+    "name": "stages",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"stages\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:typing.List[typing.List[dict]]argument path:explore[lmp]/stagesThe definition of exploration stages of typeList[List[ExplorationTaskGroup]. The outer list provides the enumeration of the exploration stages. Then each stage is defined by a list of exploration task groups. Each task group is described inthe task group definition"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:typing.List[typing.List[dict]]argument path:explore[lmp]/stagesThe definition of exploration stages of typeList[List[ExplorationTaskGroup]. The outer list provides the enumeration of the exploration stages. Then each stage is defined by a list of exploration task groups. Each task group is described inthe task group definition"
+  },
+  {
+    "name": "filters",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"filters\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|dict, optional, default:[]argument path:explore[lmp]/filtersA list of configuration filtersDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/filters/typepossible choices:distance,box_skewness,box_lengththe type of the configuration filter.distance: Configuration filter of type distancebox_skewness: Configuration filter of type box_skewnessbox_length: Configuration filter of type box_lengthWhentypeis set todistance:Configur"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:list|dict, optional, default:[]argument path:explore[lmp]/filtersA list of configuration filtersDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:explore[lmp]/filters/typepossible choices:distance,box_skewness,box_lengththe type of the configuration filter.distance: Configuration filter of type distancebox_skewness: Configuration filter of type box_skewnessbox_length: Configuration filter of type box_lengthWhentypeis set todistance:Configur"
+  },
+  {
+    "name": "max_workers",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"max_workers\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:explore[lmp]/filters[distance]/max_workersThe maximum number of processes used to filter configurations, None represents as many as the processors of the machine, and 1 for serial"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:NoneType|int, optional, default:Noneargument path:explore[lmp]/filters[distance]/max_workersThe maximum number of processes used to filter configurations, None represents as many as the processors of the machine, and 1 for serial"
+  },
+  {
+    "name": "custom_safe_dist",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"custom_safe_dist\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{}argument path:explore[lmp]/filters[distance]/custom_safe_distCustom safe distance (in unit of bohr) for each element"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:dict, optional, default:{}argument path:explore[lmp]/filters[distance]/custom_safe_distCustom safe distance (in unit of bohr) for each element"
+  },
+  {
+    "name": "safe_dist_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"safe_dist_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:1.0argument path:explore[lmp]/filters[distance]/safe_dist_ratioThe ratio multiplied to the safe distance"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:1.0argument path:explore[lmp]/filters[distance]/safe_dist_ratioThe ratio multiplied to the safe distance"
+  },
+  {
+    "name": "theta",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"theta\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:60.0argument path:explore[lmp]/filters[box_skewness]/thetaThe threshold for angles between the edges of the cell. If all angles are larger than this value the check is passed"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:60.0argument path:explore[lmp]/filters[box_skewness]/thetaThe threshold for angles between the edges of the cell. If all angles are larger than this value the check is passed"
+  },
+  {
+    "name": "length_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"length_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:5.0argument path:explore[lmp]/filters[box_length]/length_ratioThe threshold for the length ratio between the edges of the cell. If all length ratios are smaller than this value the check is passed"
+      }
+    ],
+    "parent_section": "explore[lmp]",
+    "description": "type:float, optional, default:5.0argument path:explore[lmp]/filters[box_length]/length_ratioThe threshold for the length ratio between the edges of the cell. If all length ratios are smaller than this value the check is passed"
+  },
+  {
+    "name": "model_devi_group_size",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_group_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:explore[calypso]/config/model_devi_group_sizegroup size for model deviation."
+      }
+    ],
+    "parent_section": "explore[calypso]",
+    "description": "type:int, optionalargument path:explore[calypso]/config/model_devi_group_sizegroup size for model deviation."
+  },
+  {
+    "name": "run_calypso_command",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_calypso_command\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:calypso.xargument path:explore[calypso]/config/run_calypso_commandcommand of running calypso."
+      }
+    ],
+    "parent_section": "explore[calypso]",
+    "description": "type:str, optional, default:calypso.xargument path:explore[calypso]/config/run_calypso_commandcommand of running calypso."
+  },
+  {
+    "name": "run_opt_command",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_opt_command\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:explore[calypso]/config/run_opt_commandcommand of running optimization with dp."
+      }
+    ],
+    "parent_section": "explore[calypso]",
+    "description": "type:str, optionalargument path:explore[calypso]/config/run_opt_commandcommand of running optimization with dp."
+  },
+  {
+    "name": "gen_tasks",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"gen_tasks\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:1argument path:explore[diffcsp]/config/gen_tasksNumber of DiffCSP generation tasks"
+      }
+    ],
+    "parent_section": "explore[diffcsp]",
+    "description": "type:int, optional, default:1argument path:explore[diffcsp]/config/gen_tasksNumber of DiffCSP generation tasks"
+  },
+  {
+    "name": "gen_command",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"gen_command\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:explore[diffcsp]/config/gen_commandCommand for DiffCSP generation"
+      }
+    ],
+    "parent_section": "explore[diffcsp]",
+    "description": "type:strargument path:explore[diffcsp]/config/gen_commandCommand for DiffCSP generation"
+  },
+  {
+    "name": "relax_group_size",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"relax_group_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:100argument path:explore[diffcsp]/config/relax_group_sizeGroup size for relaxation"
+      }
+    ],
+    "parent_section": "explore[diffcsp]",
+    "description": "type:int, optional, default:100argument path:explore[diffcsp]/config/relax_group_sizeGroup size for relaxation"
+  },
+  {
+    "name": "fp",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:fpThe configuration for FPDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:fp/typepossible choices:vasp,gaussian,deepmd,fpop_abacus,fpop_cp2kthe type of the fpWhentypeis set tovasp:inputs_config:#type:dictargument path:fp[vasp]/inputs_configConfiguration for preparing vasp inputsincar:#type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar filepp_files:#type:dictargument path:fp[vasp]/inputs_conf"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dictargument path:fpThe configuration for FPDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:fp/typepossible choices:vasp,gaussian,deepmd,fpop_abacus,fpop_cp2kthe type of the fpWhentypeis set tovasp:inputs_config:#type:dictargument path:fp[vasp]/inputs_configConfiguration for preparing vasp inputsincar:#type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar filepp_files:#type:dictargument path:fp[vasp]/inputs_conf"
+  },
+  {
+    "name": "inputs_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"inputs_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:fp[vasp]/inputs_configConfiguration for preparing vasp inputsincar:#type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar filepp_files:#type:dictargument path:fp[vasp]/inputs_config/pp_filesThe pseudopotential files set by a dict, e.g. {“Al” : “path/to/the/al/pp/file”, “Mg” : “path/to/the/mg/pp/file”}kspacing:#type:floatargument path:fp[vasp]/inputs_config/kspacingThe spacing of k-point sampling.ksapcingwill overwrite the incar templatekgamma:#ty"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:dictargument path:fp[vasp]/inputs_configConfiguration for preparing vasp inputsincar:#type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar filepp_files:#type:dictargument path:fp[vasp]/inputs_config/pp_filesThe pseudopotential files set by a dict, e.g. {“Al” : “path/to/the/al/pp/file”, “Mg” : “path/to/the/mg/pp/file”}kspacing:#type:floatargument path:fp[vasp]/inputs_config/kspacingThe spacing of k-point sampling.ksapcingwill overwrite the incar templatekgamma:#ty"
+  },
+  {
+    "name": "incar",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"incar\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar file"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:strargument path:fp[vasp]/inputs_config/incarThe path to the template incar file"
+  },
+  {
+    "name": "pp_files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pp_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:fp[vasp]/inputs_config/pp_filesThe pseudopotential files set by a dict, e.g. {“Al” : “path/to/the/al/pp/file”, “Mg” : “path/to/the/mg/pp/file”}"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:dictargument path:fp[vasp]/inputs_config/pp_filesThe pseudopotential files set by a dict, e.g. {“Al” : “path/to/the/al/pp/file”, “Mg” : “path/to/the/mg/pp/file”}"
+  },
+  {
+    "name": "kspacing",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"kspacing\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:fp[vasp]/inputs_config/kspacingThe spacing of k-point sampling.ksapcingwill overwrite the incar template"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:floatargument path:fp[vasp]/inputs_config/kspacingThe spacing of k-point sampling.ksapcingwill overwrite the incar template"
+  },
+  {
+    "name": "kgamma",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"kgamma\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Trueargument path:fp[vasp]/inputs_config/kgammaIf the k-mesh includes the gamma point.kgammawill overwrite the incar template"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:bool, optional, default:Trueargument path:fp[vasp]/inputs_config/kgammaIf the k-mesh includes the gamma point.kgammawill overwrite the incar template"
+  },
+  {
+    "name": "run_config",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_config\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:fp[vasp]/run_configConfiguration for running vasp taskscommand:#type:str, optional, default:vaspargument path:fp[vasp]/run_config/commandThe command of VASPout:#type:str, optional, default:dataargument path:fp[vasp]/run_config/outThe output dir name of labeled data. Indeepmd/npyformat provided bydpdata.log:#type:str, optional, default:fp.logargument path:fp[vasp]/run_config/logThe log file name of VASP"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:dictargument path:fp[vasp]/run_configConfiguration for running vasp taskscommand:#type:str, optional, default:vaspargument path:fp[vasp]/run_config/commandThe command of VASPout:#type:str, optional, default:dataargument path:fp[vasp]/run_config/outThe output dir name of labeled data. Indeepmd/npyformat provided bydpdata.log:#type:str, optional, default:fp.logargument path:fp[vasp]/run_config/logThe log file name of VASP"
+  },
+  {
+    "name": "out",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"out\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:dataargument path:fp[vasp]/run_config/outThe output dir name of labeled data. Indeepmd/npyformat provided bydpdata."
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:str, optional, default:dataargument path:fp[vasp]/run_config/outThe output dir name of labeled data. Indeepmd/npyformat provided bydpdata."
+  },
+  {
+    "name": "log",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"log\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:fp.logargument path:fp[vasp]/run_config/logThe log file name of VASP"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:str, optional, default:fp.logargument path:fp[vasp]/run_config/logThe log file name of VASP"
+  },
+  {
+    "name": "task_max",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"task_max\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:10argument path:fp[vasp]/task_maxMaximum number of vasp tasks for each iteration"
+      }
+    ],
+    "parent_section": "fp[vasp]",
+    "description": "type:int, optional, default:10argument path:fp[vasp]/task_maxMaximum number of vasp tasks for each iteration"
+  },
+  {
+    "name": "keywords",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"keywords\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|listargument path:fp[gaussian]/inputs_config/keywordsGaussian keywords, e.g. force b3lyp/6-31g**. If a list, run multiple steps."
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:str|listargument path:fp[gaussian]/inputs_config/keywordsGaussian keywords, e.g. force b3lyp/6-31g**. If a list, run multiple steps."
+  },
+  {
+    "name": "multiplicity",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multiplicity\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|int, optional, default:autoargument path:fp[gaussian]/inputs_config/multiplicityspin multiplicity state. It can be a number. If auto, multiplicity will be detected automatically, with the following rules:fragment_guesses=True multiplicity will +1 for each radical, and +2 for each oxygen moleculefragment_guesses=False multiplicity will be 1 or 2, but +2 for each oxygen molecule."
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:str|int, optional, default:autoargument path:fp[gaussian]/inputs_config/multiplicityspin multiplicity state. It can be a number. If auto, multiplicity will be detected automatically, with the following rules:fragment_guesses=True multiplicity will +1 for each radical, and +2 for each oxygen moleculefragment_guesses=False multiplicity will be 1 or 2, but +2 for each oxygen molecule."
+  },
+  {
+    "name": "charge",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"charge\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:fp[gaussian]/inputs_config/chargemolecule charge. Only used when charge is not provided by the system"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:int, optional, default:0argument path:fp[gaussian]/inputs_config/chargemolecule charge. Only used when charge is not provided by the system"
+  },
+  {
+    "name": "basis_set",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"basis_set\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:fp[gaussian]/inputs_config/basis_setcustom basis set"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:str, optionalargument path:fp[gaussian]/inputs_config/basis_setcustom basis set"
+  },
+  {
+    "name": "keywords_high_multiplicity",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"keywords_high_multiplicity\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:fp[gaussian]/inputs_config/keywords_high_multiplicitykeywords for points with multiple raicals. multiplicity should be auto. If not set, fallback to normal keywords"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:str, optionalargument path:fp[gaussian]/inputs_config/keywords_high_multiplicitykeywords for points with multiple raicals. multiplicity should be auto. If not set, fallback to normal keywords"
+  },
+  {
+    "name": "fragment_guesses",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fragment_guesses\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:fp[gaussian]/inputs_config/fragment_guessesinitial guess generated from fragment guesses. If True, multiplicity should be auto"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:bool, optional, default:Falseargument path:fp[gaussian]/inputs_config/fragment_guessesinitial guess generated from fragment guesses. If True, multiplicity should be auto"
+  },
+  {
+    "name": "nproc",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nproc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:1argument path:fp[gaussian]/inputs_config/nprocNumber of CPUs to use"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:int, optional, default:1argument path:fp[gaussian]/inputs_config/nprocNumber of CPUs to use"
+  },
+  {
+    "name": "post_command",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"post_command\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:fp[gaussian]/run_config/post_commandThe command after Gaussian"
+      }
+    ],
+    "parent_section": "fp[gaussian]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:fp[gaussian]/run_config/post_commandThe command after Gaussian"
+  },
+  {
+    "name": "input_file",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_file\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:fp[fpop_abacus]/inputs_config/input_fileA template INPUT file."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:strargument path:fp[fpop_abacus]/inputs_config/input_fileA template INPUT file."
+  },
+  {
+    "name": "element_mass",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"element_mass\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/element_massSpecify the mass of some elements. For example: {“H”: 1.0079, “O”: 15.9994}."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/element_massSpecify the mass of some elements. For example: {“H”: 1.0079, “O”: 15.9994}."
+  },
+  {
+    "name": "kpt_file",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"kpt_file\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/kpt_fileThe KPT file, by default None."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/kpt_fileThe KPT file, by default None."
+  },
+  {
+    "name": "orb_files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"orb_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/orb_filesThe numerical orbital fiels for the elements, by default None. For example: {“H”: “/path/to/H.orb”, “O”: “/path/to/O.orb”}."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:dict|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/orb_filesThe numerical orbital fiels for the elements, by default None. For example: {“H”: “/path/to/H.orb”, “O”: “/path/to/O.orb”}."
+  },
+  {
+    "name": "deepks_descriptor",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"deepks_descriptor\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/deepks_descriptorThe deepks descriptor file, by default None."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/deepks_descriptorThe deepks descriptor file, by default None."
+  },
+  {
+    "name": "deepks_model",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"deepks_model\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/deepks_modelThe deepks model file, by default None."
+      }
+    ],
+    "parent_section": "fp[fpop_abacus]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:fp[fpop_abacus]/inputs_config/deepks_modelThe deepks model file, by default None."
+  },
+  {
+    "name": "inp_file",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"inp_file\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:fp[fpop_cp2k]/inputs_config/inp_fileThe path to the user-submitted CP2K input file."
+      }
+    ],
+    "parent_section": "fp[fpop_cp2k]",
+    "description": "type:strargument path:fp[fpop_cp2k]/inputs_config/inp_fileThe path to the user-submitted CP2K input file."
+  },
+  {
+    "name": "name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:dpgenargument path:nameThe workflow name, ‘dpgen’ for default"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:str, optional, default:dpgenargument path:nameThe workflow name, ‘dpgen’ for default"
+  },
+  {
+    "name": "task_group",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"task_group\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:task_groupDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:task_group/typepossible choices:lmp-md,lmp-template,customized-lmp-templatethe type of the task grouplmp-md: Lammps MD tasks. DPGEN will generate the lammps input scriptlmp-template: Lammps MD tasks defined by templates. User provide lammps (and plumed) template for lammps tasks. The variables in templates are revised by the revisions key. Notice that the lines fo"
+      }
+    ],
+    "parent_section": "input",
+    "description": "type:dictargument path:task_groupDepending on the value oftype, different sub args are accepted.type:#type:str(flag key)argument path:task_group/typepossible choices:lmp-md,lmp-template,customized-lmp-templatethe type of the task grouplmp-md: Lammps MD tasks. DPGEN will generate the lammps input scriptlmp-template: Lammps MD tasks defined by templates. User provide lammps (and plumed) template for lammps tasks. The variables in templates are revised by the revisions key. Notice that the lines fo"
+  },
+  {
+    "name": "conf_idx",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"conf_idx\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, alias:sys_idxargument path:task_group[lmp-md]/conf_idxThe configurations ofconfigurations[conf_idx]will be used to generate the initial configurations of the tasks. This key provides the index of selected item in theconfigurationsarray."
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:list, alias:sys_idxargument path:task_group[lmp-md]/conf_idxThe configurations ofconfigurations[conf_idx]will be used to generate the initial configurations of the tasks. This key provides the index of selected item in theconfigurationsarray."
+  },
+  {
+    "name": "n_sample",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"n_sample\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:task_group[lmp-md]/n_sampleNumber of configurations. If this number is smaller than the number of configruations inconfigruations[conf_idx], thenn_sampleconfigruations are randomly sampled fromconfigruations[conf_idx], otherwise all configruations inconfigruations[conf_idx]will be used. If not provided, all configruations inconfigruations[conf_idx]will be used."
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|int, optional, default:Noneargument path:task_group[lmp-md]/n_sampleNumber of configurations. If this number is smaller than the number of configruations inconfigruations[conf_idx], thenn_sampleconfigruations are randomly sampled fromconfigruations[conf_idx], otherwise all configruations inconfigruations[conf_idx]will be used. If not provided, all configruations inconfigruations[conf_idx]will be used."
+  },
+  {
+    "name": "temps",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"temps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, alias:Tsargument path:task_group[lmp-md]/tempsA list of temperatures in K. Also used to initialize the temperature"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:list, alias:Tsargument path:task_group[lmp-md]/tempsA list of temperatures in K. Also used to initialize the temperature"
+  },
+  {
+    "name": "press",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"press\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, alias:Psargument path:task_group[lmp-md]/pressA list of pressures in bar."
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:list, optional, alias:Psargument path:task_group[lmp-md]/pressA list of pressures in bar."
+  },
+  {
+    "name": "ens",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ens\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:nve, alias:ensembleargument path:task_group[lmp-md]/ensThe ensemble. Allowd options are ‘nve’, ‘nvt’, ‘npt’, ‘npt-a’, ‘npt-t’. ‘npt-a’ stands for anisotrpic box sampling and ‘npt-t’ stands for triclinic box sampling."
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:str, optional, default:nve, alias:ensembleargument path:task_group[lmp-md]/ensThe ensemble. Allowd options are ‘nve’, ‘nvt’, ‘npt’, ‘npt-a’, ‘npt-t’. ‘npt-a’ stands for anisotrpic box sampling and ‘npt-t’ stands for triclinic box sampling."
+  },
+  {
+    "name": "dt",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"dt\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.001argument path:task_group[lmp-md]/dtThe time step"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:float, optional, default:0.001argument path:task_group[lmp-md]/dtThe time step"
+  },
+  {
+    "name": "nsteps",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nsteps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:100argument path:task_group[lmp-md]/nstepsThe number of steps"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:int, optional, default:100argument path:task_group[lmp-md]/nstepsThe number of steps"
+  },
+  {
+    "name": "trj_freq",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"trj_freq\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:10, aliases:t_freq,trj_freq,traj_freqargument path:task_group[lmp-md]/trj_freqThe frequency of dumping configurations and thermodynamic states"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:int, optional, default:10, aliases:t_freq,trj_freq,traj_freqargument path:task_group[lmp-md]/trj_freqThe frequency of dumping configurations and thermodynamic states"
+  },
+  {
+    "name": "tau_t",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"tau_t\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.05argument path:task_group[lmp-md]/tau_tThe time scale of thermostat"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:float, optional, default:0.05argument path:task_group[lmp-md]/tau_tThe time scale of thermostat"
+  },
+  {
+    "name": "tau_p",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"tau_p\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.5argument path:task_group[lmp-md]/tau_pThe time scale of barostat"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:float, optional, default:0.5argument path:task_group[lmp-md]/tau_pThe time scale of barostat"
+  },
+  {
+    "name": "pka_e",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pka_e\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/pka_eThe energy of primary knock-on atom"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/pka_eThe energy of primary knock-on atom"
+  },
+  {
+    "name": "neidelay",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"neidelay\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|int, optional, default:Noneargument path:task_group[lmp-md]/neidelayThe delay of updating the neighbor list"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|int, optional, default:Noneargument path:task_group[lmp-md]/neidelayThe delay of updating the neighbor list"
+  },
+  {
+    "name": "no_pbc",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"no_pbc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:task_group[lmp-md]/no_pbcNot using the periodic boundary condition"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:bool, optional, default:Falseargument path:task_group[lmp-md]/no_pbcNot using the periodic boundary condition"
+  },
+  {
+    "name": "use_clusters",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_clusters\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:task_group[lmp-md]/use_clustersCalculate atomic model deviation"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:bool, optional, default:Falseargument path:task_group[lmp-md]/use_clustersCalculate atomic model deviation"
+  },
+  {
+    "name": "relative_f_epsilon",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"relative_f_epsilon\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/relative_f_epsilonCalculate relative force model deviation"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/relative_f_epsilonCalculate relative force model deviation"
+  },
+  {
+    "name": "relative_v_epsilon",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"relative_v_epsilon\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/relative_v_epsilonCalculate relative virial model deviation"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/relative_v_epsilonCalculate relative virial model deviation"
+  },
+  {
+    "name": "ele_temp_f",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ele_temp_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/ele_temp_fThe electron temperature set by frame style"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/ele_temp_fThe electron temperature set by frame style"
+  },
+  {
+    "name": "ele_temp_a",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ele_temp_a\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/ele_temp_aThe electron temperature set by atomistic style"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:NoneType|float, optional, default:Noneargument path:task_group[lmp-md]/ele_temp_aThe electron temperature set by atomistic style"
+  },
+  {
+    "name": "pimd_bead",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pimd_bead\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:Noneargument path:task_group[lmp-md]/pimd_beadBead index for PIMD, None for non-PIMD"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:str|NoneType, optional, default:Noneargument path:task_group[lmp-md]/pimd_beadBead index for PIMD, None for non-PIMD"
+  },
+  {
+    "name": "input_extra_files",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_extra_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, default:[]argument path:task_group[lmp-md]/input_extra_filesExtra files that may be needed during exploration (e.g., ZBL parameter files)"
+      }
+    ],
+    "parent_section": "task_group[lmp-md]",
+    "description": "type:list, optional, default:[]argument path:task_group[lmp-md]/input_extra_filesExtra files that may be needed during exploration (e.g., ZBL parameter files)"
+  },
+  {
+    "name": "lmp_template_fname",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"lmp_template_fname\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, aliases:lmp_template,lmpargument path:task_group[lmp-template]/lmp_template_fnameThe file name of lammps input template"
+      }
+    ],
+    "parent_section": "task_group[lmp-template]",
+    "description": "type:str, aliases:lmp_template,lmpargument path:task_group[lmp-template]/lmp_template_fnameThe file name of lammps input template"
+  },
+  {
+    "name": "plm_template_fname",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"plm_template_fname\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:None, aliases:plm_template,plmargument path:task_group[lmp-template]/plm_template_fnameThe file name of plumed input template"
+      }
+    ],
+    "parent_section": "task_group[lmp-template]",
+    "description": "type:str|NoneType, optional, default:None, aliases:plm_template,plmargument path:task_group[lmp-template]/plm_template_fnameThe file name of plumed input template"
+  },
+  {
+    "name": "revisions",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"revisions\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, default:{}argument path:task_group[lmp-template]/revisionsThe revisions. Should be a dict providing the key - list of desired values pair. Key is the word to be replaced in the templates, and it may appear in both the lammps and plumed input templates. All values in the value list will be enmerated."
+      }
+    ],
+    "parent_section": "task_group[lmp-template]",
+    "description": "type:dict, optional, default:{}argument path:task_group[lmp-template]/revisionsThe revisions. Should be a dict providing the key - list of desired values pair. Key is the word to be replaced in the templates, and it may appear in both the lammps and plumed input templates. All values in the value list will be enmerated."
+  },
+  {
+    "name": "traj_freq",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"traj_freq\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:10, aliases:t_freq,trj_freq,trj_freqargument path:task_group[lmp-template]/traj_freqThe frequency of dumping configurations and thermodynamic states"
+      }
+    ],
+    "parent_section": "task_group[lmp-template]",
+    "description": "type:int, optional, default:10, aliases:t_freq,trj_freq,trj_freqargument path:task_group[lmp-template]/traj_freqThe frequency of dumping configurations and thermodynamic states"
+  },
+  {
+    "name": "extra_pair_style_args",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"extra_pair_style_args\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default: (empty string)argument path:task_group[lmp-template]/extra_pair_style_argsThe extra arguments for pair_style"
+      }
+    ],
+    "parent_section": "task_group[lmp-template]",
+    "description": "type:str, optional, default: (empty string)argument path:task_group[lmp-template]/extra_pair_style_argsThe extra arguments for pair_style"
+  },
+  {
+    "name": "custom_shell_commands",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"custom_shell_commands\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:listargument path:task_group[customized-lmp-template]/custom_shell_commandsCustomized shell commands to be run for each configuration. The commands requireinput_lmp_conf_nameas input conf file,input_lmp_tmpl_nameandinput_plm_tmpl_nameas templates, andinput_extra_filesas extra input files. By running the commands a series folders in patternoutput_dir_patternare supposed to be generated, and each folder is supposed to contain a configuration fileoutput_lmp_conf_name, a lammps template fileout"
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:listargument path:task_group[customized-lmp-template]/custom_shell_commandsCustomized shell commands to be run for each configuration. The commands requireinput_lmp_conf_nameas input conf file,input_lmp_tmpl_nameandinput_plm_tmpl_nameas templates, andinput_extra_filesas extra input files. By running the commands a series folders in patternoutput_dir_patternare supposed to be generated, and each folder is supposed to contain a configuration fileoutput_lmp_conf_name, a lammps template fileout"
+  },
+  {
+    "name": "input_lmp_conf_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_lmp_conf_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:conf.lmpargument path:task_group[customized-lmp-template]/input_lmp_conf_nameInput conf file name for the shell commands."
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str, optional, default:conf.lmpargument path:task_group[customized-lmp-template]/input_lmp_conf_nameInput conf file name for the shell commands."
+  },
+  {
+    "name": "input_lmp_tmpl_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_lmp_tmpl_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:in.lammps, aliases:lmp_template,lmpargument path:task_group[customized-lmp-template]/input_lmp_tmpl_nameThe file name of lammps input template"
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str, optional, default:in.lammps, aliases:lmp_template,lmpargument path:task_group[customized-lmp-template]/input_lmp_tmpl_nameThe file name of lammps input template"
+  },
+  {
+    "name": "input_plm_tmpl_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_plm_tmpl_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|NoneType, optional, default:None, aliases:plm_template,plmargument path:task_group[customized-lmp-template]/input_plm_tmpl_nameThe file name of plumed input template"
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str|NoneType, optional, default:None, aliases:plm_template,plmargument path:task_group[customized-lmp-template]/input_plm_tmpl_nameThe file name of plumed input template"
+  },
+  {
+    "name": "output_dir_pattern",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_dir_pattern\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|list, optional, default:*argument path:task_group[customized-lmp-template]/output_dir_patternPattern of resultant folders generated by the shell commands."
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str|list, optional, default:*argument path:task_group[customized-lmp-template]/output_dir_patternPattern of resultant folders generated by the shell commands."
+  },
+  {
+    "name": "output_lmp_conf_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_lmp_conf_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:conf.lmpargument path:task_group[customized-lmp-template]/output_lmp_conf_nameGenerated conf file name."
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str, optional, default:conf.lmpargument path:task_group[customized-lmp-template]/output_lmp_conf_nameGenerated conf file name."
+  },
+  {
+    "name": "output_lmp_tmpl_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_lmp_tmpl_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:in.lammpsargument path:task_group[customized-lmp-template]/output_lmp_tmpl_nameGenerated lmp input file name."
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str, optional, default:in.lammpsargument path:task_group[customized-lmp-template]/output_lmp_tmpl_nameGenerated lmp input file name."
+  },
+  {
+    "name": "output_plm_tmpl_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_plm_tmpl_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:input.plumedargument path:task_group[customized-lmp-template]/output_plm_tmpl_nameGenerated plm input file name."
+      }
+    ],
+    "parent_section": "task_group[customized-lmp-template]",
+    "description": "type:str, optional, default:input.plumedargument path:task_group[customized-lmp-template]/output_plm_tmpl_nameGenerated plm input file name."
+  },
+  {
+    "name": "numb_of_species",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_of_species\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:task_group/numb_of_speciesnumber of species."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:intargument path:task_group/numb_of_speciesnumber of species."
+  },
+  {
+    "name": "name_of_atoms",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"name_of_atoms\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:listargument path:task_group/name_of_atomsname of atoms."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:listargument path:task_group/name_of_atomsname of atoms."
+  },
+  {
+    "name": "atomic_number",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"atomic_number\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optionalargument path:task_group/atomic_numberatomic number of each element."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:list, optionalargument path:task_group/atomic_numberatomic number of each element."
+  },
+  {
+    "name": "numb_of_atoms",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_of_atoms\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:listargument path:task_group/numb_of_atomsnumber of each atom."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:listargument path:task_group/numb_of_atomsnumber of each atom."
+  },
+  {
+    "name": "distance_of_ions",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"distance_of_ions\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list|dict, optionalargument path:task_group/distance_of_ionsthe distance matrix between different elements."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:list|dict, optionalargument path:task_group/distance_of_ionsthe distance matrix between different elements."
+  },
+  {
+    "name": "pop_size",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pop_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:30argument path:task_group/pop_sizethe number of structures would be generated in each step."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:30argument path:task_group/pop_sizethe number of structures would be generated in each step."
+  },
+  {
+    "name": "max_step",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"max_step\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:5argument path:task_group/max_stepthe max iteration number of CALYPSO loop."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:5argument path:task_group/max_stepthe max iteration number of CALYPSO loop."
+  },
+  {
+    "name": "system_name",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"system_name\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:CALYPSOargument path:task_group/system_namesystem name."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:str, optional, default:CALYPSOargument path:task_group/system_namesystem name."
+  },
+  {
+    "name": "numb_of_formula",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_of_formula\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, default:[1,1]argument path:task_group/numb_of_formulathe formula range of simulation cell."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:list, optional, default:[1,1]argument path:task_group/numb_of_formulathe formula range of simulation cell."
+  },
+  {
+    "name": "pressure",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pressure\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.001argument path:task_group/pressurethe aim pressure (in Kbar) when using MLP to optimize structures."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:float, optional, default:0.001argument path:task_group/pressurethe aim pressure (in Kbar) when using MLP to optimize structures."
+  },
+  {
+    "name": "fmax",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fmax\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.01argument path:task_group/fmaxthe converge criterion. The force on all individual atoms should be less thanfmax."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:float, optional, default:0.01argument path:task_group/fmaxthe converge criterion. The force on all individual atoms should be less thanfmax."
+  },
+  {
+    "name": "opt_step",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"opt_step\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:1000argument path:task_group/opt_stepthe converge criterion. The force on all individual atoms should be less thanfmax."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:float, optional, default:1000argument path:task_group/opt_stepthe converge criterion. The force on all individual atoms should be less thanfmax."
+  },
+  {
+    "name": "volume",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"volume\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0argument path:task_group/volumethe volume of simulation cell in one formula."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:float, optional, default:0argument path:task_group/volumethe volume of simulation cell in one formula."
+  },
+  {
+    "name": "ialgo",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ialgo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:2argument path:task_group/ialgothe evolution algorithm of CALYPSO. 1: global pso, 2: local pso, 3: sabc."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:2argument path:task_group/ialgothe evolution algorithm of CALYPSO. 1: global pso, 2: local pso, 3: sabc."
+  },
+  {
+    "name": "pso_ratio",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pso_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optional, default:0.6argument path:task_group/pso_ratiothe ratio of structures generated by evolution algorithm in one step."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:float, optional, default:0.6argument path:task_group/pso_ratiothe ratio of structures generated by evolution algorithm in one step."
+  },
+  {
+    "name": "icode",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"icode\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:15argument path:task_group/icodethe software of structure optimization. 1: VASP, 15: DP."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:15argument path:task_group/icodethe software of structure optimization. 1: VASP, 15: DP."
+  },
+  {
+    "name": "numb_of_lbest",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_of_lbest\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:4argument path:task_group/numb_of_lbestthe number of evolution direction when using LPSO."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:4argument path:task_group/numb_of_lbestthe number of evolution direction when using LPSO."
+  },
+  {
+    "name": "numb_of_local_optim",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_of_local_optim\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:3argument path:task_group/numb_of_local_optimthe number of making structure optimization when using dft."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:3argument path:task_group/numb_of_local_optimthe number of making structure optimization when using dft."
+  },
+  {
+    "name": "max_time",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"max_time\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:9000argument path:task_group/max_timethe max time (in second) of structure optimization."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:9000argument path:task_group/max_timethe max time (in second) of structure optimization."
+  },
+  {
+    "name": "pick_up",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pick_up\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:task_group/pick_upwhether to continue the calculation."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:bool, optional, default:Falseargument path:task_group/pick_upwhether to continue the calculation."
+  },
+  {
+    "name": "pick_step",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"pick_step\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:task_group/pick_stepfrom which step to continue the calculation."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:0argument path:task_group/pick_stepfrom which step to continue the calculation."
+  },
+  {
+    "name": "parallel",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"parallel\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:task_group/parallelwhether to run calypso in parallel."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:bool, optional, default:Falseargument path:task_group/parallelwhether to run calypso in parallel."
+  },
+  {
+    "name": "split",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"split\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Trueargument path:task_group/splitsperate generating structures and structure optimizations. in dpgen2, split must be True."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:bool, optional, default:Trueargument path:task_group/splitsperate generating structures and structure optimizations. in dpgen2, split must be True."
+  },
+  {
+    "name": "spec_space_group",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"spec_space_group\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, default:[2,230]argument path:task_group/spec_space_groupthe range of spacegroup."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:list, optional, default:[2,230]argument path:task_group/spec_space_groupthe range of spacegroup."
+  },
+  {
+    "name": "vsc",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"vsc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:task_group/vscwhether to run calypso in variational stoichiometry way."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:bool, optional, default:Falseargument path:task_group/vscwhether to run calypso in variational stoichiometry way."
+  },
+  {
+    "name": "ctrl_range",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ctrl_range\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list, optional, default:[[1,10]]argument path:task_group/ctrl_rangethe atom range of each atoms."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:list, optional, default:[[1,10]]argument path:task_group/ctrl_rangethe atom range of each atoms."
+  },
+  {
+    "name": "max_numb_atoms",
+    "software": "DPGEN2",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"max_numb_atoms\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:100argument path:task_group/max_numb_atomsthe max number of atoms."
+      }
+    ],
+    "parent_section": "task_group",
+    "description": "type:int, optional, default:100argument path:task_group/max_numb_atomsthe max number of atoms."
+  }
+]

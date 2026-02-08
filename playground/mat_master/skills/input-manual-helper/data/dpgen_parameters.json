@@ -1,0 +1,2467 @@
+[
+  {
+    "name": "run_jdata",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"run_jdata\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdataparam.json filetype_map:type:list[str]argument path:run_jdata/type_mapAtom types. Reminder: The elements in param.json, type.raw and data.lmp(when using lammps) should be in the same order.mass_map:type:str|list[float], optional, default:autoargument path:run_jdata/"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdataparam.json filetype_map:type:list[str]argument path:run_jdata/type_mapAtom types. Reminder: The elements in param.json, type.raw and data.lmp(when using lammps) should be in the same order.mass_map:type:str|list[float], optional, default:autoargument path:run_jdata/mass_mapStandard atomic weights (default: “auto”). if one want to use isotopes, or non-standard elem"
+  },
+  {
+    "name": "type_map",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"type_map\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata/type_mapAtom types. Reminder: The elements in param.json, type.raw and data.lmp(when using lammps) should be in the same order."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata/type_mapAtom types. Reminder: The elements in param.json, type.raw and data.lmp(when using lammps) should be in the same order."
+  },
+  {
+    "name": "mass_map",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mass_map\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|list[float], optional, default:autoargument path:run_jdata/mass_mapStandard atomic weights (default: “auto”). if one want to use isotopes, or non-standard element names, chemical symbols, or atomic number in the type_map list, please customize the mass_map list instead of using “auto”."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str|list[float], optional, default:autoargument path:run_jdata/mass_mapStandard atomic weights (default: “auto”). if one want to use isotopes, or non-standard element names, chemical symbols, or atomic number in the type_map list, please customize the mass_map list instead of using “auto”."
+  },
+  {
+    "name": "use_ele_temp",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_ele_temp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:run_jdata/use_ele_tempCurrently only support fp_style vasp.0: no electron temperature.1: eletron temperature as frame parameter.2: electron temperature as atom parameter."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optional, default:0argument path:run_jdata/use_ele_tempCurrently only support fp_style vasp.0: no electron temperature.1: eletron temperature as frame parameter.2: electron temperature as atom parameter."
+  },
+  {
+    "name": "init_data_prefix",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_data_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata/init_data_prefixPrefix of initial data directories."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata/init_data_prefixPrefix of initial data directories."
+  },
+  {
+    "name": "init_data_sys",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_data_sys\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata/init_data_sysPaths of initial data. The path can be either a system diretory containing NumPy files or an HDF5 file. You may use either absolute or relative path here. Systems will be detected recursively in the directories or the HDF5 file."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata/init_data_sysPaths of initial data. The path can be either a system diretory containing NumPy files or an HDF5 file. You may use either absolute or relative path here. Systems will be detected recursively in the directories or the HDF5 file."
+  },
+  {
+    "name": "sys_format",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_format\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optional, default:vasp/poscarargument path:run_jdata/sys_formatFormat of sys_configs."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optional, default:vasp/poscarargument path:run_jdata/sys_formatFormat of sys_configs."
+  },
+  {
+    "name": "init_batch_size",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"init_batch_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|list[typing.Union[int,str]], optionalargument path:run_jdata/init_batch_sizeEach number is the batch_size of corresponding system for training in init_data_sys. One recommended rule for setting the sys_batch_size and init_batch_size is that batch_size mutiply number of atoms ot the stucture"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str|list[typing.Union[int,str]], optionalargument path:run_jdata/init_batch_sizeEach number is the batch_size of corresponding system for training in init_data_sys. One recommended rule for setting the sys_batch_size and init_batch_size is that batch_size mutiply number of atoms ot the stucture should be larger than 32. If set to auto, batch size will be 32 divided by number of atoms. This ar"
+  },
+  {
+    "name": "sys_configs_prefix",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_configs_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata/sys_configs_prefixPrefix of sys_configs."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata/sys_configs_prefixPrefix of sys_configs."
+  },
+  {
+    "name": "sys_configs",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_configs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[list[str]]argument path:run_jdata/sys_configs2D list. Containing directories of structures to be explored in iterations for each system. Wildcard characters are supported here."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[list[str]]argument path:run_jdata/sys_configs2D list. Containing directories of structures to be explored in iterations for each system. Wildcard characters are supported here."
+  },
+  {
+    "name": "sys_batch_size",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_batch_size\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[typing.Union[int,str]], optionalargument path:run_jdata/sys_batch_sizeEach number is the batch_size for training of corresponding system in sys_configs. If set to auto, batch size will be 32 divided by number of atoms. This argument will not override the mixed batch size indefault_training"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[typing.Union[int,str]], optionalargument path:run_jdata/sys_batch_sizeEach number is the batch_size for training of corresponding system in sys_configs. If set to auto, batch size will be 32 divided by number of atoms. This argument will not override the mixed batch size indefault_training_param."
+  },
+  {
+    "name": "numb_models",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"numb_models\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata/numb_modelsNumber of models to be trained in 00.train. 4 is recommend."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata/numb_modelsNumber of models to be trained in 00.train. 4 is recommend."
+  },
+  {
+    "name": "training_iter0_model_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_iter0_model_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str], optionalargument path:run_jdata/training_iter0_model_pathThe model used to init the first iter training. Number of element should be equal to numb_models."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str], optionalargument path:run_jdata/training_iter0_model_pathThe model used to init the first iter training. Number of element should be equal to numb_models."
+  },
+  {
+    "name": "training_init_model",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_init_model\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optionalargument path:run_jdata/training_init_modelIteration > 0, the model parameters will be initilized from the model trained at the previous iteration. Iteration == 0, the model parameters will be initialized from training_iter0_model_path."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optionalargument path:run_jdata/training_init_modelIteration > 0, the model parameters will be initilized from the model trained at the previous iteration. Iteration == 0, the model parameters will be initialized from training_iter0_model_path."
+  },
+  {
+    "name": "default_training_param",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"default_training_param\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdata/default_training_paramTraining parameters for deepmd-kit in 00.train. You can find instructions from here: (https://github.com/deepmodeling/deepmd-kit)."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdata/default_training_paramTraining parameters for deepmd-kit in 00.train. You can find instructions from here: (https://github.com/deepmodeling/deepmd-kit)."
+  },
+  {
+    "name": "dp_train_skip_neighbor_stat",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"dp_train_skip_neighbor_stat\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata/dp_train_skip_neighbor_statAppend –skip-neighbor-stat flag to dp train."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata/dp_train_skip_neighbor_statAppend –skip-neighbor-stat flag to dp train."
+  },
+  {
+    "name": "dp_compress",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"dp_compress\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata/dp_compressUse dp compress to compress the model."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata/dp_compressUse dp compress to compress the model."
+  },
+  {
+    "name": "training_reuse_iter",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_iter\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int|NoneType, optionalargument path:run_jdata/training_reuse_iterThe minimal index of iteration that continues training models from old models of last iteration."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int|NoneType, optionalargument path:run_jdata/training_reuse_iterThe minimal index of iteration that continues training models from old models of last iteration."
+  },
+  {
+    "name": "training_reuse_old_ratio",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_old_ratio\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|float, optional, default:autoargument path:run_jdata/training_reuse_old_ratioThe probability proportion of old data during training. It can be:float: directly assign the probability of old data;auto:f: automatic probability, where f is the new-to-old ratio;auto: equivalent toauto:10.This op"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str|float, optional, default:autoargument path:run_jdata/training_reuse_old_ratioThe probability proportion of old data during training. It can be:float: directly assign the probability of old data;auto:f: automatic probability, where f is the new-to-old ratio;auto: equivalent toauto:10.This option is only adopted when continuing training models from old models. This option will override defa"
+  },
+  {
+    "name": "training_reuse_numb_steps",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_numb_steps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int|NoneType, optional, default:None, alias:training_reuse_stop_batchargument path:run_jdata/training_reuse_numb_stepsNumber of training batch. This option is only adopted when continuing training models from old models. This option will override default parameters."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int|NoneType, optional, default:None, alias:training_reuse_stop_batchargument path:run_jdata/training_reuse_numb_stepsNumber of training batch. This option is only adopted when continuing training models from old models. This option will override default parameters."
+  },
+  {
+    "name": "training_reuse_start_lr",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_start_lr\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_lrThe learning rate the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_lrThe learning rate the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+  },
+  {
+    "name": "training_reuse_start_pref_e",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_start_pref_e\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int|float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_pref_eThe prefactor of energy loss at the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int|float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_pref_eThe prefactor of energy loss at the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+  },
+  {
+    "name": "training_reuse_start_pref_f",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_reuse_start_pref_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int|float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_pref_fThe prefactor of force loss at the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int|float|NoneType, optional, default:Noneargument path:run_jdata/training_reuse_start_pref_fThe prefactor of force loss at the start of the training. This option is only adopted when continuing training models from old models. This option will override default parameters."
+  },
+  {
+    "name": "model_devi_activation_func",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_activation_func\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[list[str]]|NoneType, optionalargument path:run_jdata/model_devi_activation_funcThe activation function in the model. The shape of list should be (N_models, 2), where 2 represents the embedding and fitting network. This option will override default parameters."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[list[str]]|NoneType, optionalargument path:run_jdata/model_devi_activation_funcThe activation function in the model. The shape of list should be (N_models, 2), where 2 represents the embedding and fitting network. This option will override default parameters."
+  },
+  {
+    "name": "srtab_file_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"srtab_file_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata/srtab_file_pathThe path of the table for the short-range pairwise interaction which is needed when using DP-ZBL potential"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata/srtab_file_pathThe path of the table for the short-range pairwise interaction which is needed when using DP-ZBL potential"
+  },
+  {
+    "name": "one_h5",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"one_h5\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata/one_h5When using DeePMD-kit, all of the input data will be merged into one HDF5 file."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata/one_h5When using DeePMD-kit, all of the input data will be merged into one HDF5 file."
+  },
+  {
+    "name": "training_init_frozen_model",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_init_frozen_model\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str], optionalargument path:run_jdata/training_init_frozen_modelAt interation 0, initilize the model parameters from the given frozen models. Number of element should be equal to numb_models."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str], optionalargument path:run_jdata/training_init_frozen_modelAt interation 0, initilize the model parameters from the given frozen models. Number of element should be equal to numb_models."
+  },
+  {
+    "name": "training_finetune_model",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"training_finetune_model\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str], optionalargument path:run_jdata/training_finetune_modelAt interation 0, finetune the model parameters from the given frozen models. Number of element should be equal to numb_models."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str], optionalargument path:run_jdata/training_finetune_modelAt interation 0, finetune the model parameters from the given frozen models. Number of element should be equal to numb_models."
+  },
+  {
+    "name": "fp_task_max",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_task_max\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata/fp_task_maxMaximum number of structures to be calculated in each system in 02.fp of each iteration. If the number of candidate structures exceedsfp_task_max,fp_task_maxstructures will be randomly picked from the candidates and labeled."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata/fp_task_maxMaximum number of structures to be calculated in each system in 02.fp of each iteration. If the number of candidate structures exceedsfp_task_max,fp_task_maxstructures will be randomly picked from the candidates and labeled."
+  },
+  {
+    "name": "fp_task_min",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_task_min\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata/fp_task_minSkip the training in the next iteration if the number of structures is no more thanfp_task_min."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata/fp_task_minSkip the training in the next iteration if the number of structures is no more thanfp_task_min."
+  },
+  {
+    "name": "fp_accurate_threshold",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_accurate_threshold\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata/fp_accurate_thresholdIf the accurate ratio is larger than this number, no fp calculation will be performed, i.e. fp_task_max = 0."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata/fp_accurate_thresholdIf the accurate ratio is larger than this number, no fp calculation will be performed, i.e. fp_task_max = 0."
+  },
+  {
+    "name": "fp_accurate_soft_threshold",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_accurate_soft_threshold\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata/fp_accurate_soft_thresholdIf the accurate ratio is between this number and fp_accurate_threshold, the fp_task_max linearly decays to zero."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata/fp_accurate_soft_thresholdIf the accurate ratio is between this number and fp_accurate_threshold, the fp_task_max linearly decays to zero."
+  },
+  {
+    "name": "fp_cluster_vacuum",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_cluster_vacuum\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata/fp_cluster_vacuumIf the vacuum size is smaller than this value, this cluster will not be chosen for labeling."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata/fp_cluster_vacuumIf the vacuum size is smaller than this value, this cluster will not be chosen for labeling."
+  },
+  {
+    "name": "detailed_report_make_fp",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"detailed_report_make_fp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Trueargument path:run_jdata/detailed_report_make_fpIf set to true, a detailed report will be generated for each iteration."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Trueargument path:run_jdata/detailed_report_make_fpIf set to true, a detailed report will be generated for each iteration."
+  },
+  {
+    "name": "ratio_failed",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ratio_failed\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata/ratio_failedCheck the ratio of unsuccessfully terminated jobs. If too many FP tasks are not converged, RuntimeError will be raised."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata/ratio_failedCheck the ratio of unsuccessfully terminated jobs. If too many FP tasks are not converged, RuntimeError will be raised."
+  },
+  {
+    "name": "model_devi_engine",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_engine\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str(flag key), default:lammpsargument path:run_jdata/model_devi_enginepossible choices:lammps,amber,calypso,gromacsEngine for the model deviation task."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str(flag key), default:lammpsargument path:run_jdata/model_devi_enginepossible choices:lammps,amber,calypso,gromacsEngine for the model deviation task."
+  },
+  {
+    "name": "model_devi_jobs",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_jobs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:listargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobsSettings for exploration in 01.model_devi. Each dict in the list corresponds to one iteration. The index of model_devi_jobs exactly accord with index of iterationsThis argument takes a list with each element containing the fol"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:listargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobsSettings for exploration in 01.model_devi. Each dict in the list corresponds to one iteration. The index of model_devi_jobs exactly accord with index of iterationsThis argument takes a list with each element containing the following:template:type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_job"
+  },
+  {
+    "name": "template",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"template\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/templateGive an input file template for the supported engine software adopted in 01.model_devi. Through user-defined template, any freedom (function) that is permitted by the engine software could be inherited (invo"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/templateGive an input file template for the supported engine software adopted in 01.model_devi. Through user-defined template, any freedom (function) that is permitted by the engine software could be inherited (invoked) in the workflow.lmp:type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_"
+  },
+  {
+    "name": "lmp",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"lmp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/template/lmpThe path to input.lammps template"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/template/lmpThe path to input.lammps template"
+  },
+  {
+    "name": "plm",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"plm\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/template/plmThe path to input.plumed template"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/template/plmThe path to input.plumed template"
+  },
+  {
+    "name": "rev_mat",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"rev_mat\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_matrevise matrix for revising variable(s) defined in the template into the specific values (iteration-resolved). Values will be broadcasted for all tasks within the iteration invoking this key.lmp:type:dict, op"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_matrevise matrix for revising variable(s) defined in the template into the specific values (iteration-resolved). Values will be broadcasted for all tasks within the iteration invoking this key.lmp:type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_mat/lmprevise matrix for"
+  },
+  {
+    "name": "lmp",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"lmp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_mat/lmprevise matrix for revising variable(s) defined in the lammps template into the specific values (iteration-resolved)."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_mat/lmprevise matrix for revising variable(s) defined in the lammps template into the specific values (iteration-resolved)."
+  },
+  {
+    "name": "plm",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"plm\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_mat/plmrevise matrix for revising variable(s) defined in the plumed template into specific values(iteration-resolved)"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/rev_mat/plmrevise matrix for revising variable(s) defined in the plumed template into specific values(iteration-resolved)"
+  },
+  {
+    "name": "sys_rev_mat",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_rev_mat\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/sys_rev_matsystem-resolved revise matrix for revising variable(s) defined in the template into specific values. Values should be individually assigned to each system adopted by this iteration, through a dictionary w"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/sys_rev_matsystem-resolved revise matrix for revising variable(s) defined in the template into specific values. Values should be individually assigned to each system adopted by this iteration, through a dictionary where first-level keys are values of sys_idx of this iteration."
+  },
+  {
+    "name": "sys_idx",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_idx\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[int]argument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/sys_idxSystems to be selected as the initial structure of MD and be explored. The index corresponds exactly to the sys_configs."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[int]argument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/sys_idxSystems to be selected as the initial structure of MD and be explored. The index corresponds exactly to the sys_configs."
+  },
+  {
+    "name": "temps",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"temps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[float], optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/tempsTemperature (K) in MD."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[float], optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/tempsTemperature (K) in MD."
+  },
+  {
+    "name": "press",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"press\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[float], optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/pressPressure (Bar) in MD. Required when ensemble is npt."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[float], optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/pressPressure (Bar) in MD. Required when ensemble is npt."
+  },
+  {
+    "name": "trj_freq",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"trj_freq\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/trj_freqFrequecy of trajectory saved in MD."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/trj_freqFrequecy of trajectory saved in MD."
+  },
+  {
+    "name": "nsteps",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nsteps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/nstepsRunning steps of MD. It is not optional when not using a template."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/nstepsRunning steps of MD. It is not optional when not using a template."
+  },
+  {
+    "name": "nbeads",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nbeads\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/nbeadsNumber of beads in PIMD. If not given, classical MD will be performed. Only supported for LAMMPS version >= 20230615."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/nbeadsNumber of beads in PIMD. If not given, classical MD will be performed. Only supported for LAMMPS version >= 20230615."
+  },
+  {
+    "name": "ensemble",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ensemble\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/ensembleDetermining which ensemble used in MD, options include “npt” and “nvt”. It is not optional when not using a template."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/ensembleDetermining which ensemble used in MD, options include “npt” and “nvt”. It is not optional when not using a template."
+  },
+  {
+    "name": "neidelay",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"neidelay\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/neidelaydelay building until this many steps since last build."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/neidelaydelay building until this many steps since last build."
+  },
+  {
+    "name": "taut",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"taut\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/tautCoupling time of thermostat (ps)."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/tautCoupling time of thermostat (ps)."
+  },
+  {
+    "name": "taup",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"taup\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/taupCoupling time of barostat (ps)."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/taupCoupling time of barostat (ps)."
+  },
+  {
+    "name": "model_devi_f_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_f_trust_loLower bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_f_trust_loLower bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+  },
+  {
+    "name": "model_devi_f_trust_hi",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_f_trust_hiUpper bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_f_trust_hiUpper bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+  },
+  {
+    "name": "model_devi_v_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_v_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_v_trust_loLower bound of virial for the selection. If dict, should be set for each index in sys_idx, respectively. Should be used with DeePMD-kit v2.x."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_v_trust_loLower bound of virial for the selection. If dict, should be set for each index in sys_idx, respectively. Should be used with DeePMD-kit v2.x."
+  },
+  {
+    "name": "model_devi_v_trust_hi",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_v_trust_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_v_trust_hiUpper bound of virial for the selection. If dict, should be set for each index in sys_idx, respectively. Should be used with DeePMD-kit v2.x."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_jobs/model_devi_v_trust_hiUpper bound of virial for the selection. If dict, should be set for each index in sys_idx, respectively. Should be used with DeePMD-kit v2.x."
+  },
+  {
+    "name": "model_devi_dt",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_dt\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:run_jdata[model_devi_engine=lammps]/model_devi_dtTimestep for MD. 0.002 is recommend."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:floatargument path:run_jdata[model_devi_engine=lammps]/model_devi_dtTimestep for MD. 0.002 is recommend."
+  },
+  {
+    "name": "model_devi_skip",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_skip\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[model_devi_engine=lammps]/model_devi_skipNumber of structures skipped for fp in each MD."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[model_devi_engine=lammps]/model_devi_skipNumber of structures skipped for fp in each MD."
+  },
+  {
+    "name": "model_devi_f_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=lammps]/model_devi_f_trust_loLower bound of forces for the selection. If list or dict, should be set for each index in sys_configs, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=lammps]/model_devi_f_trust_loLower bound of forces for the selection. If list or dict, should be set for each index in sys_configs, respectively."
+  },
+  {
+    "name": "model_devi_f_trust_hi",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=lammps]/model_devi_f_trust_hiUpper bound of forces for the selection. If list or dict, should be set for each index in sys_configs, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=lammps]/model_devi_f_trust_hiUpper bound of forces for the selection. If list or dict, should be set for each index in sys_configs, respectively."
+  },
+  {
+    "name": "model_devi_v_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_v_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float], optional, default:10000000000.0argument path:run_jdata[model_devi_engine=lammps]/model_devi_v_trust_loLower bound of virial for the selection. If list or dict, should be set for each index in sys_configs, respectively. Should be used with DeePMD-kit v2.x."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float], optional, default:10000000000.0argument path:run_jdata[model_devi_engine=lammps]/model_devi_v_trust_loLower bound of virial for the selection. If list or dict, should be set for each index in sys_configs, respectively. Should be used with DeePMD-kit v2.x."
+  },
+  {
+    "name": "model_devi_v_trust_hi",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_v_trust_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float], optional, default:10000000000.0argument path:run_jdata[model_devi_engine=lammps]/model_devi_v_trust_hiUpper bound of virial for the selection. If list or dict, should be set for each index in sys_configs, respectively. Should be used with DeePMD-kit v2.x."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float], optional, default:10000000000.0argument path:run_jdata[model_devi_engine=lammps]/model_devi_v_trust_hiUpper bound of virial for the selection. If list or dict, should be set for each index in sys_configs, respectively. Should be used with DeePMD-kit v2.x."
+  },
+  {
+    "name": "model_devi_adapt_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_adapt_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_adapt_trust_loAdaptively determines the lower trust levels of force and virial. This option should be used together with model_devi_numb_candi_f, model_devi_numb_candi_v and optionally with model_devi_perc_candi_f and mo"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_adapt_trust_loAdaptively determines the lower trust levels of force and virial. This option should be used together with model_devi_numb_candi_f, model_devi_numb_candi_v and optionally with model_devi_perc_candi_f and model_devi_perc_candi_v. dpgen will make two sets:From the frames with force model deviation lower tha"
+  },
+  {
+    "name": "model_devi_numb_candi_f",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_numb_candi_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_numb_candi_fSee model_devi_adapt_trust_lo."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_numb_candi_fSee model_devi_adapt_trust_lo."
+  },
+  {
+    "name": "model_devi_numb_candi_v",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_numb_candi_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_numb_candi_vSee model_devi_adapt_trust_lo."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_numb_candi_vSee model_devi_adapt_trust_lo."
+  },
+  {
+    "name": "model_devi_perc_candi_f",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_perc_candi_f\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_perc_candi_fSee model_devi_adapt_trust_lo."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_perc_candi_fSee model_devi_adapt_trust_lo."
+  },
+  {
+    "name": "model_devi_perc_candi_v",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_perc_candi_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_perc_candi_vSee model_devi_adapt_trust_lo."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_perc_candi_vSee model_devi_adapt_trust_lo."
+  },
+  {
+    "name": "model_devi_f_avg_relative",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_avg_relative\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_f_avg_relativeNormalized the force model deviations by the RMS force magnitude along the trajectory. This key should not be used with use_relative."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optionalargument path:run_jdata[model_devi_engine=lammps]/model_devi_f_avg_relativeNormalized the force model deviations by the RMS force magnitude along the trajectory. This key should not be used with use_relative."
+  },
+  {
+    "name": "model_devi_clean_traj",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_clean_traj\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool|int, optional, default:Trueargument path:run_jdata[model_devi_engine=lammps]/model_devi_clean_trajIf type of model_devi_clean_traj is bool type then it denote whether to clean traj folders in MD since they are too large. If it is Int type, then the most recent n iterations of traj folders "
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool|int, optional, default:Trueargument path:run_jdata[model_devi_engine=lammps]/model_devi_clean_trajIf type of model_devi_clean_traj is bool type then it denote whether to clean traj folders in MD since they are too large. If it is Int type, then the most recent n iterations of traj folders will be retained, others will be removed."
+  },
+  {
+    "name": "model_devi_merge_traj",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_merge_traj\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_merge_trajIf model_devi_merge_traj is set as True, only all.lammpstrj will be generated, instead of lots of small traj files."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_merge_trajIf model_devi_merge_traj is set as True, only all.lammpstrj will be generated, instead of lots of small traj files."
+  },
+  {
+    "name": "model_devi_nopbc",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_nopbc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_nopbcAssume open boundary condition in MD simulations."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_nopbcAssume open boundary condition in MD simulations."
+  },
+  {
+    "name": "model_devi_plumed",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_plumed\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_plumed"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_plumed"
+  },
+  {
+    "name": "model_devi_plumed_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_plumed_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_plumed_path"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/model_devi_plumed_path"
+  },
+  {
+    "name": "shuffle_poscar",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"shuffle_poscar\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/shuffle_poscarShuffle atoms of each frame before running simulations. The purpose is to sample the element occupation of alloys."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/shuffle_poscarShuffle atoms of each frame before running simulations. The purpose is to sample the element occupation of alloys."
+  },
+  {
+    "name": "use_relative",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_relative\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/use_relativeCalculate relative force model deviation."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/use_relativeCalculate relative force model deviation."
+  },
+  {
+    "name": "epsilon",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"epsilon\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/epsilonThe level parameter for computing the relative force model deviation."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/epsilonThe level parameter for computing the relative force model deviation."
+  },
+  {
+    "name": "use_relative_v",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_relative_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/use_relative_vCalculate relative virial model deviation."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[model_devi_engine=lammps]/use_relative_vCalculate relative virial model deviation."
+  },
+  {
+    "name": "epsilon_v",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"epsilon_v\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/epsilon_vThe level parameter for computing the relative virial model deviation."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[model_devi_engine=lammps]/epsilon_vThe level parameter for computing the relative virial model deviation."
+  },
+  {
+    "name": "model_devi_jobs",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_jobs\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:listargument path:run_jdata[model_devi_engine=amber]/model_devi_jobsList of dicts. The list including the dict for information of each cycle.This argument takes a list with each element containing the following:sys_idx:type:list[int]argument path:run_jdata[model_devi_engine=amber]/model_devi_j"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:listargument path:run_jdata[model_devi_engine=amber]/model_devi_jobsList of dicts. The list including the dict for information of each cycle.This argument takes a list with each element containing the following:sys_idx:type:list[int]argument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/sys_idxList of ints. List of systems to run.trj_freq:type:intargument path:run_jdata[model_devi"
+  },
+  {
+    "name": "sys_idx",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"sys_idx\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/sys_idxList of ints. List of systems to run."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/sys_idxList of ints. List of systems to run."
+  },
+  {
+    "name": "trj_freq",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"trj_freq\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/trj_freqFrequency to dump trajectory."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/trj_freqFrequency to dump trajectory."
+  },
+  {
+    "name": "restart_from_iter",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"restart_from_iter\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optionalargument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/restart_from_iterThe iteration index to restart the simulation from. If not given, the simulation is restarted fromsys_configs."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optionalargument path:run_jdata[model_devi_engine=amber]/model_devi_jobs/restart_from_iterThe iteration index to restart the simulation from. If not given, the simulation is restarted fromsys_configs."
+  },
+  {
+    "name": "low_level",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"low_level\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[model_devi_engine=amber]/low_levelLow level method. The value will be filled into mdin file as @qm_theory@."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[model_devi_engine=amber]/low_levelLow level method. The value will be filled into mdin file as @qm_theory@."
+  },
+  {
+    "name": "cutoff",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cutoff\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:run_jdata[model_devi_engine=amber]/cutoffCutoff radius for the DPRc model."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:floatargument path:run_jdata[model_devi_engine=amber]/cutoffCutoff radius for the DPRc model."
+  },
+  {
+    "name": "parm7_prefix",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"parm7_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/parm7_prefixThe path prefix to AMBER PARM7 files."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/parm7_prefixThe path prefix to AMBER PARM7 files."
+  },
+  {
+    "name": "parm7",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"parm7\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/parm7List of paths to AMBER PARM7 files. Each file maps to a system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/parm7List of paths to AMBER PARM7 files. Each file maps to a system."
+  },
+  {
+    "name": "mdin_prefix",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mdin_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/mdin_prefixThe path prefix to AMBER mdin template files."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/mdin_prefixThe path prefix to AMBER mdin template files."
+  },
+  {
+    "name": "mdin",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mdin\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/mdinList of paths to AMBER mdin template files. Each files maps to a system. In the template, the following keywords will be replaced by the actual value:@freq@: freq to dump trajectory;@nstlim@: total time step to run;@qm_region@: AMBER"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/mdinList of paths to AMBER mdin template files. Each files maps to a system. In the template, the following keywords will be replaced by the actual value:@freq@: freq to dump trajectory;@nstlim@: total time step to run;@qm_region@: AMBER mask of the QM region;@qm_theory@: The low level QM theory, such as DFTB2;@qm_charge@: The total ch"
+  },
+  {
+    "name": "qm_region",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"qm_region\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/qm_regionList of strings. AMBER mask of the QM region. Each mask maps to a system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/qm_regionList of strings. AMBER mask of the QM region. Each mask maps to a system."
+  },
+  {
+    "name": "qm_charge",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"qm_charge\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/qm_chargeList of ints. Charge of the QM region. Each charge maps to a system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/qm_chargeList of ints. Charge of the QM region. Each charge maps to a system."
+  },
+  {
+    "name": "nsteps",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nsteps\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/nstepsList of ints. The number of steps to run. Each number maps to a system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[int]argument path:run_jdata[model_devi_engine=amber]/nstepsList of ints. The number of steps to run. Each number maps to a system."
+  },
+  {
+    "name": "disang_prefix",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"disang_prefix\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/disang_prefixThe path prefix to disang prefix."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[model_devi_engine=amber]/disang_prefixThe path prefix to disang prefix."
+  },
+  {
+    "name": "disang",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"disang\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/disangList of paths to AMBER disang files. Each file maps to a sytem. The keyword RVAL will be replaced by the constrict values, or RVAL1, RVAL2, … for an nD system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[model_devi_engine=amber]/disangList of paths to AMBER disang files. Each file maps to a sytem. The keyword RVAL will be replaced by the constrict values, or RVAL1, RVAL2, … for an nD system."
+  },
+  {
+    "name": "model_devi_f_trust_lo",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_lo\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=amber]/model_devi_f_trust_loLower bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=amber]/model_devi_f_trust_loLower bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+  },
+  {
+    "name": "model_devi_f_trust_hi",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"model_devi_f_trust_hi\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=amber]/model_devi_f_trust_hiUpper bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict|float|list[float]argument path:run_jdata[model_devi_engine=amber]/model_devi_f_trust_hiUpper bound of forces for the selection. If dict, should be set for each index in sys_idx, respectively."
+  },
+  {
+    "name": "fp_style",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_style\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str(flag key)argument path:run_jdata/fp_stylepossible choices:vasp,gaussian,siesta,cp2k,abacus,amber/diff,pwmat,pwscf,customSoftware for First Principles."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str(flag key)argument path:run_jdata/fp_stylepossible choices:vasp,gaussian,siesta,cp2k,abacus,amber/diff,pwmat,pwscf,customSoftware for First Principles."
+  },
+  {
+    "name": "fp_pp_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=vasp]/fp_pp_pathDirectory of psuedo-potential file to be used for 02.fp exists."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=vasp]/fp_pp_pathDirectory of psuedo-potential file to be used for 02.fp exists."
+  },
+  {
+    "name": "fp_pp_files",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[fp_style=vasp]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[fp_style=vasp]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+  },
+  {
+    "name": "fp_incar",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_incar\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=vasp]/fp_incarInput file for VASP. INCAR must specify KSPACING and KGAMMA."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=vasp]/fp_incarInput file for VASP. INCAR must specify KSPACING and KGAMMA."
+  },
+  {
+    "name": "fp_aniso_kspacing",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_aniso_kspacing\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[float], optionalargument path:run_jdata[fp_style=vasp]/fp_aniso_kspacingSet anisotropic kspacing. Usually useful for 1-D or 2-D materials. Only support VASP. If it is setting the KSPACING key in INCAR will be ignored."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[float], optionalargument path:run_jdata[fp_style=vasp]/fp_aniso_kspacingSet anisotropic kspacing. Usually useful for 1-D or 2-D materials. Only support VASP. If it is setting the KSPACING key in INCAR will be ignored."
+  },
+  {
+    "name": "cvasp",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cvasp\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optionalargument path:run_jdata[fp_style=vasp]/cvaspIf cvasp is true, DP-GEN will use Custodian to help control VASP calculation."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optionalargument path:run_jdata[fp_style=vasp]/cvaspIf cvasp is true, DP-GEN will use Custodian to help control VASP calculation."
+  },
+  {
+    "name": "fp_skip_bad_box",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_skip_bad_box\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=vasp]/fp_skip_bad_boxSkip the configurations that are obviously unreasonable before 02.fp"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=vasp]/fp_skip_bad_boxSkip the configurations that are obviously unreasonable before 02.fp"
+  },
+  {
+    "name": "use_clusters",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_clusters\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/use_clustersIf set to true, clusters will be taken instead of the whole system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/use_clustersIf set to true, clusters will be taken instead of the whole system."
+  },
+  {
+    "name": "cluster_cutoff",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cluster_cutoff\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[fp_style=gaussian]/cluster_cutoffThe soft cutoff radius of clusters ifuse_clustersis set to true. Molecules will be taken as whole even if part of atoms is out of the cluster. Usecluster_cutoff_hardto only take atoms within the hard cutoff radius."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[fp_style=gaussian]/cluster_cutoffThe soft cutoff radius of clusters ifuse_clustersis set to true. Molecules will be taken as whole even if part of atoms is out of the cluster. Usecluster_cutoff_hardto only take atoms within the hard cutoff radius."
+  },
+  {
+    "name": "cluster_cutoff_hard",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cluster_cutoff_hard\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[fp_style=gaussian]/cluster_cutoff_hardThe hard cutoff radius of clusters ifuse_clustersis set to true. Outside the hard cutoff radius, atoms will not be taken even if they are in a molecule where some atoms are within the cutoff radius."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[fp_style=gaussian]/cluster_cutoff_hardThe hard cutoff radius of clusters ifuse_clustersis set to true. Outside the hard cutoff radius, atoms will not be taken even if they are in a molecule where some atoms are within the cutoff radius."
+  },
+  {
+    "name": "cluster_minify",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cluster_minify\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/cluster_minifyIf enabled, when an atom within the soft cutoff radius connects a single bond with a non-hydrogen atom out of the soft cutoff radius, the outer atom will be replaced by a hydrogen atom. When the outer atom is "
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/cluster_minifyIf enabled, when an atom within the soft cutoff radius connects a single bond with a non-hydrogen atom out of the soft cutoff radius, the outer atom will be replaced by a hydrogen atom. When the outer atom is a hydrogen atom, the outer atom will be kept. In this case, other atoms out of the soft cutoff radiu"
+  },
+  {
+    "name": "fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdata[fp_style=gaussian]/fp_paramsParameters for Gaussian calculation.keywords:type:str|list[str]argument path:run_jdata[fp_style=gaussian]/fp_params/keywordsKeywords for Gaussian input, e.g. force b3lyp/6-31g**. If a list, run multiple steps.multiplicity:type:str|int, o"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdata[fp_style=gaussian]/fp_paramsParameters for Gaussian calculation.keywords:type:str|list[str]argument path:run_jdata[fp_style=gaussian]/fp_params/keywordsKeywords for Gaussian input, e.g. force b3lyp/6-31g**. If a list, run multiple steps.multiplicity:type:str|int, optional, default:autoargument path:run_jdata[fp_style=gaussian]/fp_params/multiplicitySpin multiplic"
+  },
+  {
+    "name": "keywords",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"keywords\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|list[str]argument path:run_jdata[fp_style=gaussian]/fp_params/keywordsKeywords for Gaussian input, e.g. force b3lyp/6-31g**. If a list, run multiple steps."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str|list[str]argument path:run_jdata[fp_style=gaussian]/fp_params/keywordsKeywords for Gaussian input, e.g. force b3lyp/6-31g**. If a list, run multiple steps."
+  },
+  {
+    "name": "multiplicity",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"multiplicity\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str|int, optional, default:autoargument path:run_jdata[fp_style=gaussian]/fp_params/multiplicitySpin multiplicity for Gaussian input. Ifauto, multiplicity will be detected automatically, with the following rules: when fragment_guesses=True, multiplicity will +1 for each radical, and +2 for each"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str|int, optional, default:autoargument path:run_jdata[fp_style=gaussian]/fp_params/multiplicitySpin multiplicity for Gaussian input. Ifauto, multiplicity will be detected automatically, with the following rules: when fragment_guesses=True, multiplicity will +1 for each radical, and +2 for each oxygen molecule; when fragment_guesses=False, multiplicity will be 1 or 2, but +2 for each oxygen m"
+  },
+  {
+    "name": "nproc",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"nproc\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[fp_style=gaussian]/fp_params/nprocThe number of processors for Gaussian input."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[fp_style=gaussian]/fp_params/nprocThe number of processors for Gaussian input."
+  },
+  {
+    "name": "charge",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"charge\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:int, optional, default:0argument path:run_jdata[fp_style=gaussian]/fp_params/chargeMolecule charge. Only used when charge is not provided by the system."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:int, optional, default:0argument path:run_jdata[fp_style=gaussian]/fp_params/chargeMolecule charge. Only used when charge is not provided by the system."
+  },
+  {
+    "name": "fragment_guesses",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fragment_guesses\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/fp_params/fragment_guessesInitial guess generated from fragment guesses. If True,multiplicityshould beauto."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optional, default:Falseargument path:run_jdata[fp_style=gaussian]/fp_params/fragment_guessesInitial guess generated from fragment guesses. If True,multiplicityshould beauto."
+  },
+  {
+    "name": "basis_set",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"basis_set\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=gaussian]/fp_params/basis_setCustom basis set."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=gaussian]/fp_params/basis_setCustom basis set."
+  },
+  {
+    "name": "keywords_high_multiplicity",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"keywords_high_multiplicity\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=gaussian]/fp_params/keywords_high_multiplicityKeywords for points with multiple raicals.multiplicityshould beauto. If not set, fallback to normal keywords."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=gaussian]/fp_params/keywords_high_multiplicityKeywords for points with multiple raicals.multiplicityshould beauto. If not set, fallback to normal keywords."
+  },
+  {
+    "name": "use_clusters",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"use_clusters\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:bool, optionalargument path:run_jdata[fp_style=siesta]/use_clustersIf set to true, clusters will be taken instead of the whole system. This option does not work with DeePMD-kit 0.x."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:bool, optionalargument path:run_jdata[fp_style=siesta]/use_clustersIf set to true, clusters will be taken instead of the whole system. This option does not work with DeePMD-kit 0.x."
+  },
+  {
+    "name": "cluster_cutoff",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"cluster_cutoff\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:float, optionalargument path:run_jdata[fp_style=siesta]/cluster_cutoffThe cutoff radius of clusters if use_clusters is set to true."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:float, optionalargument path:run_jdata[fp_style=siesta]/cluster_cutoffThe cutoff radius of clusters if use_clusters is set to true."
+  },
+  {
+    "name": "fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdata[fp_style=siesta]/fp_paramsParameters for siesta calculation.ecut:type:intargument path:run_jdata[fp_style=siesta]/fp_params/ecutDefine the plane wave cutoff for grid.ediff:type:floatargument path:run_jdata[fp_style=siesta]/fp_params/ediffTolerance of Density Matrix"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdata[fp_style=siesta]/fp_paramsParameters for siesta calculation.ecut:type:intargument path:run_jdata[fp_style=siesta]/fp_params/ecutDefine the plane wave cutoff for grid.ediff:type:floatargument path:run_jdata[fp_style=siesta]/fp_params/ediffTolerance of Density Matrix.kspacing:type:floatargument path:run_jdata[fp_style=siesta]/fp_params/kspacingSample factor in Bri"
+  },
+  {
+    "name": "ecut",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ecut\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[fp_style=siesta]/fp_params/ecutDefine the plane wave cutoff for grid."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[fp_style=siesta]/fp_params/ecutDefine the plane wave cutoff for grid."
+  },
+  {
+    "name": "ediff",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"ediff\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/ediffTolerance of Density Matrix."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/ediffTolerance of Density Matrix."
+  },
+  {
+    "name": "kspacing",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"kspacing\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/kspacingSample factor in Brillouin zones."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/kspacingSample factor in Brillouin zones."
+  },
+  {
+    "name": "mixingWeight",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"mixingWeight\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/mixingWeightProportion a of output Density Matrix to be used for the input Density Matrix of next SCF cycle (linear mixing)."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:floatargument path:run_jdata[fp_style=siesta]/fp_params/mixingWeightProportion a of output Density Matrix to be used for the input Density Matrix of next SCF cycle (linear mixing)."
+  },
+  {
+    "name": "NumberPulay",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"NumberPulay\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:intargument path:run_jdata[fp_style=siesta]/fp_params/NumberPulayControls the Pulay convergence accelerator."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:intargument path:run_jdata[fp_style=siesta]/fp_params/NumberPulayControls the Pulay convergence accelerator."
+  },
+  {
+    "name": "fp_pp_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=siesta]/fp_pp_pathDirectory of psuedo-potential or numerical orbital files to be used for 02.fp exists."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=siesta]/fp_pp_pathDirectory of psuedo-potential or numerical orbital files to be used for 02.fp exists."
+  },
+  {
+    "name": "fp_pp_files",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[fp_style=siesta]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[fp_style=siesta]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+  },
+  {
+    "name": "user_fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"user_fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optional, alias:fp_paramsargument path:run_jdata[fp_style=cp2k]/user_fp_paramsParameters for cp2k calculation. find detail in manual.cp2k.org. only the kind section must be set before use. we assume that you have basic knowledge for cp2k input."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optional, alias:fp_paramsargument path:run_jdata[fp_style=cp2k]/user_fp_paramsParameters for cp2k calculation. find detail in manual.cp2k.org. only the kind section must be set before use. we assume that you have basic knowledge for cp2k input."
+  },
+  {
+    "name": "external_input_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"external_input_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=cp2k]/external_input_pathConflict with key:user_fp_params. enable the template input provided by user. some rules should be followed, read the following text in detail:One must present a KEYWORD ABC in the section CELL so that the DP-GEN can replace"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=cp2k]/external_input_pathConflict with key:user_fp_params. enable the template input provided by user. some rules should be followed, read the following text in detail:One must present a KEYWORD ABC in the section CELL so that the DP-GEN can replace the cell on-the-fly.One need to add these lines under FORCE_EVAL section to print forces and stress"
+  },
+  {
+    "name": "fp_pp_path",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_path\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=abacus]/fp_pp_pathDirectory of psuedo-potential or numerical orbital files to be used for 02.fp exists."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=abacus]/fp_pp_pathDirectory of psuedo-potential or numerical orbital files to be used for 02.fp exists."
+  },
+  {
+    "name": "fp_pp_files",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_pp_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str]argument path:run_jdata[fp_style=abacus]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str]argument path:run_jdata[fp_style=abacus]/fp_pp_filesPsuedo-potential file to be used for 02.fp. Note that the order of elements should correspond to the order in type_map."
+  },
+  {
+    "name": "fp_orb_files",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_orb_files\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[str], optionalargument path:run_jdata[fp_style=abacus]/fp_orb_filesnumerical orbital file to be used for 02.fp when using LCAO basis. Note that the order of elements should correspond to the order in type_map."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[str], optionalargument path:run_jdata[fp_style=abacus]/fp_orb_filesnumerical orbital file to be used for 02.fp when using LCAO basis. Note that the order of elements should correspond to the order in type_map."
+  },
+  {
+    "name": "fp_incar",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_incar\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_incarInput file for ABACUS. This is optinal but the priority is lower than user_fp_params, and you should not set user_fp_params if you want to use fp_incar."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_incarInput file for ABACUS. This is optinal but the priority is lower than user_fp_params, and you should not set user_fp_params if you want to use fp_incar."
+  },
+  {
+    "name": "fp_kpt_file",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_kpt_file\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_kpt_fileKPT file for ABACUS.If the “kspacing” or “gamma_only=1” is defined in INPUT or “k_points” is defined, fp_kpt_file will be ignored."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_kpt_fileKPT file for ABACUS.If the “kspacing” or “gamma_only=1” is defined in INPUT or “k_points” is defined, fp_kpt_file will be ignored."
+  },
+  {
+    "name": "fp_dpks_descriptor",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_dpks_descriptor\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_dpks_descriptorDeePKS descriptor file name. The file should be in pseudopotential directory."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:str, optionalargument path:run_jdata[fp_style=abacus]/fp_dpks_descriptorDeePKS descriptor file name. The file should be in pseudopotential directory."
+  },
+  {
+    "name": "user_fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"user_fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dict, optionalargument path:run_jdata[fp_style=abacus]/user_fp_paramsSet the key and value of INPUT."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dict, optionalargument path:run_jdata[fp_style=abacus]/user_fp_paramsSet the key and value of INPUT."
+  },
+  {
+    "name": "k_points",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"k_points\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:list[int], optionalargument path:run_jdata[fp_style=abacus]/k_pointsMonkhorst-Pack k-grids setting for generating KPT file of ABACUS, such as: [1,1,1,0,0,0]. NB: if “kspacing” or “gamma_only=1” is defined in INPUT, k_points will be ignored."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:list[int], optionalargument path:run_jdata[fp_style=abacus]/k_pointsMonkhorst-Pack k-grids setting for generating KPT file of ABACUS, such as: [1,1,1,0,0,0]. NB: if “kspacing” or “gamma_only=1” is defined in INPUT, k_points will be ignored."
+  },
+  {
+    "name": "high_level",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"high_level\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=amber/diff]/high_levelHigh level method. The value will be filled into mdin template as @qm_theory@."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=amber/diff]/high_levelHigh level method. The value will be filled into mdin template as @qm_theory@."
+  },
+  {
+    "name": "fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdata[fp_style=amber/diff]/fp_paramsParameters for FP calculation.high_level_mdin:type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/high_level_mdinPath to high-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced.low_leve"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdata[fp_style=amber/diff]/fp_paramsParameters for FP calculation.high_level_mdin:type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/high_level_mdinPath to high-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced.low_level_mdin:type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/low_level_mdinPath to low-lev"
+  },
+  {
+    "name": "high_level_mdin",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"high_level_mdin\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/high_level_mdinPath to high-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/high_level_mdinPath to high-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced."
+  },
+  {
+    "name": "low_level_mdin",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"low_level_mdin\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/low_level_mdinPath to low-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=amber/diff]/fp_params/low_level_mdinPath to low-level AMBER mdin template file. %qm_theory%, %qm_region%, and %qm_charge% will be replaced."
+  },
+  {
+    "name": "fp_params",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"fp_params\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:dictargument path:run_jdata[fp_style=custom]/fp_paramsParameters for FP calculation.input_fmt:type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fmtInput dpdata format of the custom FP code. Such format should only need the first argument as the file name.input_fn:type:strargume"
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:dictargument path:run_jdata[fp_style=custom]/fp_paramsParameters for FP calculation.input_fmt:type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fmtInput dpdata format of the custom FP code. Such format should only need the first argument as the file name.input_fn:type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fnInput file name of the custom FP code.output_fm"
+  },
+  {
+    "name": "input_fmt",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_fmt\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fmtInput dpdata format of the custom FP code. Such format should only need the first argument as the file name."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fmtInput dpdata format of the custom FP code. Such format should only need the first argument as the file name."
+  },
+  {
+    "name": "input_fn",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"input_fn\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fnInput file name of the custom FP code."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/input_fnInput file name of the custom FP code."
+  },
+  {
+    "name": "output_fmt",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_fmt\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/output_fmtOutput dpata format of the custom FP code. Such format should only need the first argument as the file name."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/output_fmtOutput dpata format of the custom FP code. Such format should only need the first argument as the file name."
+  },
+  {
+    "name": "output_fn",
+    "software": "DP-GEN",
+    "paradigm": "KEY_VALUE",
+    "syntax_template": "\"output_fn\": value",
+    "arguments": [
+      {
+        "name": "value",
+        "dtype": "STRING",
+        "default_value": null,
+        "unit": null,
+        "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/output_fnOutput file name of the custom FP code."
+      }
+    ],
+    "parent_section": "param",
+    "description": "type:strargument path:run_jdata[fp_style=custom]/fp_params/output_fnOutput file name of the custom FP code."
+  }
+]
