@@ -70,8 +70,24 @@ class MCPToolManager:
         # ready signal：{name: asyncio.Event}
         self._server_ready: dict[str, asyncio.Event] = {}
 
+        # Optional path adaptor: transform tool arguments before execution
+        # Use case: convert local paths to remote URLs, inject credentials, etc.
+        # Set via playground._configure_mcp_manager() hook
+        self.path_adaptor_servers: set[str] = set()
+        self.path_adaptor_factory: Any = None
+
+        # Optional per-server tool filter: only register specified tools (by original names)
+        # If set for a server, tools not in the list are excluded
+        # Example: {"server1": ["tool-a", "tool-b"]} -> only load tool-a and tool-b from server1
+        self.tool_include_only: dict[str, list[str]] = {}
+
     def _build_tools(self, server_name: str, connection: Any, tools_info: list[dict]) -> None:
         from .mcp import MCPTool
+
+        include_only = self.tool_include_only.get(server_name)
+        if include_only is not None:
+            tools_info = [t for t in tools_info if t.get("name") in include_only]
+            self.logger.info(f"Filtered to {len(tools_info)} tools for server '{server_name}' (include_only: {include_only})")
 
         server_tools: dict[str, MCPTool] = {}
         for tool_info in tools_info:
@@ -87,6 +103,8 @@ class MCPToolManager:
             )
             mcp_tool._mcp_server = server_name
             mcp_tool._mcp_loop = self.loop  # 你原来注入 loop 的逻辑保留
+            if self.path_adaptor_servers and self.path_adaptor_factory and server_name in self.path_adaptor_servers:
+                mcp_tool._path_adaptor = self.path_adaptor_factory()
 
             server_tools[prefixed_name] = mcp_tool
 

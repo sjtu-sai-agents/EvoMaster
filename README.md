@@ -135,7 +135,7 @@ EvoMaster/
 ## 🚀 Quick Start
 
 ### Use your API key
-Open the config file at `configs/[playground name]` and fill in the corresponding blank. For example, if you want to run minimal_multi_agent with Deepseek-V3.2, open `configs/minimal_kaggle/deepseek-v3.2-example.yaml` and modify:
+Open the config file at `configs/[playground name]` and fill in the corresponding blank. For example, if you want to run minimal_multi_agent with Deepseek-V3.2, open `configs/minimal_multi_agent/deepseek-v3.2-example.yaml` and modify:
 ```bash
   local_sglang:
     provider: "deepseek"
@@ -144,6 +144,34 @@ Open the config file at `configs/[playground name]` and fill in the correspondin
     base_url: "http://192.168.2.110:18889/v1"
 ```
 You can also use the `openai` config if your API supports OpenAI's format. Remember to modify the llm configuration of the following Agent at the same time
+
+### Using Environment Variables (.env)
+
+Alternatively, you can use environment variables for configuration. This approach is more secure and flexible:
+
+1. **Create `.env` file from template:**
+   ```bash
+   cp .env.template .env
+   ```
+
+2. **Edit `.env` file** and fill in your API keys and configuration values:
+   ```bash
+   # Example: Set your DeepSeek API key
+   DEEPSEEK_API_KEY="your-api-key-here"
+   DEEPSEEK_API_BASE="http://127.0.0.1:18889/v1"
+   ```
+
+3. **Run your command:**
+   
+   The system will automatically load `.env` file from the project root, so you can simply run:
+   ```bash
+   python run.py --agent minimal --task "Your task description"
+   ```
+   
+   Alternatively, you can use `dotenv` CLI tool:
+   ```bash
+   dotenv run python run.py --agent minimal --task "Your task description"
+   ```
 
 ### Basic Usage
 
@@ -191,6 +219,7 @@ python run.py --agent x_master --task "Which condition of Arrhenius's sixth impo
 
 ### Kaggle Automation
 ```bash
+pip install -r playground/minimal_kaggle/requirements.txt
 python run.py --agent minimal_kaggle --config configs/minimal_kaggle/deepseek-v3.2-example.yaml --task playground/minimal_kaggle/data/public/description.md
 ```
 

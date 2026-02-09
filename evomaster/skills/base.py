@@ -96,24 +96,23 @@ class BaseSkill(ABC):
     def get_full_info(self) -> str:
         """获取完整信息（Level 2）
 
-        从 SKILL.md 的 body 部分提取，按需加载到上下文。
-
-        Returns:
-            完整的技能信息文本
+        若存在 job_submit.md 则返回其内容；否则从 SKILL.md 的 body 提取。
         """
         if self._full_info_cache is not None:
             return self._full_info_cache
 
+        job_submit_path = self.skill_path / "job_submit.md"
+        if job_submit_path.exists():
+            self._full_info_cache = job_submit_path.read_text(encoding="utf-8").strip()
+            return self._full_info_cache
+
         skill_md_path = self.skill_path / "SKILL.md"
         content = skill_md_path.read_text(encoding="utf-8")
-
-        # 移除 frontmatter，获取 body
         body_match = re.search(r'^---\s*\n.*?\n---\s*\n(.*)$', content, re.DOTALL)
         if body_match:
             self._full_info_cache = body_match.group(1).strip()
         else:
             self._full_info_cache = content
-
         return self._full_info_cache
 
     def get_reference(self, reference_name: str) -> str:

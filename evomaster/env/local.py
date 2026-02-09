@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -243,7 +244,7 @@ class LocalEnv(BaseEnv):
 
         # 构建 CPU 限制命令前缀
         cpu_prefix = ""
-        if cpu_devices is not None:
+        if cpu_devices is not None and sys.platform != "win32":
             if isinstance(cpu_devices, str):
                 # CPU 范围字符串，如 "0-15"
                 cpu_prefix = f"taskset -c {cpu_devices} "

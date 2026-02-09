@@ -342,16 +342,21 @@ def auto_import_playgrounds():
         module_name = f"playground.{agent_dir.name}.core.playground"
         try:
             importlib.import_module(module_name)
-            logger.debug(f"Imported {module_name}")
+            logger.info(f"✅ Successfully imported {module_name}")
             imported_count += 1
         except ImportError as e:
             # 如果没有 core/playground.py，跳过（agent 可能使用默认 BasePlayground）
-            logger.debug(f"No custom playground for '{agent_dir.name}': {e}")
+            # 但如果是其他导入错误（如缺少依赖），应该警告
+            error_msg = str(e)
+            if "No module named" in error_msg or "cannot import name" in error_msg or "core.playground" not in error_msg:
+                logger.warning(f"❌ Failed to import {module_name}: {e}", exc_info=True)
+            else:
+                logger.debug(f"No custom playground for '{agent_dir.name}': {e}")
         except Exception as e:
             # 其他错误（语法错误等）应该警告
-            logger.warning(f"Failed to import {module_name}: {e}")
+            logger.warning(f"❌ Failed to import {module_name}: {e}", exc_info=True)
 
-    logger.debug(f"Auto-imported {imported_count} playground modules")
+    logger.info(f"Auto-imported {imported_count} playground modules")
 
 
 def main():

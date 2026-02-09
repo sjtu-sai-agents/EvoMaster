@@ -7,9 +7,9 @@
 llm:
   openai:
     provider: "openai"
-    model: "gpt-5.2"
-    api_key: "YOUR_OPENAI_API_KEY"  
-    base_url: "YOUR_OPENAI_BASE_URL"
+    model: "${GPT_CHAT_MODEL}"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "${GPT_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60
@@ -19,8 +19,8 @@ llm:
   anthropic:
     provider: "anthropic"
     model: "claude-haiku-4-5-20251001"
-    api_key: "YOUR_ANTHROPIC_API_KEY"
-    base_url: "YOUR_ANTHROPIC_BASE_URL"
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "${ANTHROPIC_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60
@@ -30,8 +30,8 @@ llm:
   # openrouter
   openrouter:
     provider: "openrouter"
-    model: "qwen/qwen3-235b-a22b-2507"
-    api_key: "YOUR_OPENROUTER_API_KEY"
+    model: "${OPENROUTER_MODEL}"
+    api_key: "${OPENROUTER_API_KEY}"
     base_url: "https://openrouter.ai/api/v1"
     temperature: 0.7
     max_tokens: 16384
@@ -43,8 +43,8 @@ llm:
   local_sglang:
     provider: "deepseek"
     model: "deepseek-v3.2"
-    api_key: "dummy"  # 本地部署可使用占位符
-    base_url: "http://192.168.2.110:18889/v1"
+    api_key: "${DEEPSEEK_API_KEY}"  # 本地部署可使用占位符
+    base_url: "${DEEPSEEK_API_BASE}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 300  

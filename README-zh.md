@@ -5,7 +5,7 @@
 
 <div align="center">
 
-**构建通向自主科研（Autonomous Scientific Research）的通用智能体基座**
+**构建通向自主演进科研（Autonomous Scientific Research）的通用智能体基座**
 
 *让科学智能体开发更简单、模块化且功能强大，加速“AI for Science”的变革进程。*
 
@@ -132,22 +132,49 @@ EvoMaster/
 
 ## 🚀 快速开始
 
-### 基本使用
-
 ### 使用您的 API Key
 
-打开位于 `configs/[playground name]` 的配置文件并填写相应的空白处。例如，如果您想使用 Deepseek-V3.2 运行 `minimal_multi_agent`，请打开 `configs/minimal_kaggle/deepseek-v3.2-example.yaml` 并修改如下内容：
+打开位于 `configs/[playground name]` 的配置文件并填写相应的空白处。例如，如果您想使用 Deepseek-V3.2 运行 `minimal_multi_agent`，请打开 `configs/minimal_multi_agent/deepseek-v3.2-example.yaml` 并修改如下内容：
 
 ```bash
   local_sglang:
     provider: "deepseek"
     model: "deepseek-v3.2"
-    api_key: "您的API_KEY"
+    api_key: "dummy"
     base_url: "http://192.168.2.110:18889/v1"
-
 ```
 
-如果您的模型 API 支持 OpenAI 格式，也可以使用 `openai` 配置。请记得**同时修改**后续 Agent 的 LLM配置。
+如果您的模型 API 支持 OpenAI 格式，也可以使用 `openai` 配置。请记得同时修改后续 Agent 的 LLM 配置。
+
+### 使用环境变量 (.env)
+
+您也可以使用环境变量进行配置。这种方式更加安全和灵活：
+
+1. **从模板创建 `.env` 文件：**
+   ```bash
+   cp .env.template .env
+   ```
+
+2. **编辑 `.env` 文件**并填写您的 API 密钥和配置值：
+   ```bash
+   # 示例：设置您的 DeepSeek API 密钥
+   DEEPSEEK_API_KEY="your-api-key-here"
+   DEEPSEEK_API_BASE="http://127.0.0.1:18889/v1"
+   ```
+
+3. **运行您的命令：**
+   
+   系统会自动从项目根目录加载 `.env` 文件，因此您可以直接运行：
+   ```bash
+   python run.py --agent minimal --task "你的任务描述"
+   ```
+   
+   或者，您也可以使用 `dotenv` CLI 工具：
+   ```bash
+   dotenv run python run.py --agent minimal --task "你的任务描述"
+   ```
+
+### 基本使用
 
 ```bash
 cd EvoMaster
@@ -186,6 +213,8 @@ python run.py --agent minimal_multi_agent --config configs/minimal_multi_agent/d
 
 ### X-Master 工作流
 ```bash
+# 安装 mcp_sandbox 环境
+pip install -r playground/x_master/mcp_sandbox/requirements.txt
 python run.py --agent x_master --task "Which condition of Arrhenius's sixth impossibility theorem do critical-level views violate?\n\nAnswer Choices:\nA. Egalitarian Dominance\nB. General Non-Extreme Priority\nC. Non-Elitism\nD. Weak Non-Sadism\nE. Weak Quality Addition"
 ```
 
@@ -197,6 +226,8 @@ python run.py --agent minimal_kaggle --config configs/minimal_kaggle/deepseek-v3
 
 ## 📦 安装
 
+### 使用 pip
+
 ```bash
 # 克隆仓库
 git clone https://github.com/sjtu-sai-agents/EvoMaster.git
@@ -207,6 +238,20 @@ pip install -r requirements.txt
 
 # 在 configs/ 中配置 LLM API 密钥
 ```
+
+### 使用 uv
+
+[uv](https://docs.astral.sh/uv/) 是一个快速的 Python 包安装器。可以使用以下任一方式：
+
+```bash
+# 选项 1：从 pyproject.toml + uv.lock 同步（推荐）
+uv sync
+
+# 选项 2：从 requirements.txt 安装
+uv pip install -r requirements.txt
+```
+
+创建虚拟环境并使用 uv 运行：`uv venv && source .venv/Scripts/activate`（Windows）或 `source .venv/bin/activate`（Linux/macOS），然后运行 `uv sync`。
 ## 🤝 引用
 
 如果你在研究中使用了 EvoMaster 或 SciMaster 系列智能体，欢迎给我们一个 Star 和引用（BibTeX 将在论文正式发布后更新）。

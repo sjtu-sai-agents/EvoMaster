@@ -4,13 +4,17 @@ Env 是 EvoMaster 的环境组件，负责：
 - 可执行沙盒（Docker）
 - 集群调度（k8s、ray、skypilot）
 - 资源管理
-
-当前实现了简易的本地环境方案。
+- Bohrium 鉴权（MCP calculation storage/executor，见 .bohrium）
 """
 
 from .base import BaseEnv, EnvConfig
 from .local import LocalEnv, LocalEnvConfig
 from .docker import DockerEnv, DockerEnvConfig
+from .bohrium import (
+    get_bohrium_credentials,
+    get_bohrium_storage_config,
+    inject_bohrium_executor,
+)
 
 # 解决 Pydantic 循环依赖问题：重建 EnvConfig 模型
 # 确保 SessionConfig 子类已完全定义
@@ -36,5 +40,8 @@ __all__ = [
     "LocalEnvConfig",
     "DockerEnv",
     "DockerEnvConfig",
+    "get_bohrium_credentials",
+    "get_bohrium_storage_config",
+    "inject_bohrium_executor",
 ]
 

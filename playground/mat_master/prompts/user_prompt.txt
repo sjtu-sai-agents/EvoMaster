@@ -1,0 +1,8 @@
+请根据当前任务使用上述工具完成。
+
+任务 ID：{task_id}
+任务类型：{task_type}
+描述：{description}
+
+附加信息：
+{input_data}

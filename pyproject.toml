@@ -12,7 +12,14 @@ dependencies = [
     "google-genai",
     "mcp",
     "flask",
+    "python-dotenv",
+    # Calculation path adaptor (mat_master) needs OSS upload for local file -> URL
+    "oss2",
 ]
+
+[project.optional-dependencies]
+# Reserved for other calculation-related extras; oss2 is now main dep for mat_master
+calculation = []
 
 [build-system]
 requires = ["hatchling"]

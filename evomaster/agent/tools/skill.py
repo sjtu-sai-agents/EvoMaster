@@ -93,6 +93,14 @@ class SkillTool(BaseTool):
                     {"error": "invalid_skill_type"}
                 )
 
+            self.logger.info(
+                "Skill hit: skill_name=%s action=%s ref=%s script=%s",
+                params.skill_name,
+                params.action,
+                params.reference_name or "-",
+                params.script_name or "-",
+            )
+
             # 根据 action 执行不同操作
             if params.action == "get_info":
                 return self._get_info(skill)

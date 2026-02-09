@@ -1,159 +1,231 @@
-# EvoMaster 统一配置文件
+# Minimal Playground 配置文件
+# 这是一个最小化的 EvoMaster 示例，展示如何用 ~100 行代码实现自主科学发现
 
 # ============================================
 # LLM 配置
 # ============================================
 llm:
-  # OpenAI 配置
   openai:
     provider: "openai"
-    model: "gpt-4"
-    api_key: "your-openai-api-key-here"  # 必填
+    model: "${GPT_CHAT_MODEL}"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "${GPT_BASE_URL}"
     temperature: 0.7
-    max_tokens: 4096
-    timeout: 300
+    max_tokens: 16384
+    timeout: 60
     max_retries: 3
     retry_delay: 1.0
 
-  # Anthropic (Claude) 配置
   anthropic:
     provider: "anthropic"
-    model: "claude-3-5-sonnet-20241022"
-    api_key: "your-anthropic-api-key-here"  # 必填
+    model: "claude-haiku-4-5-20251001"
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "${ANTHROPIC_BASE_URL}"
     temperature: 0.7
-    max_tokens: 4096
-    timeout: 300
+    max_tokens: 16384
+    timeout: 60
     max_retries: 3
     retry_delay: 1.0
 
-  # 本地 vLLM 配置示例
-  local_vllm:
-    provider: "openai"
-    model: "Qwen/Qwen2.5-7B-Instruct"
-    api_key: "dummy"  # 本地部署可使用占位符
-    base_url: "http://localhost:8000/v1"
+  # 本地 LLM 配置示例
+  local_sglang:
+    provider: "deepseek"
+    model: "deepseek-v3.2"
+    api_key: "${DEEPSEEK_API_KEY}"  # 本地部署可使用占位符
+    base_url: "${DEEPSEEK_API_BASE}"
     temperature: 0.7
-    max_tokens: 4096
-    timeout: 300
+    max_tokens: 16384
+    timeout: 300  
     max_retries: 3
     retry_delay: 1.0
 
-  # 默认使用的 LLM
-  default: "openai"
+  default: "local_sglang"
 
 # ============================================
-# Agent 配置
+# 多智能体配置
 # ============================================
-agent:
-  # 基础配置
-  max_turns: 100
-  llm: "openai"  # 使用的 LLM 配置名称
+# 多智能体系统中，每个Agent都有独立的配置
+agents:
+  # Planning Agent - 负责规划任务
+  planning:
+    llm: "local_sglang"
+    max_turns: 10
+    enable_tools: false  # Planning Agent不需要工具调用
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/planning_system_prompt.txt"
+    user_prompt_file: "prompts/planning_user_prompt.txt"
+  
+  # Coding Agent - 负责执行代码任务
+  coding:
+    llm: "local_sglang"
+    max_turns: 50
+    enable_tools: true  # Coding Agent需要工具调用
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/coding_system_prompt.txt"
+    user_prompt_file: "prompts/coding_user_prompt.txt"
 
-  # 上下文管理配置
-  context:
-    max_tokens: 128000
-    truncation_strategy: "latest_half"  # none, latest_half, sliding_window, summary
-    preserve_system_messages: true
-    preserve_recent_turns: 5
+# ============================================
+# MCP 配置
+# ============================================
+mcp:
+  # MCP 配置文件路径（相对于 config_dir 或绝对路径）
+  config_file: "mcp_config.json"
+
+  # 是否启用 MCP（可选，默认 true）
+  enabled: False
 
 # ============================================
 # Session 配置
 # ============================================
 session:
-  # Docker 会话配置
-  docker:
-    image: "python:3.11-slim"
-    working_dir: "/workspace"
-    memory_limit: "4g"
-    cpu_limit: 2.0
-    network_mode: "bridge"
-    timeout: 300
-    auto_remove: true
-
-  # 本地会话配置（如果实现）
+  # Session 类型：local 或 docker
+  type: "local"  # 可选值: "local" 或 "docker"
+  
+  # 本地 Session 配置
   local:
-    working_dir: "/tmp/evomaster"
+    working_dir: "./playground/minimal_multi_agent/workspace"
+    timeout: 60
+    # GPU 设备配置（可选）
+    # 可选值：
+    #   - null: 不使用 GPU 限制（使用所有可用 GPU）
+    #   - "2": 只使用 GPU 2
+    #   - ["0", "1"]: 使用 GPU 0 和 1
+    gpu_devices: null  # 示例：使用 GPU 2
+    
+    # CPU 设备配置（可选）
+    # 可选值：
+    #   - null: 不使用 CPU 限制（使用所有可用 CPU）
+    #   - "0-15": 使用 CPU 0 到 15
+    #   - [0, 1, 2, 3]: 使用 CPU 0, 1, 2, 3
+    cpu_devices: null  # 示例：使用 CPU 0-15
+    # 软链接配置（可选）
+    # 将源目录下的所有文件和文件夹软链接到工作空间的指定位置
+    # 格式：{源目录路径: 工作空间内的目标路径}
+    # 目标路径是相对于工作空间的相对路径
+    # 示例：
+    # symlinks:
+    #   "/data/exp_data/demo1bench/aerial-cactus-identification/prepared/public/": "input"
+    symlinks: {}
+  
+  # Docker Session 配置
+  docker:
+    # Docker 镜像
+    image: "evomaster/base:latest"
+    
+    # 容器名称（None 自动生成）
+    container_name: null
+    
+    # 使用已存在的容器（如果设置，则使用该容器而不创建新容器）
+    use_existing_container: null
+    
+    # 工作目录（容器内）
+    working_dir: "/workspace"
+    
+    # 资源限制
+    memory_limit: "64g"  # 内存限制，如 "4g", "8g"
+    cpu_limit: 16.0      # CPU 限制（核数）
+    gpu_devices: "0"   # GPU 设备，可选值：
+                        #   - null: 不使用 GPU
+                        #   - "all": 使用所有 GPU
+                        #   - "0": 使用 GPU 0
+                        #   - ["0", "1"]: 使用 GPU 0 和 1
+    
+    # 网络模式
+    network_mode: "host"  # bridge, host, none
+    
+    # 挂载卷（将本地目录挂载到容器）
+    # 格式：{本地路径: 容器路径}
+    # 示例：
+    # volumes:
+    #   "./workspace": "/workspace"
+    volumes: {"./playground/minimal_multi_agent/workspace":"/workspace"}
+    
+    # 环境变量
+    # 示例：
+    # env_vars:
+    #   PYTHONPATH: "/workspace"
+    env_vars: {}
+    
+    # 容器生命周期
+    auto_remove: false   # true: 容器结束后自动删除，false: 保留容器
+    
+    # 超时时间（秒）在需要长时间执行的任务中，需要适当延长超时时间。
     timeout: 300
 
 # ============================================
 # Env 配置（环境管理）
 # ============================================
 env:
-  # 集群配置
+  # 集群配置（本地模式，最小化）
   cluster:
-    # Debug 池（CPU 机器，用于代码调试）
     debug_pool:
       type: "cpu"
-      max_concurrent: 5
-      resource_limits:
-        cpu: 4
-        memory: "8g"
-
-    # 训练池（GPU 机器，用于长时间实验）
+      max_concurrent: 1
     train_pool:
-      type: "gpu"
-      max_concurrent: 2
-      resource_limits:
-        gpu: 1
-        cpu: 8
-        memory: "32g"
+      type: "cpu"
+      max_concurrent: 1
 
-  # Docker 基础镜像
+  # Docker 配置（本地模式）
   docker:
-    base_image: "evomaster/base:latest"
-    registry: "docker.io"  # 或私有镜像仓库
-    pull_policy: "if_not_present"  # always, if_not_present, never
+    base_image: "python:3.11-slim"
+    registry: "docker.io"
+    pull_policy: "if_not_present"
 
   # 作业调度配置
   scheduler:
-    type: "local"  # local, slurm, kubernetes
-    queue_timeout: 3600  # 队列超时时间（秒）
-    retry_failed: true
-    max_retries: 3
+    type: "local"
+    queue_timeout: 300
+    retry_failed: false
+    max_retries: 1
 
 # ============================================
-# Skill 配置
+# 系统提示词配置
 # ============================================
-skill:
-  # Skill 目录
-  skill_dir: "./evomaster/skills"
+# 从文件加载 system prompt（方便维护和版本控制）
+system_prompt_file: "prompts/system_prompt.txt"
 
-  # Knowledge Skill 配置
-  knowledge:
-    # 向量检索配置
-    retrieval:
-      enabled: true
-      embedding_model: "text-embedding-ada-002"
-      top_k: 5
-      similarity_threshold: 0.7
-
-  # Operator Skill 配置
-  operator:
-    # Meta info 常驻上下文
-    load_meta_info: true
-    # Full info 按需加载
-    lazy_load_full_info: true
+# ============================================
+# LLM 输出显示配置
+# ============================================
+llm_output:
+  # 是否在终端实时显示 LLM 输出
+  show_in_console: true
+  
+  # 是否在日志文件中记录 LLM 输出
+  log_to_file: true
 
 # ============================================
 # 日志配置
 # ============================================
 logging:
-  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  file: null  # 如果设置，则输出到文件
+  file: null
   console: true
+  
+  # 日志文件保存路径（程序运行完成后保存）
+  # 如果为 null，则不保存日志文件
+  # 如果设置了路径，程序运行完成后会将日志保存到该路径
+  log_path: "./logs/evomaster.log"
 
 # ============================================
 # 其他配置
 # ============================================
-# 项目根目录（相对路径）
 project_root: "."
-
-# 工作目录
 workspace: "./workspace"
-
-# 实验结果保存目录
 results_dir: "./results"
-
-# 是否启用调试模式
 debug: false

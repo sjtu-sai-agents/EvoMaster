@@ -15,10 +15,11 @@ if TYPE_CHECKING:
     from evomaster.agent import Agent
 
 
+from evomaster.utils.types import TaskInstance
 from .exp.draft_exp import DraftExp
 from .exp.research_exp import ResearchExp
 from .exp.improve_exp import ImproveExp
-from .utils.data_preview import generate# type: ignore
+from .utils.data_preview import generate
 from .utils.code import save_code_to_file
 
 @register_playground("minimal_kaggle")

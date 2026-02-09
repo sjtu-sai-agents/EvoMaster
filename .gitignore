@@ -165,3 +165,4 @@ local_model/
 
 .pids
 runs/
+/.env

@@ -2,18 +2,23 @@
 
 定义工作流的通用执行逻辑。
 """
+from __future__ import annotations
+
 import threading
 import asyncio
 import logging
 import sys
 import shutil
+import json
 from pathlib import Path
 from datetime import datetime
+from typing import Any, Dict
 
 from evomaster.config import ConfigManager
 from evomaster.utils import LLMConfig, create_llm
 from evomaster.agent import create_default_registry
 from evomaster.agent.session import LocalSession, LocalSessionConfig, DockerSession, DockerSessionConfig
+from evomaster.agent.tools import MCPToolManager
 from evomaster.skills import SkillRegistry
 
 from .exp import BaseExp
@@ -499,11 +504,6 @@ class BasePlayground:
         Returns:
             MCPToolManager 实例，如果配置无效则返回 None
         """
-        from evomaster.agent.tools import MCPToolManager
-        import asyncio
-        import json
-        from pathlib import Path
-
         # 1. 检查 MCP 配置
         mcp_config = getattr(self.config, 'mcp', None)
         if not mcp_config:
@@ -574,6 +574,9 @@ class BasePlayground:
         self.logger.info("Setting up MCP tools...")
         manager = MCPToolManager()
 
+        # 子类可以复写此方法来注入自定义逻辑（如 path adaptor、tool_include_only）
+        self._configure_mcp_manager(manager, mcp_config)
+
         # 8. 异步初始化 MCP 服务器
         async def init_mcp_servers():
             for server_config in servers:
@@ -601,6 +604,28 @@ class BasePlayground:
         self.logger.info(f"MCP tools setup complete: {tool_count} tools from {server_count} servers")
 
         return manager
+
+    def _configure_mcp_manager(self, manager: MCPToolManager, mcp_config: Dict[str, Any]) -> None:
+        """配置 MCP 管理器的钩子方法
+
+        子类可以复写此方法来注入自定义逻辑，例如：
+        - path adaptor（路径适配器）
+        - tool_include_only（工具过滤）
+        - 其他自定义配置
+
+        Args:
+            manager: MCP 工具管理器实例
+            mcp_config: MCP 配置字典
+
+        示例:
+            class MyPlayground(BasePlayground):
+                def _configure_mcp_manager(self, manager, mcp_config):
+                    # 注入自定义 adaptor
+                    manager.path_adaptor_factory = lambda: MyAdaptor()
+        """
+        # 基类默认不做任何事情
+        # 子类可以复写来添加自定义逻辑
+        pass
 
     def _parse_mcp_servers(self, mcp_config: dict) -> list[dict]:
         """解析 MCP 服务器配置

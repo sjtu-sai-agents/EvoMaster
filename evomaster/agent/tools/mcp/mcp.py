@@ -102,13 +102,30 @@ class MCPTool(BaseTool):
             args = json.loads(args_json)
             self.logger.debug(f"Executing MCP tool {self._tool_name} with args: {args}")
 
-            # 2. 调用 MCP 工具（异步转同步）
+            # 2. Apply path adaptor (if configured via playground hook)
+            # Transforms arguments before sending to MCP tool (e.g., path conversion, credential injection)
+            path_adaptor = getattr(self, "_path_adaptor", None)
+            if path_adaptor is not None:
+                workspace_path = (
+                    getattr(getattr(session, "config", None), "workspace_path", None)
+                    if session
+                    else None
+                ) or ""
+                args = path_adaptor.resolve_args(
+                    workspace_path,
+                    args,
+                    self._tool_name,
+                    self._mcp_server or "",
+                    input_schema=getattr(self, "_input_schema", None),
+                )
+
+            # 3. 调用 MCP 工具（异步转同步）
             result = self._call_mcp_tool_sync(args)
 
-            # 3. 格式化输出
+            # 4. 格式化输出
             observation = self._format_mcp_result(result)
 
-            # 4. 更新统计
+            # 5. 更新统计
             self._call_count += 1
             self._last_error = None
 
