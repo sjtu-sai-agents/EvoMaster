@@ -104,7 +104,7 @@ session:
     #   - null: 不使用 GPU 限制（使用所有可用 GPU）
     #   - "2": 只使用 GPU 2
     #   - ["0", "1"]: 使用 GPU 0 和 1
-    gpu_devices: "2"  # 示例：使用 GPU 2
+    gpu_devices: "0"  # 示例：使用 GPU 0
     
     # CPU 设备配置（可选）
     # 可选值：

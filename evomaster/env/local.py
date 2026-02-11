@@ -6,9 +6,11 @@
 from __future__ import annotations
 
 import os
+import shlex
 import shutil
 import subprocess
 import sys
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +26,152 @@ class LocalEnvConfig(EnvConfig):
         ...,
         description="Session 配置"
     )
+
+
+class ResourceAllocator:
+    """资源分配器
+    
+    根据并行索引分配 GPU 和 CPU 资源。
+    """
+    
+    def __init__(
+        self,
+        gpu_devices: str | list[str] | None,
+        cpu_devices: str | list[int] | None,
+        max_parallel: int,
+        logger: Any = None
+    ):
+        """初始化资源分配器
+        
+        Args:
+            gpu_devices: GPU 设备配置
+            cpu_devices: CPU 设备配置
+            max_parallel: 最大并行数量
+            logger: 日志记录器
+        """
+        self.gpu_devices = gpu_devices
+        self.cpu_devices = cpu_devices
+        self.max_parallel = max_parallel
+        self.logger = logger
+        self._lock = threading.Lock()
+        self._active_executions: dict[int, threading.Thread] = {}
+        
+        # 解析 GPU 设备列表
+        self._gpu_list: list[str] = []
+        if gpu_devices is not None:
+            if isinstance(gpu_devices, str):
+                if gpu_devices == "all":
+                    # 如果配置为 "all"，需要从环境获取可用 GPU
+                    # 这里简化处理，假设用户明确指定了 GPU 列表
+                    self._gpu_list = []
+                else:
+                    self._gpu_list = [gpu_devices]
+            elif isinstance(gpu_devices, list):
+                self._gpu_list = [str(gpu) for gpu in gpu_devices]
+        
+        # 解析 CPU 设备列表
+        self._cpu_list: list[int] = []
+        if cpu_devices is not None:
+            if isinstance(cpu_devices, str):
+                # 解析范围字符串，如 "0-35"
+                if "-" in cpu_devices:
+                    start, end = map(int, cpu_devices.split("-"))
+                    self._cpu_list = list(range(start, end + 1))
+                else:
+                    self._cpu_list = [int(cpu_devices)]
+            elif isinstance(cpu_devices, list):
+                self._cpu_list = cpu_devices
+    
+    def allocate_resources(self, parallel_index: int) -> tuple[str | None, str | None]:
+        """为指定的并行索引分配资源
+        
+        Args:
+            parallel_index: 并行索引（从 0 开始）
+            
+        Returns:
+            (gpu_allocation, cpu_allocation) 元组
+            - gpu_allocation: GPU 设备字符串，如 "0" 或 "0,1"，None 表示不使用 GPU 限制
+            - cpu_allocation: CPU 设备字符串，如 "0-11" 或 "0,1,2"，None 表示不使用 CPU 限制
+        """
+        # 分配 GPU
+        gpu_allocation = None
+        if self._gpu_list:
+            # 如果 GPU 数量不足，某些并行进程需要共享 GPU
+            gpu_index = parallel_index % len(self._gpu_list)
+            gpu_allocation = self._gpu_list[gpu_index]
+        
+        # 分配 CPU（平均分配）
+        cpu_allocation = None
+        if self._cpu_list:
+            total_cpus = len(self._cpu_list)
+            cpus_per_parallel = total_cpus // self.max_parallel
+            if cpus_per_parallel > 0:
+                start_index = parallel_index * cpus_per_parallel
+                end_index = start_index + cpus_per_parallel - 1
+                # 处理最后一个并行进程，分配剩余的所有 CPU
+                if parallel_index == self.max_parallel - 1:
+                    end_index = total_cpus - 1
+                
+                allocated_cpus = self._cpu_list[start_index:end_index + 1]
+                if allocated_cpus:
+                    if len(allocated_cpus) == 1:
+                        cpu_allocation = str(allocated_cpus[0])
+                    else:
+                        # 检查是否连续
+                        if allocated_cpus == list(range(allocated_cpus[0], allocated_cpus[-1] + 1)):
+                            cpu_allocation = f"{allocated_cpus[0]}-{allocated_cpus[-1]}"
+                        else:
+                            cpu_allocation = ",".join(str(cpu) for cpu in allocated_cpus)
+        
+        return gpu_allocation, cpu_allocation
+    
+    def register_execution(self, parallel_index: int) -> None:
+        """注册一个执行任务
+        
+        Args:
+            parallel_index: 并行索引
+            
+        Raises:
+            RuntimeError: 如果已达到最大并行数量或该索引已在执行
+        """
+        with self._lock:
+            # 检查是否已达到最大并行数量
+            if len(self._active_executions) >= self.max_parallel:
+                raise RuntimeError(
+                    f"已达到最大并行数量限制 ({self.max_parallel})。"
+                    f"当前活跃执行数: {len(self._active_executions)}"
+                )
+            
+            # 检查该索引是否已在执行
+            if parallel_index in self._active_executions:
+                raise RuntimeError(
+                    f"并行索引 {parallel_index} 已在执行中，不能重复执行"
+                )
+            
+            current_thread = threading.current_thread()
+            self._active_executions[parallel_index] = current_thread
+            
+            if self.logger:
+                self.logger.info(
+                    f"注册并行执行: index={parallel_index}, "
+                    f"当前活跃数={len(self._active_executions)}/{self.max_parallel}"
+                )
+    
+    def unregister_execution(self, parallel_index: int) -> None:
+        """注销一个执行任务
+        
+        Args:
+            parallel_index: 并行索引
+        """
+        with self._lock:
+            if parallel_index in self._active_executions:
+                del self._active_executions[parallel_index]
+                
+                if self.logger:
+                    self.logger.info(
+                        f"注销并行执行: index={parallel_index}, "
+                        f"当前活跃数={len(self._active_executions)}/{self.max_parallel}"
+                    )
 
 
 class LocalEnv(BaseEnv):
@@ -45,6 +193,41 @@ class LocalEnv(BaseEnv):
             raise ValueError("LocalEnv requires LocalEnvConfig with session_config")
         super().__init__(config)
         self.config: LocalEnvConfig = config
+        self._resource_allocator: ResourceAllocator | None = None
+        self._init_resource_allocator()
+    
+    def _init_resource_allocator(self) -> None:
+        """初始化资源分配器"""
+        session_config = self.config.session_config
+        parallel_config = getattr(session_config, 'parallel', None)
+        
+        if parallel_config and parallel_config.get('enabled', False):
+            max_parallel = parallel_config.get('max_parallel', 1)
+            gpu_devices = getattr(session_config, 'gpu_devices', None)
+            cpu_devices = getattr(session_config, 'cpu_devices', None)
+            
+            self._resource_allocator = ResourceAllocator(
+                gpu_devices=gpu_devices,
+                cpu_devices=cpu_devices,
+                max_parallel=max_parallel,
+                logger=self.logger
+            )
+            self.logger.info(
+                f"初始化资源分配器: max_parallel={max_parallel}, "
+                f"gpu_devices={gpu_devices}, cpu_devices={cpu_devices}"
+            )
+
+    def _is_split_workspace_enabled(self) -> bool:
+        """检查是否启用了 split_workspace_for_exp
+        
+        Returns:
+            是否启用了实验独立工作空间
+        """
+        session_config = self.config.session_config
+        parallel_config = getattr(session_config, 'parallel', None)
+        if parallel_config and isinstance(parallel_config, dict):
+            return parallel_config.get('split_workspace_for_exp', False)
+        return False
 
     def setup(self) -> None:
         """初始化本地环境"""
@@ -59,12 +242,39 @@ class LocalEnv(BaseEnv):
         workspace.mkdir(parents=True, exist_ok=True)
         
         # 创建软链接（如果有配置）
+        # 当 split_workspace_for_exp 启用时，跳过主工作空间的软链接创建
+        # 软链接会在每个 exp 独立工作空间中创建（通过 setup_exp_workspace）
+        if not self._is_split_workspace_enabled():
+            session_config = self.config.session_config
+            if hasattr(session_config, 'symlinks') and session_config.symlinks:
+                self._create_symlinks(workspace, session_config.symlinks)
+        else:
+            self.logger.info(
+                "split_workspace_for_exp 已启用，跳过主工作空间的软链接创建，"
+                "将在各 exp 工作空间中单独创建"
+            )
+        
+        self._is_ready = True
+        self.logger.info("Local environment setup complete")
+
+    def setup_exp_workspace(self, exp_workspace_path: str) -> None:
+        """创建实验专属的工作空间目录
+        
+        当 split_workspace_for_exp 启用时，为每个实验创建独立的工作空间子目录，
+        并在其中创建软链接（如果有配置）。
+        
+        Args:
+            exp_workspace_path: 实验工作空间的绝对路径
+        """
+        workspace = Path(exp_workspace_path)
+        workspace.mkdir(parents=True, exist_ok=True)
+        
+        # 在 exp 工作空间中创建软链接
         session_config = self.config.session_config
         if hasattr(session_config, 'symlinks') and session_config.symlinks:
             self._create_symlinks(workspace, session_config.symlinks)
         
-        self._is_ready = True
-        self.logger.info("Local environment setup complete")
+        self.logger.info(f"创建实验独立工作空间: {exp_workspace_path}")
 
     def teardown(self) -> None:
         """清理本地环境资源"""
@@ -199,6 +409,7 @@ class LocalEnv(BaseEnv):
         command: str,
         timeout: int | None = None,
         workdir: str | None = None,
+        parallel_index: int | None = None,
     ) -> dict[str, Any]:
         """在本地执行命令
 
@@ -206,6 +417,7 @@ class LocalEnv(BaseEnv):
             command: 要执行的命令
             timeout: 超时时间（秒）
             workdir: 工作目录
+            parallel_index: 并行索引（可选，用于资源分配）
 
         Returns:
             执行结果字典，包含：
@@ -224,38 +436,57 @@ class LocalEnv(BaseEnv):
         workspace = Path(workdir)
         cwd = workdir if workspace.exists() else None
 
-        # 获取 GPU 和 CPU 配置
-        session_config = self.config.session_config
-        gpu_devices = getattr(session_config, 'gpu_devices', None)
-        cpu_devices = getattr(session_config, 'cpu_devices', None)
+        # 如果启用了并行资源分配，使用资源分配器
+        gpu_allocation = None
+        cpu_allocation = None
+        
+        if self._resource_allocator is not None and parallel_index is not None:
+            # 注册执行任务（检查并行限制）
+            self._resource_allocator.register_execution(parallel_index)
+            try:
+                # 分配资源
+                gpu_allocation, cpu_allocation = self._resource_allocator.allocate_resources(parallel_index)
+                self.logger.info(
+                    f"并行索引 {parallel_index}: GPU={gpu_allocation}, CPU={cpu_allocation}"
+                )
+            finally:
+                # 注意：这里不能立即注销，因为命令还在执行
+                # 我们将在命令执行完成后注销
+                pass
+        else:
+            # 未启用并行资源分配，使用原始配置
+            session_config = self.config.session_config
+            gpu_devices = getattr(session_config, 'gpu_devices', None)
+            cpu_devices = getattr(session_config, 'cpu_devices', None)
+            
+            if gpu_devices is not None:
+                if isinstance(gpu_devices, str):
+                    gpu_allocation = gpu_devices
+                elif isinstance(gpu_devices, list):
+                    gpu_allocation = ",".join(str(gpu) for gpu in gpu_devices)
+            
+            if cpu_devices is not None:
+                if isinstance(cpu_devices, str):
+                    cpu_allocation = cpu_devices
+                elif isinstance(cpu_devices, list):
+                    cpu_allocation = ",".join(str(cpu) for cpu in cpu_devices)
 
         # 构建环境变量
         env = os.environ.copy()
         
         # 设置 GPU 设备
-        if gpu_devices is not None:
-            if isinstance(gpu_devices, str):
-                # 单个 GPU 或 "all"
-                env['CUDA_VISIBLE_DEVICES'] = gpu_devices
-            elif isinstance(gpu_devices, list):
-                # GPU 列表，如 ["0", "1"]
-                env['CUDA_VISIBLE_DEVICES'] = ",".join(str(gpu) for gpu in gpu_devices)
-            self.logger.debug(f"Setting CUDA_VISIBLE_DEVICES={env.get('CUDA_VISIBLE_DEVICES')}")
+        if gpu_allocation is not None:
+            env['CUDA_VISIBLE_DEVICES'] = gpu_allocation
+            self.logger.debug(f"Setting CUDA_VISIBLE_DEVICES={gpu_allocation}")
 
         # 构建 CPU 限制命令前缀
-        cpu_prefix = ""
-        if cpu_devices is not None and sys.platform != "win32":
-            if isinstance(cpu_devices, str):
-                # CPU 范围字符串，如 "0-15"
-                cpu_prefix = f"taskset -c {cpu_devices} "
-            elif isinstance(cpu_devices, list):
-                # CPU 列表，如 [0, 1, 2, 3]
-                cpu_list_str = ",".join(str(cpu) for cpu in cpu_devices)
-                cpu_prefix = f"taskset -c {cpu_list_str} "
-            self.logger.debug(f"Using CPU prefix: {cpu_prefix}")
-
-        # 组合命令
-        final_command = f"{cpu_prefix}{command}" if cpu_prefix else command
+        # 注意：taskset 无法直接执行 shell 内置命令（如 cd），需要包装在 sh -c 中
+        if cpu_allocation is not None and sys.platform != "win32":
+            # 使用 shlex.quote 来安全地转义命令，然后包装在 sh -c 中
+            final_command = f"taskset -c {cpu_allocation} sh -c {shlex.quote(command)}"
+            self.logger.debug(f"Using CPU prefix with sh -c: taskset -c {cpu_allocation}")
+        else:
+            final_command = command
 
         try:
             result = subprocess.run(
@@ -287,6 +518,10 @@ class LocalEnv(BaseEnv):
                 "exit_code": -1,
                 "output": str(e),
             }
+        finally:
+            # 注销执行任务
+            if self._resource_allocator is not None and parallel_index is not None:
+                self._resource_allocator.unregister_execution(parallel_index)
 
     def upload_file(self, local_path: str, remote_path: str) -> None:
         """上传文件到本地环境

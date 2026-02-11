@@ -224,6 +224,11 @@ pip install -r playground/minimal_kaggle/requirements.txt
 python run.py --agent minimal_kaggle --config configs/minimal_kaggle/deepseek-v3.2-example.yaml --task playground/minimal_kaggle/data/public/description.md
 ```
 
+### 多智能体系统（Exp级并行）
+```bash
+python run.py --agent minimal_multi_agent_parallel --config configs/minimal_multi_agent_parallel/deepseek-v3.2-example.yaml --task "Write a Python program that implements the following features: Read a text file (create a sample file if it doesn't exist). Count the occurrences of each word in the file. Sort the results by frequency in descending order. Save the results to a new file named word_count.txt. Output the top 10 most common words to the terminal."
+```
+
 ## 📦 安装
 
 ### 使用 pip

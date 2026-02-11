@@ -217,6 +217,11 @@ pip install -r playground/x_master/mcp_sandbox/requirements.txt
 python run.py --agent x_master --task "Which condition of Arrhenius's sixth impossibility theorem do critical-level views violate?\n\nAnswer Choices:\nA. Egalitarian Dominance\nB. General Non-Extreme Priority\nC. Non-Elitism\nD. Weak Non-Sadism\nE. Weak Quality Addition"
 ```
 
+### Multi-Agent System with Parallel Exp
+```bash
+python run.py --agent minimal_multi_agent_parallel --config configs/minimal_multi_agent_parallel/deepseek-v3.2-example.yaml --task "Write a Python program that implements the following features: Read a text file (create a sample file if it doesn't exist). Count the occurrences of each word in the file. Sort the results by frequency in descending order. Save the results to a new file named word_count.txt. Output the top 10 most common words to the terminal."
+```
+
 ### Kaggle Automation
 ```bash
 pip install -r playground/minimal_kaggle/requirements.txt

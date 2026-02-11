@@ -22,7 +22,8 @@ from evomaster.agent.tools import MCPToolManager
 from evomaster.skills import SkillRegistry
 
 from .exp import BaseExp
-
+from typing import List, Any, Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class BasePlayground:
     """Playground 基类
@@ -394,6 +395,75 @@ class BasePlayground:
         agent.set_agent_name(name)
 
         return agent
+
+    def copy_agent(self, agent, new_agent_name: str | None = None):
+        """复制 Agent 实例，创建新的上下文但共享其他配置
+
+        创建一个新的 Agent 实例，该实例：
+        - 拥有独立的 LLM 实例（复制时必创建新 LLM，不共享）
+        - 共享 session, tools, skill_registry, config_dir, enable_tools 等配置
+        - 拥有独立的上下文（context_manager, current_dialog, trajectory 等）
+        - 上下文相关的状态会被重置（current_dialog=None, trajectory=None, _step_count=0 等）
+
+        Args:
+            agent: 要复制的 Agent 实例
+            new_agent_name: 新 Agent 的名称（可选，用于标识）
+
+        Returns:
+            新的 Agent 实例，类型与输入 agent 相同
+        """
+        from evomaster.agent import AgentConfig
+        from evomaster.utils import LLMConfig, create_llm
+
+        # 复制 AgentConfig，特别是 context_config 需要独立
+        if agent.config:
+            new_config = agent.config.model_copy(deep=True)
+        else:
+            new_config = AgentConfig()
+
+        agent_class = agent.__class__
+
+        # 复制时必创建新的 LLM 实例，不共享
+        llm_config_dict = getattr(self, '_llm_config_dict', None) or self._setup_llm_config()
+        output_config = agent.output_config.copy() if agent.output_config else self._get_output_config()
+        new_llm = create_llm(LLMConfig(**llm_config_dict), output_config=output_config)
+        self.logger.debug(f"Created independent LLM instance for copied agent: {new_agent_name}")
+
+        shared_kwargs = {
+            'llm': new_llm,
+            'session': agent.session,
+            'tools': agent.tools,
+            'config': new_config,
+            'skill_registry': agent.skill_registry,
+            'output_config': agent.output_config.copy() if agent.output_config else None,
+            'config_dir': agent.config_dir,
+            'enable_tools': agent.enable_tools,
+        }
+
+        if agent_class.__name__ == 'Agent':
+            shared_kwargs['prompt_format_kwargs'] = (
+                getattr(agent, '_prompt_format_kwargs', {}).copy()
+                if hasattr(agent, '_prompt_format_kwargs') else None
+            )
+
+        new_agent = agent_class(**shared_kwargs)
+
+        if agent_class.__name__ == 'Agent':
+            if hasattr(agent, '_system_prompt') and agent._system_prompt is not None:
+                new_agent._system_prompt = agent._system_prompt
+            if hasattr(agent, '_user_prompt') and agent._user_prompt is not None:
+                new_agent._user_prompt = agent._user_prompt
+
+        if new_agent_name:
+            new_agent.set_agent_name(new_agent_name)
+
+        new_agent.current_dialog = None
+        new_agent.trajectory = None
+        new_agent._step_count = 0
+        new_agent._initial_system_prompt = None
+        new_agent._initial_user_prompt = None
+
+        return new_agent
 
     def setup(self) -> None:
         """初始化所有组件
@@ -804,3 +874,82 @@ class BasePlayground:
             else:
                 # 只标记关闭状态，但不实际关闭 session（容器继续运行）
                 self.logger.debug("Session marked as closed but container kept running")
+
+    def execute_parallel_tasks(self, tasks: List[Callable], max_workers: int = 3) -> List[Any]:
+            """通用并行任务执行器
+
+            Args:
+                tasks: 这里的每个元素应该是一个可调用的对象。
+                    如果是带参数的函数，请使用 functools.partial 封装。
+                    例如: [partial(exp1.run, task="A"), partial(exp2.run, task="B")]
+                max_workers: 最大并行线程数
+
+            Returns:
+                List[Any]: 按照输入 tasks 的顺序返回结果列表。
+                        如果任务抛出异常，结果列表中对应位置将是该 Exception 对象。
+            """
+            self.logger.info(f"Starting parallel execution of {len(tasks)} tasks with {max_workers} workers.")
+            
+            results = [None] * len(tasks)
+            
+            # 检查是否启用了并行资源分配
+            session_config = self.config.session.get("local", {})
+            parallel_config = session_config.get("parallel", {})
+            parallel_enabled = parallel_config.get("enabled", False)
+            
+            # 检查是否启用了 split_workspace_for_exp
+            split_workspace = parallel_config.get("split_workspace_for_exp", False)
+            
+            # 包装任务函数，设置并行索引和独立工作空间
+            def wrap_task(task_func, parallel_index):
+                def wrapped():
+                    try:
+                        # 如果启用了并行资源分配，设置 session 的并行索引
+                        if parallel_enabled and self.session is not None:
+                            from evomaster.agent.session.local import LocalSession
+                            if isinstance(self.session, LocalSession):
+                                self.session.set_parallel_index(parallel_index)
+                                self.logger.debug(f"设置并行索引: {parallel_index}")
+                                
+                                # 如果启用了 split_workspace_for_exp，为当前 exp 创建独立工作空间
+                                if split_workspace:
+                                    import os
+                                    main_workspace = self.session.config.workspace_path
+                                    exp_workspace = os.path.join(main_workspace, f"exp_{parallel_index}")
+                                    # 通过 env 创建 exp 工作空间（含软链接）
+                                    self.session._env.setup_exp_workspace(exp_workspace)
+                                    # 设置线程本地的工作空间路径
+                                    self.session.set_workspace_path(exp_workspace)
+                                    self.logger.info(
+                                        f"Exp {parallel_index} 使用独立工作空间: {exp_workspace}"
+                                    )
+                        return task_func()
+                    finally:
+                        # 清理线程本地状态
+                        if parallel_enabled and self.session is not None:
+                            from evomaster.agent.session.local import LocalSession
+                            if isinstance(self.session, LocalSession):
+                                self.session.set_parallel_index(None)
+                                if split_workspace:
+                                    self.session.set_workspace_path(None)
+                return wrapped
+            
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                # 提交所有任务，建立 future 到 index 的映射，以保证返回顺序
+                wrapped_tasks = [wrap_task(task, i) for i, task in enumerate(tasks)]
+                future_to_index = {executor.submit(wrapped_task): i for i, wrapped_task in enumerate(wrapped_tasks)}
+
+                # 处理完成的任务
+                for future in as_completed(future_to_index):
+                    index = future_to_index[future]
+                    try:
+                        # 获取返回值
+                        result = future.result()
+                        results[index] = result
+                    except Exception as exc:
+                        self.logger.error(f"Task {index} generated an exception: {exc}")
+                        # 将异常对象作为结果返回，避免打断其他任务
+                        results[index] = exc
+
+            self.logger.info("Parallel execution completed.")
+            return results

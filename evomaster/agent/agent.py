@@ -853,7 +853,11 @@ Always be careful with file operations and bash commands.
 
     def _get_system_prompt(self) -> str:
         """获取系统提示词，动态添加工作目录信息；若有 skill_registry 则自动注入 skills 信息"""
-        working_dir = self.session.config.workspace_path
+        # working_dir = self.session.config.workspace_path
+        working_dir = self.session.get_workspace_path()
+        # 如果没有启动并行和工作空间分离，那么get_workspace_path返回None，此时使用session.config.workspace_path
+        if working_dir is None:
+            working_dir = self.session.config.workspace_path
         # 将相对路径转换为绝对路径
         working_dir_abs = str(Path(working_dir).absolute())
         working_dir_info = f"\n\n重要提示：当前工作目录是 {working_dir_abs}。你必须在这个目录下进行所有操作，不能切换工作目录。所有文件操作、命令执行都必须在工作目录 {working_dir_abs} 下进行。"

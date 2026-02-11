@@ -1,0 +1,9 @@
+请根据以下规划执行代码任务：
+
+任务描述：{description}
+
+Planning Agent的规划：
+{planning_result}
+
+请按照规划逐步执行，确保每个步骤都正确完成。完成任务后，使用finish工具报告完成。
+
