@@ -23,24 +23,27 @@ class SelectExp(BaseExp):
         """返回实验阶段名称"""
         return "Selecting"
 
-    def __init__(self, selector_agent,  config , max_workers = 5):
+    def __init__(self, selector_agent,  config , index=0):
         """初始化SelectExp实验类
 
         Args:
             selector_agent: Selector Agent 实例
             config: EvoMasterConfig 实例
-            max_workers: 并行处理最大线程数， 如果不进行并行操作则将max_workers置为1
+            index: x-master需要并行多个exp, 因此需要为每个相同的exp定义一个编号
         """
 
         super().__init__(selector_agent, config)
         self.selector = selector_agent
+        self.index = index
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.max_workers = max_workers
+
+        self.selector._current_exp_name = self.exp_name
+        self.selector._current_exp_index = self.index
 
     def run(self, task_description:str,task_id:str = "exp_001", solutions:List[str] = None) -> dict:
             """运行Selector实验
 
-            工作流: agent_num个Selector Agent汇总前一个模块的所有答案并选择最佳答案
+            工作流: 一个Selector Agent汇总前一个模块的所有答案并选择最佳答案
 
             Args:
                 task_description: 任务描述
@@ -53,6 +56,7 @@ class SelectExp(BaseExp):
                 'task_id':task_id,
                 'steps':0,
                 'task_description': task_description,
+                'exp_index': self.index,
                 'status': 'running',
             }
             if solutions is None:
@@ -60,6 +64,7 @@ class SelectExp(BaseExp):
                 results['status'] = 'failed'
                 results['error'] = "Solutions is None"
                 return super().run(task_description, task_id)
+
 
             try:
                 if self.selector:
@@ -96,27 +101,26 @@ class SelectExp(BaseExp):
                         selected_solution = self._parse_selector_choice(selector_response, solutions)
                         results['selector_result'] = selected_solution
                         results['selected_index'] = self._get_selected_index(selector_response, len(solutions))
-
+                        
+                        self.logger.info("Selecting completed")
                     except Exception as e:
                         self.logger.error(f"Selector task failed: {e}", exc_info=True)
                         results['selector_trajectory'] = None
                         results['selector_result'] = None
+                        self.logger.info("Selecting failed")
 
                     self.selector._prompt_format_kwargs = original_format_kwargs
 
-                    self.logger.info("Selecting completed")
 
-                results['status'] = 'completed'
-                self.logger.info("Selector-agent task execution completed")
+                    results['status'] = 'completed'
+                    self.logger.info("Selector-agent task execution completed")
 
-                self.results.append(results)
             except Exception as e:
                 self.logger.error(f"Selector-agent task execution failed: {e}", exc_info=True)
                 results['status'] = 'failed'
                 results['error'] = str(e)
 
-                self.results.append(results)
-
+            self.results.append(results)
             return results
 
     def _format_solutions_prompt(self, solutions:List[str]) -> str:
@@ -202,16 +206,6 @@ class SelectExp(BaseExp):
         return max(0, min(num_solutions - 1, idx))
 
 
-    def _run_selector_task(self, selector_task: TaskInstance) -> str:
-        """包装selector.run()以便在线程中执行
-
-        Args:
-            selector_task: 初始问题
-        Return:
-            agent选择后的解决方案
-        """
-        return self.selector.run(selector_task)
-
 
     def save_results(self, output_file: str):
         """保存实验结果
@@ -222,82 +216,12 @@ class SelectExp(BaseExp):
         import json
         from pathlib import Path
 
-        output_data = []
-        
-        for result in self.results:
-            # 为每个任务创建一个记录，包含所有轨迹
-            task_record = {
-                "task_id": result.get("task_id", "unknown"),
-                "status": result.get("status", "unknown"),
-                "steps": 0,  # 先初始化为0
-            }
-            
-            # 收集所有轨迹
-            trajectories = {}
-            results = {}
-            total_steps = 0
-            
-            trajectory_key = f"selector_trajectory"
-            result_key = f"selector_result"
-            
-            if trajectory_key in result and result[trajectory_key]:
-                traj = result[trajectory_key]
-                # 存储轨迹数据
-                if hasattr(traj, 'model_dump'):
-                    trajectories[trajectory_key] = traj.model_dump()
-                else:
-                    # 如果traj不是Model对象，直接存储
-                    trajectories[trajectory_key] = traj
-                
-                # 更新总步数
-                total_steps += len(traj.steps) if hasattr(traj, 'steps') else 0
-                
-                # 更新任务状态（如果有成功的就用成功的状态）
-                if traj.status == "success" and task_record["status"] != "success":
-                    task_record["status"] = traj.status
-                
-            if result_key in result and result[result_key]:
-                res = result[result_key]
-                # 存储轨迹数据
-                if hasattr(res, 'model_dump'):
-                    results[result_key] = res.model_dump()
-                else:
-                    # 如果traj不是Model对象，直接存储
-                    results[result_key] = res
-            
-            # 如果没有找到任何轨迹，创建空记录
-            if not trajectories:
-                task_record["trajectories"] = {}
-                task_record["steps"] = result.get("steps", 0)
-                
-                # 添加任务的其他信息
-                if "selector_result" in result:
-                    task_record["selector_result"] = result.get("selector_result")
-            else:
-                task_record["trajectories"] = trajectories
-                task_record["steps"] = total_steps
-
-
-            if not results:
-                task_record["results"] = {}
-                
-                # 添加任务的其他信息
-                if "selector_result" in result:
-                    task_record["selector_result"] = result.get("selector_result")
-            else:
-                task_record["results"] = results
-            
-            task_record["meta"] = {
-                "agent_version": "1.0",
-                "task_type": "multi_agent"
-            }
-            
-            output_data.append(task_record)
 
         output_path = Path(output_file)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         
         with open(output_path, "w", encoding='utf-8') as f:
-            json.dump(output_data, f, indent=2, default=str, ensure_ascii=False)
+            json.dump(self.results, f, indent=2, default=str, ensure_ascii=False)
 
-        self.logger.info(f"Results saved to {output_file}")
+        self.logger.info(f"SelectExp(index:{self.index}) Results saved to {output_file}")
+

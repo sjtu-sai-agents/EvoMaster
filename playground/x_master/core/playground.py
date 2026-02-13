@@ -6,8 +6,6 @@
 3. Rewriter: 重写和整合解决方案
 4. Selector: 选择最佳解决方案
 
-TODO: 并行执行暂未实现，当前每个阶段仅支持单个 Agent 执行。
-      后续将支持每个阶段并行执行多个 Agent（通过 agent_num 和 max_workers 配置）。
 """
 
 import logging
@@ -23,8 +21,6 @@ if str(project_root) not in sys.path:
 
 from evomaster.core import BasePlayground, register_playground
 from evomaster import TaskInstance
-
-# 假设Exp类已经在evomaster.xmaster模块中
 
 from .exp import SolveExp, CritiqueExp, RewriteExp, SelectExp
 
@@ -61,14 +57,11 @@ class XMasterPlayground(BasePlayground):
         self.selector_exp = None
         
         # 存储中间结果
-        self.solver_results = None
-        self.critic_results = None
-        self.rewriter_results = None
-        self.selector_results = None
+        self.solver_results = []
+        self.critic_results = []
+        self.rewriter_results = []
+        self.selector_results = []
         
-        # 工作流配置
-        self.agent_num = 5  # 每个Exp并行执行的Agent数量
-        self.max_workers = 5  # 线程池大小
     
     def setup(self) -> None:
         """初始化所有组件
@@ -93,8 +86,6 @@ class XMasterPlayground(BasePlayground):
         # 5. 创建四个组件的Agent
         self._setup_agents(llm_config_dict)
 
-        # 6. 创建Exp实例
-        self._setup_exps()
 
         self.logger.info("X-Master playground setup complete")
     
@@ -107,9 +98,9 @@ class XMasterPlayground(BasePlayground):
         if not xmaster_config:
             xmaster_config = {}
 
-        # TODO: 并行执行暂未实现，当前仅支持 agent_num=1
         self.agent_num = xmaster_config.get('agent_num', 1)
         self.max_workers = xmaster_config.get('max_workers', 1)
+        self.parallel = xmaster_config.get('parallel', True)
 
         self.logger.info(f"Workflow config: agent_num={self.agent_num}, max_workers={self.max_workers}")
     
@@ -170,56 +161,79 @@ class XMasterPlayground(BasePlayground):
             )
             self.logger.info("Selector Agent created")
 
+
+    def _create_exp(self, exp_index, exp_name:str):
+        """创建多智能体实验实例"""
+        exp = None
+        
+        if exp_name == "solve":
+            solver_agent_copy = self.copy_agent(
+                self.solver_agent, 
+                new_agent_name=f"solve_exp_{exp_index}"
+            ) if self.solver_agent else None
+            exp = SolveExp(
+                solver_agent=solver_agent_copy,
+                config=self.config,
+                index=exp_index
+            )
+        
+        elif exp_name == "critique":
+            critic_agent_copy = self.copy_agent(
+                self.critic_agent, 
+                new_agent_name=f"critique_exp_{exp_index}"
+            ) if self.critic_agent else None
+            exp = CritiqueExp(
+                critic_agent=critic_agent_copy,
+                config=self.config,
+                index=exp_index
+            )
+        
+        elif exp_name == "rewrite":
+            rewriter_agent_copy = self.copy_agent(
+                self.rewriter_agent, 
+                new_agent_name=f"rewrite_exp_{exp_index}"
+            ) if self.rewriter_agent else None
+            exp = RewriteExp(
+                rewriter_agent=rewriter_agent_copy,
+                config=self.config,
+                index=exp_index
+            )
+        
+        elif exp_name == "select":
+            selector_agent_copy = self.copy_agent(
+                self.selector_agent, 
+                new_agent_name=f"select_exp_{exp_index}"
+            ) if self.selector_agent else None
+            exp = SelectExp(  
+                selector_agent=selector_agent_copy,
+                config=self.config,
+                index=exp_index
+            )
+        
+        else:
+            raise ValueError(f"Unknown exp_name: {exp_name}. Expected one of: solve, critique, rewrite, select")
+        
+        if exp is None:
+            raise RuntimeError(f"Failed to create exp: {exp_name}")
+        
+        return exp
     
-    def _setup_exps(self) -> None:
-        """创建四个Exp实例"""
-
-        # 1. 创建SolveExp
-        self.solver_exp = SolveExp(
-            solver_agent=self.solver_agent,
-            config=self.config,
-            agent_num=self.agent_num,
-            max_workers=self.max_workers
-        )
-        #if self.run_dir:
-        #    self.solver_exp.set_run_dir(self.run_dir)
-        self.critic_exp = CritiqueExp(
-            critic_agent=self.critic_agent,
-            agent_num=self.agent_num,
-            config=self.config,
-            max_workers=self.max_workers
-        )
-
-        self.rewriter_exp = RewriteExp(
-            rewriter_agent=self.rewriter_agent,
-            agent_num=self.agent_num,
-            config=self.config,
-            max_workers=self.max_workers
-        )
-
-        self.selector_exp = SelectExp(
-            selector_agent=self.selector_agent,
-            config=self.config,
-            max_workers=self.max_workers
-        )
-
-        self.logger.info(f"Created 4 Exp instances: {self.agent_num} parallel agents each")
-    
-    def _extract_solutions_from_results(self, results: Dict[str, Any]) -> List[str]:
+    def _extract_solutions_from_results(self, results: List) -> List[str]:
         """从Exp结果中提取解决方案列表"""
         solutions = []
         #直接查找 solutions_result_{i}
-        for i in range(self.agent_num):
-            key = f"solver_result_{i}"
-            if key in results and results[key] is not None:
-                solutions.append(results[key])
-                self.logger.info(f"找到 {key}: {results[key][:50]}...")
-            elif key in results:
-                self.logger.warning(f"{key} 的值为 None，跳过")
+        for result in results:
+            index = result['exp_index']
+            key = f"solver_result"
+            if key in result and result[key] is not None:
+                solutions.append(result[key])
+                self.logger.info(f"index:{index} 找到 {key}: {result[key][:50]}...")
+            elif key in result:
+                self.logger.warning(f"index:{index} {key} 的值为 None，跳过")
         self.logger.info(f"最终提取到 {len(solutions)} 个解决方案")
         return solutions
     
-    def _extract_corrected_solutions(self, results: Dict[str, Any]) -> List[str]:
+    def _extract_corrected_solutions(self, results: List) -> List[str]:
         """从Critic结果中提取修正后的解决方案
         
         Args:
@@ -230,18 +244,18 @@ class XMasterPlayground(BasePlayground):
         """
         solutions = []
         #直接查找 critic_result_{i}
-        for i in range(self.agent_num):
-            key = f"critic_result_{i}"
-            if key in results and results[key] is not None:
-                solutions.append(results[key])
-                self.logger.info(f"找到 {key}: {results[key][:50]}...")
-            elif key in results:
-                self.logger.warning(f"{key} 的值为 None，跳过")
+        for result in results:
+            index = result['exp_index']
+            key = f"critic_result"
+            if key in result and result[key] is not None:
+                solutions.append(result[key])
+                self.logger.info(f"index:{index} 找到 {key}: {result[key][:50]}...")
+            elif key in result:
+                self.logger.warning(f"index:{index} {key} 的值为 None，跳过")
         self.logger.info(f"最终提取到 {len(solutions)} 个解决方案")
         return solutions
 
-    
-    def _extract_rewritten_solutions(self, results: Dict[str, Any]) -> List[str]:
+    def _extract_rewritten_solutions(self, results: List) -> List[str]:
         """从Rewriter结果中提取重写后的解决方案
         
         Args:
@@ -252,16 +266,16 @@ class XMasterPlayground(BasePlayground):
         """
         solutions = []
         #直接查找 rewriter_result_{i}
-        for i in range(self.agent_num):
-            key = f"rewriter_result_{i}"
-            if key in results and results[key] is not None:
-                solutions.append(results[key])
-                self.logger.info(f"找到 {key}: {results[key][:50]}...")
-            elif key in results:
-                self.logger.warning(f"{key} 的值为 None，跳过")
+        for result in results:
+            index = result['exp_index']
+            key = f"rewriter_result"
+            if key in result and result[key] is not None:
+                solutions.append(result[key])
+                self.logger.info(f"index:{index} 找到 {key}: {result[key][:50]}...")
+            elif key in result:
+                self.logger.warning(f"index:{index} {key} 的值为 None，跳过")
         self.logger.info(f"最终提取到 {len(solutions)} 个解决方案")
         return solutions
-
     
     def _extract_selected_solution(self, results: Dict[str, Any]) -> str:
         """从Selector结果中提取选中的解决方案
@@ -277,8 +291,156 @@ class XMasterPlayground(BasePlayground):
         self.logger.info(f"找到 {key}: {results[key][:50]}...")
         return solutions
     
+    def _run_with_parallel(self,task_description: str, task_id: str = None):
+        self.logger.info(f"=== Parallel Process ({self.agent_num} agents) ===")
+        from functools import partial
+        # ---------- Phase 1: Solver (并行) ----------
+        self.logger.info(f"=== Phase 1: Solver (parallel, {self.agent_num} agents) ===")
+        solver_tasks = []
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i, exp_name="solve")
+            task_func = partial(
+                exp.run,
+                task_description=task_description,
+                task_id=f"{task_id}_solver",
+            )
+            solver_tasks.append(task_func)
+        
+        solver_results_list = self.execute_parallel_tasks(solver_tasks, max_workers=self.max_workers)
+
+        self.solver_results = solver_results_list
+
+        original_solutions = self._extract_solutions_from_results(self.solver_results)
+
+        self.logger.info(f"Solver generated {len(original_solutions)} solutions")
+
+
+        # ---------- Phase 2: Critic (并行，一一对应) ----------
+        self.logger.info(f"=== Phase 2: Critic (parallel, {self.agent_num} agents) ===")
+        critic_tasks = []
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i, exp_name="critique")
+            task_func = partial(
+                exp.run,
+                task_description=task_description,
+                solution=original_solutions[i],   # 只传递对应的一个解
+                task_id=f"{task_id}_critic"
+            )
+            critic_tasks.append(task_func)
+        
+        critic_results_list = self.execute_parallel_tasks(critic_tasks, max_workers=self.max_workers)
+
+        self.critic_results = critic_results_list
+
+        corrected_solutions = self._extract_corrected_solutions(self.critic_results)
+        self.logger.info(f"Critic generated {len(corrected_solutions)} corrected solutions")
+
+        # ---------- Phase 3: Rewriter (并行，综合所有) ----------
+        self.logger.info(f"=== Phase 3: Rewriter (parallel, {self.agent_num} agents) ===")
+        rewriter_tasks = []
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i, exp_name="rewrite")
+            task_func = partial(
+                exp.run,
+                task_description=task_description,
+                solutions=corrected_solutions,       # 传递所有修正解
+                task_id=f"{task_id}_rewriter"
+            )
+            rewriter_tasks.append(task_func)
+        
+        rewriter_results_list = self.execute_parallel_tasks(rewriter_tasks, max_workers=self.max_workers)
+
+        self.rewriter_results = rewriter_results_list
+
+        rewritten_solutions = self._extract_rewritten_solutions(self.rewriter_results)
+        
+        self.logger.info(f"Rewriter generated {len(rewritten_solutions)} rewritten solutions")
+
+        # ---------- Phase 4: Selector (单 Agent) ----------
+        self.logger.info("=== Phase 4: Selector ===")
+        selector_exp = self._create_exp(exp_index=0, exp_name="select")
+        self.selector_results = selector_exp.run(
+            task_description=task_description,
+            solutions=rewritten_solutions,
+            task_id=f"{task_id}_selector"
+        )
+
+        selected_solution = self._extract_selected_solution(self.selector_results)
+        self.logger.info("Selector completed, best solution selected")
+
+        return original_solutions, corrected_solutions, rewritten_solutions, selected_solution
+
+
+    def _run_with_serial(self,task_description: str, task_id: str = None):
+
+        self.logger.info(f"=== Serial Process ({self.agent_num} agents) ===")
+        # 1. Solver阶段：生成初始解决方案
+        self.logger.info(f"=== Phase 1: Solver (serial, {self.agent_num} agents) ===")
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i,exp_name="solve")
+            solver_results = exp.run(
+                task_description=task_description,
+                task_id=f"{task_id}_solver"
+            )
+            self.solver_results.append(solver_results)
+
+        # 提取Solver的解决方案
+        original_solutions = self._extract_solutions_from_results(self.solver_results)
+        self.logger.info(f"Solver generated {len(original_solutions)} solutions")
+        
+        # 2. Critic阶段：批评和修正解决方案
+        self.logger.info(f"=== Phase 2: Critic (serial, {self.agent_num} agents) ===")
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i,exp_name="critique")
+            critic_results = exp.run(
+                task_description=task_description,
+                solution=original_solutions[i],  
+                task_id=f"{task_id}_critic"
+            )
+            self.critic_results.append(critic_results)
+        
+        # 提取Critic修正后的解决方案
+        corrected_solutions = self._extract_corrected_solutions(self.critic_results)
+        self.logger.info(f"Critic generated {len(corrected_solutions)} corrected solutions")
+        
+        # 3. Rewriter阶段：重写和整合解决方案
+        self.logger.info(f"=== Phase 3: Rewriter (serial, {self.agent_num} agents) ===")
+        
+        # 准备Rewriter的输入数据
+
+        for i in range(self.agent_num):
+            exp = self._create_exp(exp_index=i,exp_name="rewrite")
+            rewriter_results = exp.run(
+                task_description=task_description,
+                solutions=corrected_solutions,
+                task_id=f"{task_id}_rewriter"
+            )
+            self.rewriter_results.append(rewriter_results)
+        
+        # 提取Rewriter重写后的解决方案
+        rewritten_solutions = self._extract_rewritten_solutions(self.rewriter_results)
+        self.logger.info(f"Rewriter generated {len(rewritten_solutions)} rewritten solutions")
+        
+        # 4. Selector阶段：选择最佳解决方案
+        self.logger.info("=== Phase 4: Selector ===")
+        
+        # 准备Selector的输入数据
+        exp = self._create_exp(exp_index=i,exp_name="select")
+
+        self.selector_results = exp.run(
+            task_description=task_description,
+            solutions=rewritten_solutions,
+            task_id=f"{task_id}_selector"
+        )
+        
+        # 提取Selector选中的解决方案
+        selected_solution = self._extract_selected_solution(self.selector_results)
+        self.logger.info("Selector completed, best solution selected")
+        
+
+        return original_solutions, corrected_solutions, rewritten_solutions, selected_solution
+    
     def run_xmaster_workflow(self, task_description: str, task_id: str = None) -> Dict[str, Any]:
-        # import ipdb
         """运行完整的X-Master工作流
         
         Args:
@@ -294,74 +456,12 @@ class XMasterPlayground(BasePlayground):
         self.logger.info(f"Starting X-Master workflow for task: {task_id}")
         self.logger.info(f"Task description: {task_description[:100]}...")
         
-        # 1. Solver阶段：生成初始解决方案
-        self.logger.info("=== Phase 1: Solver ===")
-        self.solver_results = self.solver_exp.run(
-            task_description=task_description,
-            task_id=f"{task_id}_solver"
-        )
-        # self.solver_exp.save_results("/data/wkJIN/EvoMaster/playground/x_master/output/solver_output.txt")
+        # 是否并行处理
+        if self.parallel:
+            original_solutions, corrected_solutions, rewritten_solutions, selected_solution = self._run_with_parallel(task_description, task_id)
+        else:
+            original_solutions, corrected_solutions, rewritten_solutions, selected_solution = self._run_with_serial(task_description, task_id)
 
-        # 提取Solver的解决方案
-        original_solutions = self._extract_solutions_from_results(self.solver_results)
-        self.logger.info(f"Solver generated {len(original_solutions)} solutions")
-
-        # print(original_solutions)
-        # ipdb.set_trace()
-        
-        # 2. Critic阶段：批评和修正解决方案
-        self.logger.info("=== Phase 2: Critic ===")
-        self.critic_results = self.critic_exp.run(
-            task_description=task_description,
-            solutions=original_solutions,  
-            task_id=f"{task_id}_critic"
-        )
-        
-        # 提取Critic修正后的解决方案
-        corrected_solutions = self._extract_corrected_solutions(self.critic_results)
-        self.logger.info(f"Critic generated {len(corrected_solutions)} corrected solutions")
-
-        # self.critic_exp.save_results("/data/wkJIN/EvoMaster/playground/x_master/output/critic_output.txt")
-        # print(corrected_solutions)
-        # ipdb.set_trace()
-        
-        # 3. Rewriter阶段：重写和整合解决方案
-        self.logger.info("=== Phase 3: Rewriter ===")
-        
-        # 准备Rewriter的输入数据
-
-        
-        self.rewriter_results = self.rewriter_exp.run(
-            task_description=task_description,
-            solutions=corrected_solutions,
-            task_id=f"{task_id}_rewriter"
-        )
-        
-        # 提取Rewriter重写后的解决方案
-        rewritten_solutions = self._extract_rewritten_solutions(self.rewriter_results)
-        self.logger.info(f"Rewriter generated {len(rewritten_solutions)} rewritten solutions")
-        
-        # self.rewriter_exp.save_results("/data/wkJIN/EvoMaster/playground/x_master/output/rewriter_output.txt")
-        # print(rewritten_solutions)
-        # ipdb.set_trace()
-        # 4. Selector阶段：选择最佳解决方案
-        self.logger.info("=== Phase 4: Selector ===")
-        
-        # 准备Selector的输入数据
-
-        self.selector_results = self.selector_exp.run(
-            task_description=task_description,
-            solutions=rewritten_solutions,
-            task_id=f"{task_id}_selector"
-        )
-        
-        # 提取Selector选中的解决方案
-        selected_solution = self._extract_selected_solution(self.selector_results)
-        self.logger.info("Selector completed, best solution selected")
-
-        # self.selector_exp.save_results("/data/wkJIN/EvoMaster/playground/x_master/output/selector_output.txt")
-        # print(selected_solution)
-        # ipdb.set_trace()
         
         # 构建最终结果
         final_result = {
@@ -431,11 +531,6 @@ class XMasterPlayground(BasePlayground):
         self.rewriter_agent = None
         self.selector_agent = None
         
-        # 清空Exp实例
-        self.solver_exp = None
-        self.critic_exp = None
-        self.rewriter_exp = None
-        self.selector_exp = None
         
         # 清空结果
         self.solver_results = None
