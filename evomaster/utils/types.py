@@ -96,8 +96,18 @@ class Dialog(BaseModel):
         result = []
         for msg in self.messages:
             msg_dict: dict[str, Any] = {"role": msg.role.value}
-            if msg.content is not None:
-                msg_dict["content"] = msg.content
+            content = msg.content
+
+            # 部分 API（如 Claude/OpenRouter）要求 text content blocks 非空
+            if isinstance(msg, AssistantMessage) and msg.tool_calls:
+                if content is None or (isinstance(content, str) and not content.strip()):
+                    content = " "
+            elif isinstance(msg, ToolMessage):
+                if content is None or (isinstance(content, str) and not content.strip()):
+                    content = " "
+
+            if content is not None:
+                msg_dict["content"] = content
             if isinstance(msg, AssistantMessage) and msg.tool_calls:
                 msg_dict["tool_calls"] = [tc.model_dump() for tc in msg.tool_calls]
             if isinstance(msg, ToolMessage):
