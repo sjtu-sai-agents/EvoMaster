@@ -1,0 +1,11 @@
+{
+    "serper_api_key": "Your Serper API Key",
+    "search_region": "us",
+    "search_lang": "en",
+    "USE_MODEL": "gpt-4o",
+    "BASE_MODEL": "qwen-32b",
+    "user_prompt":{
+        "search_conclusion": "Please analyze the provided web content and extract the information most relevant to the user's question: 1. Reformat the web page into human readable version, provide the raw data, do not miss any useful information. 2. Ensure no fabrication. 3. Give some urls which are related to the user's question. Return the result in JSON format, e.g., {{'content': content,'urls': [{{'url':url,'description':description}},{{'url':url,'description':description}},...],'score': score}}, where 'content' is the core content related to the user's question, url must be related to the user's question. It can be web url or image url. If it is an image URL, you can roughly judge the content of the image based on the text near this URL. If the image is relevant to the search query, you can return this image URL. You must return some image urls. 'description' is the description of the url. If there is no related url, return empty list. 'score' is the relevance score between 0 and 1, indicating how relevant the web content is to the user's question. Limit the overall response to within 500 words, and provide only the most important URLs, no more than 2. The user's question is: {user}, and the web content is: {info}."
+    }
+
+}

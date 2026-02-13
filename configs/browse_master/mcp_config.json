@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "browse-master-search-tools": {
+      "transport": "http",
+      "url": "http://127.0.0.1:8002/mcp"
+    },
+    "mcp-sandbox": {
+      "transport": "http",
+      "url": "http://127.0.0.1:8001/mcp"
+    }
+  }
+}

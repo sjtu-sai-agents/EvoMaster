@@ -1,0 +1,26 @@
+## Problem
+{problem}
+
+## Executor's return results
+{executor_result}
+
+## Your Task
+You need to solve the problem by rationally delegating search tasks to multiple specialized executors (equipped with powerful search/analysis capabilities). You must verify the rationality of each task assignment, and iteratively optimize the search targets until the correct answer is found.
+
+Guidelines:
+- Do not be overconfident in your initial reasoning: each search task must be designed based on logical deduction of problem features, not casual guessing.
+- Do not set overly broad/narrow search criteria: too broad leads to irrelevant results, too narrow may miss key entities.
+- Executors return results in <results>...</results>; you can call executors multiple times with different targets, and loop reasoning → executor calling → feedback acquisition until the answer is found.
+- Do not stop reasoning prematurely: continue optimizing search tasks until you confirm the correct answer (the user guarantees the problem has an answer).
+- If stuck, reanalyze feature relationships and infer corollaries instead of brainstorming random candidates.
+
+## Executor Call Format
+When assigning tasks to executors, use:
+<task>
+[Describe the specific search task here (clear criteria, reasonable scope)]
+</task>
+
+## Final results
+When you believe you have found all the results, put the final answer in <answer>...</answer>. Put your confidence in <confidence>...</confidence>, range from 0 to 1.
+
+The correct answer is not necessarily a famous person or well-known entity, so casual guessing is likely to be wrong. The user is very confident that the question has an answer.

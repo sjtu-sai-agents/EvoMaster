@@ -1,0 +1,68 @@
+## Search target
+{search_target}
+
+## Your task
+Your task is to reason and search exhaustively to find all the entities that satisfy the search_target
+
+## Your return format
+You must return the answers in <results>...</results>
+
+## Functions you can use
+
+To search for the target, you need to reason and use the following tools. We first provide several primitive functions:
+
+1. generate_keywords(seed_keyword): this function takes a string seed_keyword as input and generates multiple search keywords based on the input. The generated keywords are returned in the ["tool_result"]["keywords"] field of the output dict.
+2. batch_search(key_words): this function takes a list of keywords as input and performs batch search operations. The search results are returned in the ["tool_result"]["organic"] field of the output dict.
+3. check_condition(content:str, condition:str): This function evaluates whether a given piece of content meets a specified condition with an LLM. The function returns a dict containing a string ("yes", "no", or "unknown") indicating whether the content satisfies the condition in the ['tool_result']['is_relevant'] field. This function helps when searching relevant pages from a multitude of web pages, you can filter out irrelevant pages if "no" without the need to read the page content.
+4. batch_search_and_filter(keyword): this function combines the above primitives into an integrated search solution. It takes a string keyword as input, then it generate multiple search keywords with two strategies: 1. generate keywords with exact match; 2. if time description is included in the keyword, it will generate keywords for each time period. Then it will web_search the web with the generated keywords and filter out the irrelevant results. The output is a dict of the filtered results, where the key ["tool_result"]["yes"] corresponds to the results that satisfy the search target, while the key ["tool_result"]["unknown"] corresponds to the results that can not be judged with the given page snippets. You can use the ["tool_result"]["yes"] to get the results that satisfy the search target.
+
+For specific tools to interact with web content:
+5. web_search(keywords): this function takes string keywords as input, and the output is a dict containing top 10 web information from google search engine. An output example is the following python dict:
+{{
+    "tool_result": {{
+                "searchParameters": {{...}}, 
+                "organic": [
+                    {{"title": Title, "link": Link, "snippet": Short description of the content, "position": Position}}, 
+                    ...
+                ]
+            }}
+}}
+6. web_parse(link:str, query:str): this function takes the link and query as input, and will parse the web page, call an LLM to answer the query based on the page content. The answer is put in the ['tool_result']['content'] field of the output dict. This function is useful when looking into detail information of a page.
+
+To use the tools described above, you must call them by writing Python code enclosed within <code></code> tags. Then the code will be executed and you can see the output. You can write code multiple times. Similar to cells in a Jupyter notebook, any code within <code></code> blocks will be executed and cached, so you can reuse functions and variables in subsequent steps. To look at the output of the code or any variables, simply writing code to print them. 
+
+## Code you can use
+
+To use the functions above, You will answer by deep reasoning together with writing python code in <code></code> format to call the tools. For example
+
+1. If I want to use the function of batch_search_and_filter(keyword), will say <code>
+keyword=...
+results=batch_search_and_filter(keyword)["tool_result"]["yes"]
+print(results)
+</code> to call batch_search_and_filter function.
+2. If I want to use the function of web_search(keywords), will say <code>
+keywords=...
+results=web_search(keywords)["tool_result"]["organic"]
+print(results)
+</code> to call web_search function.
+3. If I want to use the function of web_parse(link, query), will say <code>
+link=...
+query=...
+results=web_parse(link, query)["tool_result"]["content"]
+print(results)
+4. If I want to use the function of check_condition(content, condition), will say <code>
+content=...
+conditions=...
+check_result=check_condition(content, conditions)["tool_result"]["is_relevant"]
+print(check_result)
+</code> to call check_condition function.
+5. If I want to use the function of generate_keywords(seed_keyword), will say <code>
+seed_keyword=...
+keywords=generate_keywords(seed_keyword)["tool_result"]["keywords"]
+print(keywords)
+</code> to call generate_keywords function.
+6. If I want to use the function of batch_search(key_words), will say <code>
+key_words=...
+search_results=batch_search(key_words)["tool_result"]["organic"]
+print(search_results)
+</code> to call batch_search function.

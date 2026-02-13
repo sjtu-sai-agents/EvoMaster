@@ -1,0 +1,24 @@
+{
+    "gpt-4o":{
+        "url": "",
+        "authorization": "",
+        "retry_time": 3
+    },
+    "gpt-4.1-nano-2025-04-14": {
+        "url": "",
+        "authorization": "",
+        "retry_time": 3
+    },
+    "qwen-32b":{
+        "url": "",
+        "authorization": "EMPTY",
+        "retry_time": 3,
+        "tool_link": ""
+    },
+    "qwen-72b": {
+        "url": "",
+        "authorization": "EMPTY",
+        "stream_api_base": "",
+        "retry_time": 3
+    }
+}

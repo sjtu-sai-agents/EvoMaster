@@ -1,0 +1,4 @@
+{
+    "tool_api_url": "http://127.0.0.1:1234",
+    "mcp_server_url": "http://127.0.0.1:30008"
+}
