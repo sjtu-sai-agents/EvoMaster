@@ -62,6 +62,7 @@ agents:
     max_turns: 10
     enable_tools: false
     skills:  # 显式指定无 skill
+    skills:  # 显式指定无 skill
 
     context:
       max_tokens: 128000
@@ -76,6 +77,8 @@ agents:
     llm: "local_sglang"
     max_turns: 30
     enable_tools: true
+    skills:  # 通配符 → 全部 skill
+      - "*"
     skills:  # 通配符 → 全部 skill
       - "*"
 
@@ -97,6 +100,10 @@ agents:
       - "rag"
       - "pdf"
 
+    skills:  # 指定子集
+      - "rag"
+      - "pdf"
+
     context:
       max_tokens: 128000
       truncation_strategy: "latest_half"
@@ -107,6 +114,7 @@ agents:
     user_prompt_file: "prompts/summarize_user_prompt.txt"
 
 # ============================================
+# Embedding 配置（RAG 向量检索使用）
 # Embedding 配置（RAG 向量检索使用）
 # ============================================
 embedding:
