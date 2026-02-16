@@ -2,41 +2,58 @@
 """Text Encoder - 文本编码工具
 
 提供独立的文本编码功能，将文本转换为向量。
+支持本地 transformer 模型和 OpenAI embedding API。
 """
 
 import logging
+import os
 import sys
 from pathlib import Path
 
 import numpy as np
-import torch
-from transformers import AutoTokenizer, AutoModel
 
 logger = logging.getLogger(__name__)
 
 
+# 从 search.py 导入 Embedder 相关类
+from search import create_embedder, BaseEmbedder
+
+
 class TextEncoder:
-    """文本编码器"""
+    """文本编码器，支持本地模型和 OpenAI API"""
 
     def __init__(
         self,
         model_name: str = "evomaster/skills/rag/local_models/all-mpnet-base-v2",
-        device: str = "cpu"
+        device: str = "cpu",
+        embedding_type: str = "auto",
+        embedding_api_key: str | None = None,
+        embedding_base_url: str | None = None,
+        embedding_dimensions: int | None = None,
     ):
         """初始化编码器
 
         Args:
-            model_name: Transformer 模型名称
-            device: 计算设备 ('cpu' 或 'cuda')
+            model_name: 模型名称或路径
+            device: 计算设备 ('cpu' 或 'cuda')，仅本地模型使用
+            embedding_type: "local", "openai", 或 "auto"（自动检测）
+            embedding_api_key: OpenAI API key（仅 openai 类型需要）
+            embedding_base_url: OpenAI API base URL（仅 openai 类型需要）
+            embedding_dimensions: Embedding 维度（仅 openai 的 text-embedding-3-* 支持）
         """
         self.model_name = model_name
         self.device = device
-
-        # 加载模型
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name).to(self.device)
-        self.model.eval()
-        logger.info(f"Initialized encoder with model: {model_name} on {device}")
+        
+        # 使用统一的 embedder 创建函数
+        self.embedder = create_embedder(
+            model=model_name,
+            embedding_type=embedding_type,
+            api_key=embedding_api_key,
+            base_url=embedding_base_url,
+            dimensions=embedding_dimensions,
+            device=device,
+        )
+        logger.info(f"Initialized encoder with model: {model_name}")
 
     def encode(
         self,
@@ -48,35 +65,24 @@ class TextEncoder:
 
         Args:
             text: 输入文本
-            max_length: 最大长度
+            max_length: 最大长度（仅本地模型使用）
             normalize: 是否归一化向量
 
         Returns:
             编码后的向量
         """
-        inputs = self.tokenizer(
-            text,
-            padding=True,
-            truncation=True,
-            max_length=max_length,
-            return_tensors="pt",
-        ).to(self.device)
-
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            h = outputs.last_hidden_state
-            attn = inputs["attention_mask"].unsqueeze(-1)
-            # Mean pooling with attention weights
-            emb = (h * attn).sum(dim=1) / attn.sum(dim=1)
-
-        emb = emb.cpu().numpy()
+        emb = self.embedder.encode(text)
+        
+        # 确保是 1D 向量
+        if emb.ndim > 1:
+            emb = emb[0]
 
         # 归一化（可选）
         if normalize:
-            norm = np.linalg.norm(emb, axis=1, keepdims=True)
+            norm = np.linalg.norm(emb)
             emb = emb / (norm + 1e-8)
 
-        return emb[0]  # 返回第一个（也是唯一的）向量
+        return emb
 
     def encode_batch(
         self,
@@ -89,7 +95,7 @@ class TextEncoder:
 
         Args:
             texts: 文本列表
-            max_length: 最大长度
+            max_length: 最大长度（仅本地模型使用）
             normalize: 是否归一化向量
             batch_size: 批处理大小
 
@@ -98,30 +104,8 @@ class TextEncoder:
         """
         all_embeddings = []
 
-        for i in range(0, len(texts), batch_size):
-            batch_texts = texts[i:i + batch_size]
-            batch_inputs = self.tokenizer(
-                batch_texts,
-                padding=True,
-                truncation=True,
-                max_length=max_length,
-                return_tensors="pt",
-            ).to(self.device)
-
-            with torch.no_grad():
-                outputs = self.model(**batch_inputs)
-                h = outputs.last_hidden_state
-                attn = batch_inputs["attention_mask"].unsqueeze(-1)
-                # Mean pooling with attention weights
-                emb = (h * attn).sum(dim=1) / attn.sum(dim=1)
-
-            emb = emb.cpu().numpy()
-
-            # 归一化（可选）
-            if normalize:
-                norm = np.linalg.norm(emb, axis=1, keepdims=True)
-                emb = emb / (norm + 1e-8)
-
+        for text in texts:
+            emb = self.encode(text, max_length=max_length, normalize=normalize)
             all_embeddings.append(emb)
 
         return np.vstack(all_embeddings)
@@ -134,18 +118,44 @@ def main():
     parser = argparse.ArgumentParser(description="Text Encoder CLI")
     parser.add_argument("--model", 
                        default="evomaster/skills/rag/local_models/all-mpnet-base-v2",
-                       help="Transformer model path or HuggingFace model name (default: local model)")
+                       help="Embedding model path, HuggingFace model name, or OpenAI model name (default: local model)")
     parser.add_argument("--text", help="Text to encode")
     parser.add_argument("--file", help="File containing text (one per line)")
     parser.add_argument("--output", help="Output file for embeddings (.npy)")
     parser.add_argument("--max_length", type=int, default=512, help="Max length")
     parser.add_argument("--normalize", action="store_true", help="Normalize vectors")
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
+    # OpenAI embedding 参数
+    parser.add_argument(
+        "--embedding_type",
+        choices=["auto", "local", "openai"],
+        default="auto",
+        help="Embedding type: 'local' for transformer models, 'openai' for OpenAI API, 'auto' to detect (default: auto)",
+    )
+    parser.add_argument(
+        "--embedding_api_key",
+        help="OpenAI API key for embedding (can also use OPENAI_EMBEDDING_API_KEY env var)",
+    )
+    parser.add_argument(
+        "--embedding_base_url",
+        help="OpenAI API base URL for embedding (can also use OPENAI_EMBEDDING_BASE_URL env var)",
+    )
+    parser.add_argument(
+        "--embedding_dimensions",
+        type=int,
+        help="Embedding dimensions for text-embedding-3-* models (default: 3072)",
+    )
 
     args = parser.parse_args()
 
     # 初始化编码器
-    encoder = TextEncoder(model_name=args.model)
+    encoder = TextEncoder(
+        model_name=args.model,
+        embedding_type=args.embedding_type,
+        embedding_api_key=args.embedding_api_key,
+        embedding_base_url=args.embedding_base_url,
+        embedding_dimensions=args.embedding_dimensions,
+    )
 
     # 读取文本
     if args.text:
