@@ -11,6 +11,7 @@ import re
 from abc import ABC
 from pathlib import Path
 from typing import Any
+import warnings
 
 import yaml
 from pydantic import BaseModel, Field
@@ -94,36 +95,6 @@ class EnvConfig(BaseConfig):
 
 
 # ============================================
-# Skill 配置
-# ============================================
-
-class KnowledgeSkillConfig(BaseConfig):
-    """Knowledge Skill 配置"""
-    retrieval: dict[str, Any] = Field(
-        default_factory=lambda: {
-            "enabled": True,
-            "embedding_model": "text-embedding-ada-002",
-            "top_k": 5,
-            "similarity_threshold": 0.7,
-        },
-        description="检索配置"
-    )
-
-
-class OperatorSkillConfig(BaseConfig):
-    """Operator Skill 配置"""
-    load_meta_info: bool = Field(default=True, description="是否加载 meta_info")
-    lazy_load_full_info: bool = Field(default=True, description="是否延迟加载 full_info")
-
-
-class SkillConfig(BaseConfig):
-    """Skill 配置"""
-    skill_dir: str = Field(default="./evomaster/skills", description="Skill 目录")
-    knowledge: KnowledgeSkillConfig = Field(default_factory=KnowledgeSkillConfig)
-    operator: OperatorSkillConfig = Field(default_factory=OperatorSkillConfig)
-
-
-# ============================================
 # 日志配置
 # ============================================
 
@@ -153,7 +124,7 @@ class EvoMasterConfig(BaseConfig):
     llm: dict[str, Any] = Field(default_factory=dict, description="LLM 配置")
 
     # Agent 配置（存储为字典，按需转换为 AgentConfig）
-    agent: dict[str, Any] = Field(default_factory=dict, description="Agent 配置")
+    agents: dict[str, Any] = Field(default_factory=dict, description="Agent 配置")
 
     # Session 配置（存储为字典，按需转换为 SessionConfig）
     session: dict[str, Any] = Field(default_factory=dict, description="Session 配置")
@@ -161,8 +132,6 @@ class EvoMasterConfig(BaseConfig):
     # Env 配置
     env: EnvConfig = Field(default_factory=EnvConfig, description="环境配置")
 
-    # Skill 配置
-    skill: SkillConfig = Field(default_factory=SkillConfig, description="Skill 配置")
 
     # Skills 加载（Playground 用：enabled=true 时加载 SkillRegistry，skills_root 为技能目录）
     skills: dict[str, Any] = Field(
@@ -251,6 +220,13 @@ class ConfigManager:
         self._config = EvoMasterConfig(**config_dict)
         return self._config
 
+    @staticmethod
+    def _require_dict(value: Any, field_name: str) -> dict[str, Any]:
+        """确保配置项为字典类型，便于统一错误信息。"""
+        if not isinstance(value, dict):
+            raise TypeError(f"Config field '{field_name}' must be a dict, got {type(value).__name__}")
+        return value
+
     def get(self, key: str, default: Any = None) -> Any:
         """获取配置项
 
@@ -288,23 +264,106 @@ class ConfigManager:
         """
         config = self.load()
 
+        llm_root = self._require_dict(config.llm, "llm")
         if name is None:
-            name = config.llm.get("default", "openai")
+            name = llm_root.get("default", "openai")
 
-        llm_config = config.llm.get(name)
+        llm_config = llm_root.get(name)
         if llm_config is None:
             raise ValueError(f"LLM config '{name}' not found")
 
-        return llm_config
+        return self._require_dict(llm_config, f"llm.{name}")
 
-    def get_agent_config(self) -> dict[str, Any]:
+    def get_agent_config(self, name: str | None = None) -> dict[str, Any]:
         """获取 Agent 配置
 
         Returns:
             Agent 配置字典
         """
         config = self.load()
-        return config.agent
+        agents = self._require_dict(config.agents, "agents")
+        if name is None:
+            raise ValueError(f"No {name} configuration found. Add {name} in agents section in config.yaml")
+        if name not in agents:
+            raise ValueError(f"Agent config '{name}' not found")
+        return self._require_dict(agents[name], f"agents.{name}")
+
+    def get_agents_config(self) -> dict[str, Any]:
+        """获取 Agents 配置
+
+        Returns:
+            Agents 配置字典
+        """
+        config = self.load()
+        agents = self._require_dict(config.agents, "agents")
+        if not agents:
+            raise ValueError("No agents configuration found. Add 'agents' section to config.yaml")
+        return agents
+    
+    def get_agent_llm_config(self, name: str) -> dict[str, Any]:
+        """获取 Agent LLM 配置
+
+        Returns:
+            Agent LLM 配置字典
+        """
+        config = self.load()
+        agents = self._require_dict(config.agents, "agents")
+        if name not in agents:
+            raise ValueError(f"Agent config '{name}' not found")
+        agent_cfg = self._require_dict(agents[name], f"agents.{name}")
+        if "llm" not in agent_cfg:
+            warnings.warn(f"Agent '{name}' does not have LLM configuration, trying to use default LLM configuration")
+            return self.get_llm_config()
+        else:
+            return self.get_llm_config(agent_cfg["llm"])
+
+    def get_agent_tools_config(self, name: str) -> dict[str, Any]:
+        """获取 Agent Tools 配置
+
+        Returns:
+            Tool 配置字典；若未配置则返回空字典
+        """
+        config = self.load()
+        # 兼容 `tool:` / `tools:` 两种写法
+        tool_config = getattr(config, "tool", None)
+        if tool_config is None:
+            tool_config = getattr(config, "tools", None)
+
+        if isinstance(tool_config, dict):
+            return tool_config
+        return {}
+    
+    def get_agent_skills_config(self, name: str) -> dict[str, Any]:
+        """获取 Agent Skills 配置
+
+        Returns:
+            Agent Skills 配置字典（标准化后），形如 {"skills": list[str]}
+        """
+        config = self.load()
+        agents = self._require_dict(config.agents, "agents")
+        if name not in agents:
+            raise ValueError(f"Agent config '{name}' not found")
+        agent_cfg = self._require_dict(agents[name], f"agents.{name}")
+        raw_skills = agent_cfg.get("skills")
+        if raw_skills is None:
+            return {"skills": []}
+
+        # 兼容 skills: "*" 的写法
+        if raw_skills == "*":
+            raw_skills = ["*"]
+
+        if not isinstance(raw_skills, list) or not all(isinstance(skill, str) for skill in raw_skills):
+            raise TypeError(
+                f"Config field 'agents.{name}.skills' must be list[str], '*' or omitted"
+            )
+
+        # '*' 只能单独出现
+        if "*" in raw_skills and raw_skills != ["*"]:
+            raise ValueError(
+                f"Config field 'agents.{name}.skills' cannot mix '*' with specific skill names"
+            )
+        return {"skills": raw_skills}
+
 
     def get_session_config(self, session_type: str = "docker") -> dict[str, Any]:
         """获取 Session 配置
@@ -316,10 +375,11 @@ class ConfigManager:
             Session 配置字典
         """
         config = self.load()
-        session_config = config.session.get(session_type)
+        sessions = self._require_dict(config.session, "session")
+        session_config = sessions.get(session_type)
         if session_config is None:
             raise ValueError(f"Session config '{session_type}' not found")
-        return session_config
+        return self._require_dict(session_config, f"session.{session_type}")
 
     def get_env_config(self) -> EnvConfig:
         """获取 Env 配置
@@ -329,15 +389,6 @@ class ConfigManager:
         """
         config = self.load()
         return config.env
-
-    def get_skill_config(self) -> SkillConfig:
-        """获取 Skill 配置
-
-        Returns:
-            Skill 配置对象
-        """
-        config = self.load()
-        return config.skill
 
     def get_logging_config(self) -> LoggingConfig:
         """获取日志配置
