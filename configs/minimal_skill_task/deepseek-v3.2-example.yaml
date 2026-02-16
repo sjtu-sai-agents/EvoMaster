@@ -44,7 +44,7 @@ llm:
 # ============================================
 agents:
   analyze:
-    llm: "local_sglang"
+    llm: "openai"
     max_turns: 10
     enable_tools: true
 
@@ -58,10 +58,9 @@ agents:
     user_prompt_file: "prompts/analyze_user_prompt.txt"
 
   plan:
-    llm: "local_sglang"
+    llm: "openai"
     max_turns: 10
     enable_tools: false
-    skills:  # 显式指定无 skill
     skills:  # 显式指定无 skill
 
     context:
@@ -74,11 +73,9 @@ agents:
     user_prompt_file: "prompts/plan_user_prompt.txt"
 
   search:
-    llm: "local_sglang"
+    llm: "openai"
     max_turns: 30
     enable_tools: true
-    skills:  # 通配符 → 全部 skill
-      - "*"
     skills:  # 通配符 → 全部 skill
       - "*"
 
@@ -92,7 +89,7 @@ agents:
     user_prompt_file: "prompts/search_user_prompt.txt"
 
   summarize:
-    llm: "local_sglang"
+    llm: "openai"
     max_turns: 20
     enable_tools: true
 
@@ -100,9 +97,6 @@ agents:
       - "rag"
       - "pdf"
 
-    skills:  # 指定子集
-      - "rag"
-      - "pdf"
 
     context:
       max_tokens: 128000
