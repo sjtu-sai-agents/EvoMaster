@@ -51,59 +51,7 @@ class AgentSlots(dict):
         return sorted(set(super().__dir__()) | set(self.keys()))
 
     def get_random_agent(self) -> BaseAgent:
-        return random.choice(list(self.keys()))
-
-class AgentSlots(dict):
-    """兼容 dict 与属性访问的 Agent 容器（self.agents.xxx）。"""
-
-    def declare(self, *names: str) -> "AgentSlots":
-        """预声明槽位，便于 IDE 补全/避免到处复制 YAML 里的字符串。"""
-        for name in names:
-            self.setdefault(name, None)
-        return self
-
-    def __getattr__(self, name: str):
-        if name in self:
-            value = self[name]
-            if value is None:
-                raise ValueError(f"Agent 未初始化: {name}")
-            return value
-        raise AttributeError(name)
-
-    def __setattr__(self, name: str, value):
-        self[name] = value
-
-    def __dir__(self):
-        return sorted(set(super().__dir__()) | set(self.keys()))
-
-    def get_random_agent(self) -> BaseAgent:
-        return random.choice(list(self.keys()))
-
-class AgentSlots(dict):
-    """兼容 dict 与属性访问的 Agent 容器（self.agents.xxx）。"""
-
-    def declare(self, *names: str) -> "AgentSlots":
-        """预声明槽位，便于 IDE 补全/避免到处复制 YAML 里的字符串。"""
-        for name in names:
-            self.setdefault(name, None)
-        return self
-
-    def __getattr__(self, name: str):
-        if name in self:
-            value = self[name]
-            if value is None:
-                raise ValueError(f"Agent 未初始化: {name}")
-            return value
-        raise AttributeError(name)
-
-    def __setattr__(self, name: str, value):
-        self[name] = value
-
-    def __dir__(self):
-        return sorted(set(super().__dir__()) | set(self.keys()))
-
-    def get_random_agent(self) -> BaseAgent:
-        return random.choice(list(self.keys()))
+        return random.choice(list(self.values()))
 
 class BasePlayground:
     """Playground 基类
