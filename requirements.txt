@@ -14,3 +14,7 @@ mcp
 
 # viewer
 flask
+
+humanize
+pandas
+genson
