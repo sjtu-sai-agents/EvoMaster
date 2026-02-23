@@ -49,8 +49,8 @@ class MinimalKagglePlayground(BasePlayground):
     def setup(self) -> None:
         self.logger.info("Setting up multi-agent playground...")
 
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict 
+        llm_config = self._setup_llm_config()
+        self._llm_config = llm_config 
 
         self._setup_session()
 
@@ -72,7 +72,7 @@ class MinimalKagglePlayground(BasePlayground):
                 name=name,
                 agent_config=cfg,
                 enable_tools=enable_tools,
-                llm_config_dict=llm_config_dict,
+                llm_config=llm_config,
             )
             setattr(self, name + "_agent", agent)
             self.logger.info("Agent created: %s", name)

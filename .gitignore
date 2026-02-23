@@ -158,7 +158,6 @@ run_*/
 results/
 node_vectorstore*/
 grading_*.py
-run_ori_4090_batch.sh
 results.csv
 cache/
 local_model/
@@ -166,3 +165,31 @@ local_model/
 .pids
 runs/
 /.env
+
+# Local tooling / agent outputs (ported from beta/zexi line)
+openhands/
+.cursor
+CLAUDE.md
+.claude/
+
+# RAG local artifacts / caches
+local_models
+MLE_DATABASE
+
+# Personal scratch outputs (avoid committing by accident)
+*zexi*
+*bingyang*
+logs/
+results.json
+mcp_results.json
+
+# Viewer (tracked code is unaffected by gitignore once committed)
+viewer/
+
+# Playground workspaces / local runs
+playground/*/workspace
+
+# Misc local files
+showcase/
+test_tool.py
+playground/*/ppt

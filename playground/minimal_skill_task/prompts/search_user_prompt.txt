@@ -6,5 +6,12 @@ threshold: {threshold}
 vec_dir: {vec_dir}
 nodes_data: {nodes_data}
 model: {model}
+embedding_type: {embedding_type}
+embedding_dimensions: {embedding_dimensions}
 
-**调用顺序：** 先 use_skill(skill_name="rag", action="get_info") 查看 search.py 的用法与参数（含 --output json），再按说明调用 run_script。script_args 必须包含上方 vec_dir、query、nodes_data、top_k、threshold、model，使用「query:」后的内容原样作为 query，不得修改。
+**调用顺序：** 先 use_skill(skill_name="rag", action="get_info") 查看 search.py 的用法与参数（含 --output json），再按说明调用 run_script。script_args 必须包含上方参数：
+- 基础参数：--vec_dir、--query、--nodes_data、--top_k、--threshold、--output json
+- Embedding 参数（如果 embedding_type 为 openai）：--embedding_type openai --model {model} --embedding_dimensions {embedding_dimensions}
+- 本地模型参数（如果 embedding_type 为 local）：--model {model}
+
+使用「query:」后的内容原样作为 query，不得修改。

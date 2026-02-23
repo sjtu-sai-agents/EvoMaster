@@ -25,7 +25,6 @@ class SkillMetaInfo(BaseModel):
     """
     name: str = Field(description="技能名称")
     description: str = Field(description="技能描述，包含使用场景和触发条件")
-    skill_type: str = Field(description="技能类型：knowledge 或 operator")
     license: str | None = Field(default=None, description="许可证信息")
 
 
@@ -35,11 +34,8 @@ class BaseSkill(ABC):
     Skills 是 EvoMaster 的技能组件，包含：
     - Level 1 (meta_info): 技能元信息 (~100 tokens)，总在上下文
     - Level 2 (full_info): 完整信息 (500-2000 tokens)，按需加载
-    - Level 3 (scripts): 可执行代码（仅 Operator 类型）
+    - Level 3 (scripts): 可执行脚本
     """
-
-    # 技能类型
-    skill_type: ClassVar[str] = "base"
 
     def __init__(self, skill_path: Path):
         """初始化 Skill
@@ -89,7 +85,6 @@ class BaseSkill(ABC):
         return SkillMetaInfo(
             name=frontmatter_data.get('name', self.skill_path.name),
             description=frontmatter_data.get('description', ''),
-            skill_type=self.skill_type,
             license=frontmatter_data.get('license'),
         )
 
@@ -146,34 +141,14 @@ class BaseSkill(ABC):
         pass
 
 
-class KnowledgeSkill(BaseSkill):
-    """Knowledge 类型 Skill
+class Skill(BaseSkill):
+    """Skill 具体实现
 
-    Knowledge Skill 只包含知识信息，没有可执行脚本。
-    - Level 1: meta_info（总在上下文）
-    - Level 2: full_info（按需加载）
-    """
-
-    skill_type: ClassVar[str] = "knowledge"
-
-    def to_context_string(self) -> str:
-        """转换为上下文字符串
-
-        对于 Knowledge Skill，返回 meta_info 的简洁描述。
-        """
-        return f"[Knowledge: {self.meta_info.name}] {self.meta_info.description}"
-
-
-class OperatorSkill(BaseSkill):
-    """Operator 类型 Skill
-
-    Operator Skill 包含可执行的操作脚本。
+    包含可执行脚本的技能：
     - Level 1: meta_info（总在上下文）
     - Level 2: full_info（按需加载）
     - Level 3: scripts（可执行脚本）
     """
-
-    skill_type: ClassVar[str] = "operator"
 
     def __init__(self, skill_path: Path):
         super().__init__(skill_path)
@@ -215,10 +190,10 @@ class OperatorSkill(BaseSkill):
     def to_context_string(self) -> str:
         """转换为上下文字符串
 
-        对于 Operator Skill，返回 meta_info 的描述和可用脚本列表。
+        返回 meta_info 的描述和可用脚本列表。
         """
         scripts_info = ", ".join([s.name for s in self.available_scripts]) if self.available_scripts else "No scripts"
-        return f"[Operator: {self.meta_info.name}] {self.meta_info.description} (Scripts: {scripts_info})"
+        return f"[Skill: {self.meta_info.name}] {self.meta_info.description} (Scripts: {scripts_info})"
 
 
 class SkillRegistry:
@@ -230,49 +205,40 @@ class SkillRegistry:
     - 提供 meta_info 供 Agent 选择
     """
 
-    def __init__(self, skills_root: Path):
+    def __init__(self, skills_root: Path, skills: list[str] | None = None):
         """初始化 SkillRegistry
 
         Args:
-            skills_root: skills 根目录（包含 knowledge/ 和 operator/ 子目录）
+            skills_root: skills 根目录
+            skills: 指定仅加载的 skill 目录名列表；None 表示加载全部
         """
         self.skills_root = skills_root
         self.logger = logging.getLogger(self.__class__.__name__)
 
         # 存储所有 skills
-        self._knowledge_skills: dict[str, KnowledgeSkill] = {}
-        self._operator_skills: dict[str, OperatorSkill] = {}
+        self._skills: dict[str, Skill] = {}
 
         # 自动加载 skills
-        self._load_skills()
+        self._load_skills(skills)
 
-    def _load_skills(self) -> None:
-        """自动加载所有 skills"""
-        # 加载 Knowledge skills
-        knowledge_dir = self.skills_root / "knowledge"
-        if knowledge_dir.exists():
-            for skill_dir in knowledge_dir.iterdir():
-                if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
-                    try:
-                        skill = KnowledgeSkill(skill_dir)
-                        self._knowledge_skills[skill.meta_info.name] = skill
-                        self.logger.info(f"Loaded knowledge skill: {skill.meta_info.name}")
-                    except Exception as e:
-                        self.logger.error(f"Failed to load knowledge skill from {skill_dir}: {e}")
+    def _load_skills(self, skills: list[str] | None = None) -> None:
+        """自动加载 skills（可按目录名过滤）"""
+        if not self.skills_root.exists():
+            return
 
-        # 加载 Operator skills
-        operator_dir = self.skills_root
-        if operator_dir.exists():
-            for skill_dir in operator_dir.iterdir():
-                if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
-                    try:
-                        skill = OperatorSkill(skill_dir)
-                        self._operator_skills[skill.meta_info.name] = skill
-                        self.logger.info(f"Loaded operator skill: {skill.meta_info.name}")
-                    except Exception as e:
-                        self.logger.error(f"Failed to load operator skill from {skill_dir}: {e}")
+        selected_set = set(skills) if skills is not None else None
+        for skill_dir in self.skills_root.iterdir():
+            if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
+                if selected_set is not None and skill_dir.name not in selected_set:
+                    continue
+                try:
+                    skill = Skill(skill_dir)
+                    self._skills[skill.meta_info.name] = skill
+                    self.logger.info(f"Loaded skill: {skill.meta_info.name}")
+                except Exception as e:
+                    self.logger.error(f"Failed to load skill from {skill_dir}: {e}")
 
-    def get_skill(self, name: str) -> BaseSkill | None:
+    def get_skill(self, name: str) -> Skill | None:
         """获取指定名称的 skill
 
         Args:
@@ -281,23 +247,11 @@ class SkillRegistry:
         Returns:
             Skill 对象，如果不存在则返回 None
         """
-        if name in self._knowledge_skills:
-            return self._knowledge_skills[name]
-        if name in self._operator_skills:
-            return self._operator_skills[name]
-        return None
+        return self._skills.get(name)
 
-    def get_all_skills(self) -> list[BaseSkill]:
+    def get_all_skills(self) -> list[Skill]:
         """获取所有 skills"""
-        return list(self._knowledge_skills.values()) + list(self._operator_skills.values())
-
-    def get_knowledge_skills(self) -> list[KnowledgeSkill]:
-        """获取所有 Knowledge skills"""
-        return list(self._knowledge_skills.values())
-
-    def get_operator_skills(self) -> list[OperatorSkill]:
-        """获取所有 Operator skills"""
-        return list(self._operator_skills.values())
+        return list(self._skills.values())
 
     def get_meta_info_context(self) -> str:
         """获取所有 skills 的 meta_info，用于添加到 Agent 上下文
@@ -307,21 +261,40 @@ class SkillRegistry:
         """
         lines = ["# Available Skills\n"]
 
-        if self._knowledge_skills:
-            lines.append("## Knowledge Skills")
-            for skill in self._knowledge_skills.values():
-                lines.append(skill.to_context_string())
-            lines.append("")
-
-        if self._operator_skills:
-            lines.append("## Operator Skills")
-            for skill in self._operator_skills.values():
+        if self._skills:
+            for skill in self._skills.values():
                 lines.append(skill.to_context_string())
             lines.append("")
 
         return "\n".join(lines)
 
-    def search_skills(self, query: str) -> list[BaseSkill]:
+    def create_subset(self, skill_names: list[str]) -> "SkillRegistry":
+        """创建仅包含指定 skill 的子集 SkillRegistry
+
+        用于为每个 Agent 创建独立的、过滤后的 skill 视图。
+
+        Args:
+            skill_names: 要保留的 skill 名称列表
+
+        Returns:
+            新的 SkillRegistry 实例，仅包含指定的 skills
+        """
+        subset = object.__new__(SkillRegistry)
+        subset.skills_root = self.skills_root
+        subset.logger = logging.getLogger(f"{self.__class__.__name__}[subset]")
+        subset._skills = {
+            name: skill for name, skill in self._skills.items()
+            if name in skill_names
+        }
+
+        # 检查是否有未找到的 skill 名称
+        not_found = set(skill_names) - set(self._skills.keys())
+        if not_found:
+            subset.logger.warning(f"Skills not found in registry: {not_found}")
+
+        return subset
+
+    def search_skills(self, query: str) -> list[Skill]:
         """搜索 skills
 
         Args:

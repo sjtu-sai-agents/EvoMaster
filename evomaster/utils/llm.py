@@ -138,8 +138,9 @@ class BaseLLM(ABC):
             self._log_request(messages, tools)
 
         # 调用 API（带重试）
+        # breakpoint()
         response = self._call_with_retry(messages, tools, **kwargs)
-
+        # breakpoint()
         # 记录响应（如果启用日志）
         if self.log_to_file:
             self._log_response(response)

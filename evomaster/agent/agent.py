@@ -837,7 +837,7 @@ You have access to the following tools:
 You can use the 'use_skill' tool to:
 1. Get detailed information about a skill: action='get_info'
 2. Get reference documentation: action='get_reference'
-3. Run scripts from Operator skills: action='run_script'
+3. Run scripts from skills: action='run_script'
 """
 
         prompt += """
@@ -871,7 +871,7 @@ Always be careful with file operations and bash commands.
 You can use the 'use_skill' tool to:
 1. Get detailed information about a skill: action='get_info'
 2. Get reference documentation: action='get_reference'
-3. Run scripts from Operator skills: action='run_script'
+3. Run scripts from skills: action='run_script'
 """
         return prompt
 

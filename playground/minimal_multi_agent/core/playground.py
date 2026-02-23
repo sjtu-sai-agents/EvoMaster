@@ -68,24 +68,20 @@ class MultiAgentPlayground(BasePlayground):
         self.logger.info("Setting up multi-agent playground...")
 
         # 1. 准备 LLM 配置（每个Agent会创建独立的LLM实例）
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict  # 保存配置供后续使用
+        llm_config = self._setup_llm_config()
+        self._llm_config = llm_config  # 保存配置供后续使用
 
         # 2. 创建 Session（所有Agent共享）
         self._setup_session()
 
-        # 3. 加载 Skills（如果启用）
-        skill_registry = None
-        config_dict = self.config.model_dump()
-        skills_config = config_dict.get("skills", {})
-        if skills_config.get("enabled", False):
-            self.logger.info("Skills enabled, loading skill registry...")
-            from pathlib import Path
-            from evomaster.skills import SkillRegistry
+        # 3. 加载 Skills
+        self.logger.info("Loading skill registry...")
+        from pathlib import Path
+        from evomaster.skills import SkillRegistry
 
-            skills_root = Path(skills_config.get("skills_root", "evomaster/skills"))
-            skill_registry = SkillRegistry(skills_root)
-            self.logger.info(f"Loaded {len(skill_registry.get_all_skills())} skills")
+        skills_root = Path("./evomaster/skills")
+        skill_registry = SkillRegistry(skills_root)
+        self.logger.info(f"Loaded {len(skill_registry.get_all_skills())} skills")
 
         # 4. 创建工具注册表并初始化 MCP 工具（传入 skill_registry）
         self._setup_tools(skill_registry)
@@ -105,7 +101,7 @@ class MultiAgentPlayground(BasePlayground):
                 name="planning",
                 agent_config=planning_config,
                 enable_tools=planning_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
+                llm_config=llm_config,
                 skill_registry=skill_registry,  # 传递 skill_registry
             )
             self.logger.info("Planning Agent created")
@@ -117,7 +113,7 @@ class MultiAgentPlayground(BasePlayground):
                 name="coding",
                 agent_config=coding_config,
                 enable_tools=coding_config.get('enable_tools', True),
-                llm_config_dict=llm_config_dict,
+                llm_config=llm_config,
                 skill_registry=skill_registry,  # 传递 skill_registry
             )
             self.logger.info("Coding Agent created")

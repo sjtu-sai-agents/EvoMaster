@@ -21,6 +21,5 @@ class ReadPdfInfo(BaseModel):
 
 
 class FetchWebContent(BaseModel):
-    url:str   
-
+    url: str
 
