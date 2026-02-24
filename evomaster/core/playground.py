@@ -586,8 +586,14 @@ class BasePlayground:
 
         agent_class = agent.__class__
 
-        # 复制时必创建新的 LLM 实例，不共享
-        llm_config_dict = getattr(self, '_llm_config_dict', None) or self._setup_llm_config()
+        if hasattr(agent.llm, "config"):
+            # 兼容 Pydantic v2 (.model_dump()) 和 v1 (.dict())
+            cfg_obj = agent.llm.config
+            llm_config_dict = cfg_obj.model_dump() if hasattr(cfg_obj, "model_dump") else cfg_obj.dict()
+        else:
+            # 降级方案：如果无法从对象获取，尝试通过 agent 名称从配置管理器重新读取
+            source_name = getattr(agent, "name", "default")
+            llm_config_dict = self._setup_agent_llm(source_name)
         output_config = agent.output_config.copy() if agent.output_config else self._get_output_config()
         new_llm = create_llm(LLMConfig(**llm_config_dict), output_config=output_config)
         self.logger.debug(f"Created independent LLM instance for copied agent: {new_agent_name}")

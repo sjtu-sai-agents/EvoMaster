@@ -53,10 +53,10 @@ class MultiAgentParallelPlayground(BasePlayground):
 
         super().__init__(config_dir=config_dir, config_path=config_path)
         self.logger = logging.getLogger(self.__class__.__name__)
-        
-        # 存储多个Agent
-        self.planning_agent = None
-        self.coding_agent = None
+        self.agents.declare("planning_agent", "coding_agent")
+        # # 存储多个Agent
+        # self.planning_agent = None
+        # self.coding_agent = None
         
         # 从配置中读取并行配置
         session_config = self.config.session.get("local", {})
@@ -70,69 +70,12 @@ class MultiAgentParallelPlayground(BasePlayground):
         self.mcp_manager = None
 
     def setup(self) -> None:
-        """初始化所有组件
+        self.logger.info("Setting up minimal multi-agent parallel playground...")
 
-        覆盖基类方法，复用基类的公共方法来创建多个Agent。
-        每个Agent使用独立的LLM实例，确保日志记录独立。
-        """
-        self.logger.info("Setting up multi-agent playground...")
-
-        # 1. 准备 LLM 配置（每个Agent会创建独立的LLM实例）
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict  # 保存配置供后续使用
-
-        # 2. 创建 Session（所有Agent共享）
         self._setup_session()
+        self._setup_agents()
 
-        # 3. 加载 Skills（如果启用）
-        skill_registry = None
-        config_dict = self.config.model_dump()
-        skills_config = config_dict.get("skills", {})
-        if skills_config.get("enabled", False):
-            self.logger.info("Skills enabled, loading skill registry...")
-            from pathlib import Path
-            from evomaster.skills import SkillRegistry
-
-            skills_root = Path(skills_config.get("skills_root", "evomaster/skills"))
-            skill_registry = SkillRegistry(skills_root)
-            self.logger.info(f"Loaded {len(skill_registry.get_all_skills())} skills")
-
-        # 4. 创建工具注册表并初始化 MCP 工具（传入 skill_registry）
-        self._setup_tools(skill_registry)
-
-        # 5. 创建多个Agent（每个Agent使用独立的LLM实例）
-        agents_config = getattr(self.config, 'agents', {})
-        if not agents_config:
-            raise ValueError(
-                "No agents configuration found. "
-                "Please add 'agents' section to config.yaml"
-            )
-
-        # 创建Planning Agent（使用独立的LLM实例）
-        if 'planning' in agents_config:
-            planning_config = agents_config['planning']
-            self.planning_agent = self._create_agent(
-                name="planning",
-                agent_config=planning_config,
-                enable_tools=planning_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-                skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("Planning Agent created")
-
-        # 创建Coding Agent（使用独立的LLM实例）
-        if 'coding' in agents_config:
-            coding_config = agents_config['coding']
-            self.coding_agent = self._create_agent(
-                name="coding",
-                agent_config=coding_config,
-                enable_tools=coding_config.get('enable_tools', True),
-                llm_config_dict=llm_config_dict,
-                skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("Coding Agent created")
-
-        self.logger.info("Multi-agent playground setup complete")
+        self.logger.info("Minimal multi-agent parallel playground setup complete")
 
     def _create_exp(self, exp_index):
         """创建多智能体实验实例
@@ -150,14 +93,14 @@ class MultiAgentParallelPlayground(BasePlayground):
         # 每个 agent 副本拥有独立的 LLM 实例（不共享），避免并行时的冲突
         # 共享 session, tools, skill_registry 等配置，但拥有独立的上下文
         planning_agent_copy = self.copy_agent(
-            self.planning_agent, 
+            self.agents.planning_agent, 
             new_agent_name=f"planning_exp_{exp_index}"
-        ) if self.planning_agent else None
+        ) if self.agents.planning_agent else None
         
         coding_agent_copy = self.copy_agent(
-            self.coding_agent, 
+            self.agents.coding_agent, 
             new_agent_name=f"coding_exp_{exp_index}"
-        ) if self.coding_agent else None
+        ) if self.agents.coding_agent else None
         
         exp = MultiAgentExp(
             planning_agent=planning_agent_copy,
