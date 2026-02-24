@@ -27,18 +27,30 @@ llm:
     max_retries: 3
     retry_delay: 1.0
 
+  # 本地 LLM 配置示例
+  local_sglang:
+    provider: "deepseek"
+    model: "deepseek-v3.2"
+    api_key: "${DEEPSEEK_API_KEY}"  # 本地部署可使用占位符
+    base_url: "${DEEPSEEK_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 300  
+    max_retries: 3
+    retry_delay: 1.0
+
   default: "openai"
+
 # ============================================
 # 多智能体配置
 # ============================================
 # 多智能体系统中，每个Agent都有独立的配置
-# 单智能体时，只填写一个agent配置即可
 agents:
-  # General Agent - 负责规划任务
-  general:
+  # Planning Agent - 负责规划任务
+  planning:
     llm: "openai"
-    max_turns: 50
-    enable_tools: true  # General Agent使用工具调用
+    max_turns: 10
+    enable_tools: false  # Planning Agent不需要工具调用
     
     context:
       max_tokens: 128000
@@ -47,16 +59,31 @@ agents:
       preserve_recent_turns: 5
     
     # 提示词配置
-    system_prompt_file: "prompts/system_prompt.txt"
-    user_prompt_file: "prompts/user_prompt.txt"
-
+    system_prompt_file: "prompts/planning_system_prompt.txt"
+    user_prompt_file: "prompts/planning_user_prompt.txt"
+  
+  # Coding Agent - 负责执行代码任务
+  coding:
+    llm: "openai"
+    max_turns: 50
+    enable_tools: true  # Coding Agent需要工具调用
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/coding_system_prompt.txt"
+    user_prompt_file: "prompts/coding_user_prompt.txt"
 
 # ============================================
 # MCP 配置
 # ============================================
 mcp:
   # MCP 配置文件路径（相对于 config_dir 或绝对路径）
-  config_file: "../mcp_config.json"
+  config_file: "mcp_config.json"
 
   # 是否启用 MCP（可选，默认 true）
   enabled: False
@@ -70,21 +97,32 @@ session:
   
   # 本地 Session 配置
   local:
-    working_dir: "./playground/minimal/workspace"
+    working_dir: "./playground/minimal_multi_agent/workspace"
     timeout: 60
     # GPU 设备配置（可选）
     # 可选值：
     #   - null: 不使用 GPU 限制（使用所有可用 GPU）
     #   - "2": 只使用 GPU 2
     #   - ["0", "1"]: 使用 GPU 0 和 1
-    gpu_devices: "0"  # 示例：使用 GPU 0
+    gpu_devices: ["0", "1", "2"]  # 示例：使用 GPU 0, 1, 2
     
     # CPU 设备配置（可选）
     # 可选值：
     #   - null: 不使用 CPU 限制（使用所有可用 CPU）
     #   - "0-15": 使用 CPU 0 到 15
     #   - [0, 1, 2, 3]: 使用 CPU 0, 1, 2, 3
-    cpu_devices: "0-15"  # 示例：使用 CPU 0-15  
+    cpu_devices: "0-35"  # 示例：使用 CPU 0-35
+    
+    # 并行执行配置
+    parallel:
+      # 是否启用并行资源分配
+      enabled: true
+      # 最大并行数量
+      max_parallel: 3
+      # 是否为每个实验创建独立的工作空间（可选，默认 false）
+      # 启用后，每个 exp 会在主工作空间下创建自己的子目录（如 workspace/exp_0/、workspace/exp_1/）
+      # 避免并行实验之间的文件冲突。所有 agent 仍共享同一个 session 和 env。
+      split_workspace_for_exp: true
     # 软链接配置（可选）
     # 将源目录下的所有文件和文件夹软链接到工作空间的指定位置
     # 格式：{源目录路径: 工作空间内的目标路径}
@@ -125,7 +163,7 @@ session:
     # 示例：
     # volumes:
     #   "./workspace": "/workspace"
-    volumes: {"./playground/minimal/workspace":"/workspace"}
+    volumes: {"./playground/minimal_multi_agent/workspace":"/workspace"}
     
     # 环境变量
     # 示例：
@@ -169,8 +207,7 @@ env:
 # 系统提示词配置
 # ============================================
 # 从文件加载 system prompt（方便维护和版本控制）
-# 路径相对于 config_dir (configs/minimal/)
-system_prompt_file: "../../../playground/minimal/prompts/system_prompt.txt"
+system_prompt_file: "prompts/system_prompt.txt"
 
 # ============================================
 # LLM 输出显示配置

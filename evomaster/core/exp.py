@@ -137,12 +137,13 @@ class BaseExp:
         """
         self.run_dir = Path(run_dir)
 
-    def run(self, task_description: str, task_id: str = "exp_001") -> dict:
+    def run(self, task_description: str, task_id: str = "exp_001", images: list[str] | None = None) -> dict:
         """运行一次实验
 
         Args:
             task_description: 任务描述
             task_id: 任务 ID
+            images: 图片文件路径列表（可选，用于多模态任务）
 
         Returns:
             运行结果字典
@@ -152,6 +153,7 @@ class BaseExp:
             task_id=task_id,
             task_type="discovery",
             description=task_description,
+            images=images or [],
         )
 
         # 运行 Agent

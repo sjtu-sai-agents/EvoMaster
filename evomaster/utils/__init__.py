@@ -13,6 +13,9 @@ from .llm import (
     OpenAILLM,
     AnthropicLLM,
     create_llm,
+    build_multimodal_content,
+    encode_image_to_base64,
+    get_image_media_type,
 )
 
 from .types import (
@@ -44,6 +47,9 @@ __all__ = [
     "OpenAILLM",
     "AnthropicLLM",
     "create_llm",
+    "build_multimodal_content",
+    "encode_image_to_base64",
+    "get_image_media_type",
     # Types
     "MessageRole",
     "BaseMessage",

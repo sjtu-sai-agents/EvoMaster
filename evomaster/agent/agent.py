@@ -25,6 +25,7 @@ from evomaster.utils.types import (
     ToolMessage,
     UserMessage,
 )
+from evomaster.utils.llm import build_multimodal_content
 
 if TYPE_CHECKING:
     from evomaster.utils import BaseLLM
@@ -197,11 +198,17 @@ class BaseAgent(ABC):
         self._initial_system_prompt = system_prompt
         self._initial_user_prompt = user_prompt
 
+        # 构建用户消息内容：如果任务包含图片，构建多模态内容
+        if task.images:
+            user_content = build_multimodal_content(user_prompt, task.images)
+        else:
+            user_content = user_prompt
+
         # 创建对话
         self.current_dialog = Dialog(
             messages=[
                 SystemMessage(content=system_prompt),
-                UserMessage(content=user_prompt),
+                UserMessage(content=user_content),
             ],
             tools=self._get_tool_specs(),
         )

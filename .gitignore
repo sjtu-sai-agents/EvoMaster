@@ -179,6 +179,7 @@ MLE_DATABASE
 # Personal scratch outputs (avoid committing by accident)
 *zexi*
 *bingyang*
+*xinyu*
 logs/
 results.json
 mcp_results.json
