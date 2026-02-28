@@ -1,0 +1,31 @@
+# EvoMaster Feishu Bot 配置
+# 使用方式: python -m evomaster.interface.feishu --config configs/feishu/config.yaml
+
+# ============================================
+# 飞书 Bot 配置
+# ============================================
+feishu:
+  # 飞书应用凭证（从 .env 读取）
+  app_id: "${FEISHU_APP_ID}"
+  app_secret: "${FEISHU_APP_SECRET}"
+
+  # API 域名（飞书: https://open.feishu.cn, Lark: https://open.larksuite.com）
+  domain: "https://open.feishu.cn"
+
+  # 连接模式: websocket（推荐）或 webhook
+  connection_mode: "websocket"
+
+  # 默认 playground agent 名称
+  default_agent: "minimal"
+
+  # 默认配置文件路径（相对于 project_root，不设置则使用 configs/{agent}/config.yaml）
+  # default_config_path: "configs/minimal/config.yaml"
+
+  # 最大并发任务数
+  max_concurrent_tasks: 4
+
+  # 单个任务超时时间（秒）
+  task_timeout: 600
+
+  # 允许使用 Bot 的用户 open_id 列表（空列表 = 允许所有人）
+  allow_from: []

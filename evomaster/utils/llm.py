@@ -5,15 +5,86 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import sys
 import time
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
 from evomaster.utils.types import AssistantMessage, Dialog, FunctionCall, ToolCall
+
+
+def encode_image_to_base64(image_path: str) -> str:
+    """将图片文件编码为 base64 字符串
+
+    Args:
+        image_path: 图片文件路径
+
+    Returns:
+        base64 编码字符串
+    """
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
+
+def get_image_media_type(image_path: str) -> str:
+    """根据文件扩展名获取图片的 MIME 类型
+
+    Args:
+        image_path: 图片文件路径
+
+    Returns:
+        MIME 类型字符串
+    """
+    suffix = Path(image_path).suffix.lower()
+    media_types = {
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+    }
+    return media_types.get(suffix, "image/png")
+
+
+def build_multimodal_content(text: str, image_paths: list[str]) -> list[dict[str, Any]]:
+    """构建包含文本和图片的多模态内容块列表
+
+    生成 OpenAI 格式的 content 块列表，兼容 OpenAI / DeepSeek / OpenRouter 等 API。
+
+    Args:
+        text: 文本内容
+        image_paths: 图片文件路径列表
+
+    Returns:
+        内容块列表，例如：
+        [
+            {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}},
+            {"type": "text", "text": "请分析这些图片"}
+        ]
+    """
+    content_blocks: list[dict[str, Any]] = []
+
+    # 先添加图片
+    for img_path in image_paths:
+        media_type = get_image_media_type(img_path)
+        b64_data = encode_image_to_base64(img_path)
+        content_blocks.append({
+            "type": "image_url",
+            "image_url": {
+                "url": f"data:{media_type};base64,{b64_data}"
+            }
+        })
+
+    # 再添加文本
+    content_blocks.append({
+        "type": "text",
+        "text": text,
+    })
+
+    return content_blocks
 
 
 def truncate_content(content: str, max_length: int = 5000, head_length: int = 2500, tail_length: int = 2500) -> str:
@@ -138,8 +209,9 @@ class BaseLLM(ABC):
             self._log_request(messages, tools)
 
         # 调用 API（带重试）
+        # breakpoint()
         response = self._call_with_retry(messages, tools, **kwargs)
-
+        # breakpoint()
         # 记录响应（如果启用日志）
         if self.log_to_file:
             self._log_response(response)
@@ -205,7 +277,7 @@ class BaseLLM(ABC):
         if role == "assistant" and tool_calls:
             if content:
                 # 有文本内容，先显示内容
-                content_display = truncate_content(content) if isinstance(content, str) else content
+                content_display = truncate_content(content) if isinstance(content, str) else f"[Multimodal content with {len(content)} blocks]"
                 self.logger.info(f"  [{index}] {role}: {content_display}")
             else:
                 # 只有工具调用，显示占位符
@@ -235,6 +307,12 @@ class BaseLLM(ABC):
             # 正常消息（没有工具调用）
             if isinstance(content, str):
                 content = truncate_content(content)
+            elif isinstance(content, list):
+                # 多模态内容：显示摘要信息
+                text_blocks = [b for b in content if b.get("type") == "text"]
+                image_blocks = [b for b in content if b.get("type") in ("image_url", "image")]
+                text_preview = text_blocks[0].get("text", "")[:200] if text_blocks else ""
+                content = f"[Multimodal: {len(image_blocks)} image(s)] {text_preview}..."
             self.logger.info(f"  [{index}] {role}: {content}")
 
     def _log_response(self, response: LLMResponse) -> None:
@@ -584,6 +662,53 @@ class AnthropicLLM(BaseLLM):
 
         self.client = Anthropic(**client_kwargs)
 
+    @staticmethod
+    def _convert_content_for_anthropic(content):
+        """将 OpenAI 格式的多模态内容转换为 Anthropic 格式
+
+        OpenAI 格式:
+            [{"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}},
+             {"type": "text", "text": "..."}]
+
+        Anthropic 格式:
+            [{"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": "..."}},
+             {"type": "text", "text": "..."}]
+        """
+        if not isinstance(content, list):
+            return content
+
+        converted = []
+        for block in content:
+            if block.get("type") == "image_url":
+                # 解析 data URI: "data:image/png;base64,<data>"
+                url = block["image_url"]["url"]
+                if url.startswith("data:"):
+                    # 解析 MIME 类型和 base64 数据
+                    header, b64_data = url.split(",", 1)
+                    media_type = header.split(":")[1].split(";")[0]
+                    converted.append({
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": media_type,
+                            "data": b64_data,
+                        }
+                    })
+                else:
+                    # URL 形式的图片（Anthropic 也支持）
+                    converted.append({
+                        "type": "image",
+                        "source": {
+                            "type": "url",
+                            "url": url,
+                        }
+                    })
+            elif block.get("type") == "text":
+                converted.append(block)
+            else:
+                converted.append(block)
+        return converted
+
     def _call(
         self,
         messages: list[dict[str, Any]],
@@ -599,7 +724,11 @@ class AnthropicLLM(BaseLLM):
             if msg["role"] == "system":
                 system_message = msg["content"]
             else:
-                user_messages.append(msg)
+                # 转换多模态内容格式
+                converted_msg = msg.copy()
+                if "content" in converted_msg:
+                    converted_msg["content"] = self._convert_content_for_anthropic(converted_msg["content"])
+                user_messages.append(converted_msg)
 
         # 构建请求参数
         request_params = {

@@ -128,12 +128,12 @@ class MyExp(BaseExp):
 
 ```python
 def setup(self):
-    llm_config_dict = self._setup_llm_config()
+    llm_config = self._setup_llm_config()
     self._setup_session()
     self._setup_tools()
     agents_config = getattr(self.config, 'agents', {})
-    self.agent_a = self._create_agent("a", agents_config['a'], llm_config_dict=llm_config_dict)
-    self.agent_b = self._create_agent("b", agents_config['b'], llm_config_dict=llm_config_dict)
+    self.agent_a = self._create_agent("a", agents_config['a'], llm_config=llm_config)
+    self.agent_b = self._create_agent("b", agents_config['b'], llm_config=llm_config)
 ```
 
 **MCP Tool Integration** — Enable in config:

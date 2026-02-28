@@ -1,6 +1,6 @@
-"""Skill Tool - 将 Operator Skill 转换为可执行的 Tool
+"""Skill Tool - 将 Skill 转换为可执行的 Tool
 
-这个工具允许 Agent 使用 Operator 类型的 Skills。
+这个工具允许 Agent 使用 Skills。
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from .base import BaseTool, BaseToolParams
 
 if TYPE_CHECKING:
     from evomaster.agent.session import BaseSession
-    from evomaster.skills import OperatorSkill, SkillRegistry
+    from evomaster.skills import Skill, SkillRegistry
 
 
 class SkillToolParams(BaseToolParams):
@@ -46,7 +46,7 @@ class SkillToolParams(BaseToolParams):
 class SkillTool(BaseTool):
     """Skill 工具
 
-    允许 Agent 使用 Operator 类型的 Skills：
+    允许 Agent 使用 Skills：
     - 获取技能的完整信息（full_info）
     - 获取技能的参考文档
     - 执行技能中的脚本
@@ -85,22 +85,6 @@ class SkillTool(BaseTool):
                     {"error": "skill_not_found"}
                 )
 
-            # 只支持 Operator 类型的 skill
-            from evomaster.skills import OperatorSkill
-            if not isinstance(skill, OperatorSkill):
-                return (
-                    f"Error: Skill '{params.skill_name}' is not an Operator skill",
-                    {"error": "invalid_skill_type"}
-                )
-
-            self.logger.info(
-                "Skill hit: skill_name=%s action=%s ref=%s script=%s",
-                params.skill_name,
-                params.action,
-                params.reference_name or "-",
-                params.script_name or "-",
-            )
-
             # 根据 action 执行不同操作
             if params.action == "get_info":
                 return self._get_info(skill)
@@ -118,11 +102,11 @@ class SkillTool(BaseTool):
             self.logger.error(f"Skill tool execution failed: {e}", exc_info=True)
             return f"Error: {str(e)}", {"error": str(e)}
 
-    def _get_info(self, skill: OperatorSkill) -> tuple[str, dict[str, Any]]:
+    def _get_info(self, skill: Skill) -> tuple[str, dict[str, Any]]:
         """获取技能的完整信息
 
         Args:
-            skill: OperatorSkill 实例
+            skill: Skill 实例
 
         Returns:
             (observation, info) 元组
@@ -135,13 +119,13 @@ class SkillTool(BaseTool):
 
     def _get_reference(
         self,
-        skill: OperatorSkill,
+        skill: Skill,
         reference_name: str | None
     ) -> tuple[str, dict[str, Any]]:
         """获取技能的参考文档
 
         Args:
-            skill: OperatorSkill 实例
+            skill: Skill 实例
             reference_name: 参考文档名称
 
         Returns:
@@ -172,7 +156,7 @@ class SkillTool(BaseTool):
     def _run_script(
         self,
         session: BaseSession,
-        skill: OperatorSkill,
+        skill: Skill,
         script_name: str | None,
         script_args: str | None
     ) -> tuple[str, dict[str, Any]]:
@@ -180,7 +164,7 @@ class SkillTool(BaseTool):
 
         Args:
             session: 环境会话
-            skill: OperatorSkill 实例
+            skill: Skill 实例
             script_name: 脚本名称
             script_args: 脚本参数
 

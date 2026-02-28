@@ -204,14 +204,14 @@ def cleanup(self) -> None:
 
 ### 组件创建方法
 
-#### _create_agent(name, agent_config, enable_tools, llm_config_dict, skill_registry)
+#### _create_agent(name, agent_config, enable_tools, llm_config, skill_registry)
 ```python
 def _create_agent(
     self,
     name: str,
     agent_config: dict,
     enable_tools: bool = True,
-    llm_config_dict: dict | None = None,
+    llm_config: dict | None = None,
     skill_registry: SkillRegistry | None = None,
 ) -> Agent:
     """创建 Agent 实例
@@ -222,7 +222,7 @@ def _create_agent(
         name: Agent 名称
         agent_config: Agent 配置字典
         enable_tools: 是否启用工具调用
-        llm_config_dict: LLM 配置（如果为 None，则从配置管理器获取）
+        llm_config: LLM 配置（如果为 None，则从配置管理器获取）
         skill_registry: 可选的技能注册表
 
     Returns:

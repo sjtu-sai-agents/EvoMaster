@@ -2,8 +2,9 @@
 """RAG Searcher - 向量检索工具
 
 提供基于 FAISS 和 transformer embeddings 的语义检索功能。
+支持本地 transformer 模型和 OpenAI embedding API。
 
-设计目标：通用的“向量检索 +（可选）取回原始内容”组件。
+设计目标：通用的"向量检索 +（可选）取回原始内容"组件。
 - 向量检索：依赖 vec_dir 下的 `faiss.index` 与 `nodes.jsonl`
 - 内容取回：可选加载 `nodes_data.json`，并通过 `content_path`（点路径）提取字段
 """
@@ -14,13 +15,175 @@ import logging
 import os
 from pathlib import Path
 from typing import Any
+from abc import ABC, abstractmethod
 
 import numpy as np
-import torch
 import faiss
-from transformers import AutoTokenizer, AutoModel
 
 logger = logging.getLogger(__name__)
+
+
+# ============================================
+# Embedding 抽象基类和实现
+# ============================================
+
+class BaseEmbedder(ABC):
+    """Embedding 模型的抽象基类"""
+    
+    @abstractmethod
+    def encode(self, text: str) -> np.ndarray:
+        """将文本编码为向量"""
+        pass
+    
+    @abstractmethod
+    def get_dimension(self) -> int:
+        """返回 embedding 维度"""
+        pass
+
+
+class LocalTransformerEmbedder(BaseEmbedder):
+    """本地 Transformer 模型 Embedder（HuggingFace）"""
+    
+    def __init__(self, model_name: str, device: str = "cpu"):
+        import torch
+        from transformers import AutoTokenizer, AutoModel
+        
+        self.model_name = model_name
+        self.device = device
+        
+        # 静默加载模型
+        with open(os.devnull, "w", encoding="utf-8") as devnull:
+            with contextlib.redirect_stderr(devnull):
+                self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+                self.model = AutoModel.from_pretrained(model_name).to(self.device)
+        self.model.eval()
+        
+        # 获取 embedding 维度
+        self._dimension = self.model.config.hidden_size
+        logger.info(f"Initialized local transformer embedder: {model_name} on {device}, dim={self._dimension}")
+    
+    def encode(self, text: str) -> np.ndarray:
+        import torch
+        
+        inputs = self.tokenizer(
+            text,
+            padding=True,
+            truncation=True,
+            max_length=512,
+            return_tensors="pt",
+        ).to(self.device)
+        
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+            h = outputs.last_hidden_state
+            attn = inputs["attention_mask"].unsqueeze(-1)
+            # Mean pooling with attention weights
+            emb = (h * attn).sum(dim=1) / attn.sum(dim=1)
+        
+        return emb.cpu().numpy()
+    
+    def get_dimension(self) -> int:
+        return self._dimension
+
+
+class OpenAIEmbedder(BaseEmbedder):
+    """OpenAI Embedding API Embedder"""
+    
+    def __init__(
+        self,
+        model: str = "text-embedding-3-large",
+        api_key: str | None = None,
+        base_url: str | None = None,
+        dimensions: int | None = None,
+    ):
+        try:
+            from openai import OpenAI
+        except ImportError:
+            raise ImportError("OpenAI package not installed. Install with: pip install openai")
+        
+        self.model = model
+        self.dimensions = dimensions
+        
+        # 优先使用传入参数，否则从环境变量读取
+        self.api_key = api_key or os.environ.get("OPENAI_EMBEDDING_API_KEY") or os.environ.get("OPENAI_API_KEY")
+        self.base_url = base_url or os.environ.get("OPENAI_EMBEDDING_BASE_URL") or os.environ.get("OPENAI_BASE_URL")
+        
+        if not self.api_key:
+            raise ValueError("OpenAI API key is required. Set via parameter, OPENAI_EMBEDDING_API_KEY or OPENAI_API_KEY env var.")
+        
+        # 初始化客户端
+        client_kwargs = {"api_key": self.api_key}
+        if self.base_url:
+            client_kwargs["base_url"] = self.base_url
+        
+        self.client = OpenAI(**client_kwargs)
+        
+        # 默认维度（text-embedding-3-large 默认 3072，可自定义）
+        self._dimension = dimensions or 3072
+        logger.info(f"Initialized OpenAI embedder: {model}, base_url={base_url}, dim={self._dimension}")
+    
+    def encode(self, text: str) -> np.ndarray:
+        """调用 OpenAI embedding API"""
+        kwargs = {
+            "model": self.model,
+            "input": text,
+        }
+        # text-embedding-3-* 系列支持 dimensions 参数
+        if self.dimensions and "text-embedding-3" in self.model:
+            kwargs["dimensions"] = self.dimensions
+        
+        response = self.client.embeddings.create(**kwargs)
+        embedding = response.data[0].embedding
+        return np.array([embedding], dtype=np.float32)
+    
+    def get_dimension(self) -> int:
+        return self._dimension
+
+
+def create_embedder(
+    model: str | None = None,
+    embedding_type: str = "auto",
+    api_key: str | None = None,
+    base_url: str | None = None,
+    dimensions: int | None = None,
+    device: str = "cpu",
+) -> BaseEmbedder:
+    """创建 Embedder 实例
+    
+    Args:
+        model: 模型名称或路径
+        embedding_type: "local", "openai", 或 "auto"（自动检测）
+        api_key: OpenAI API key（仅 openai 类型需要）
+        base_url: OpenAI API base URL（仅 openai 类型需要）
+        dimensions: Embedding 维度（仅 openai 的 text-embedding-3-* 支持）
+        device: 计算设备（仅 local 类型需要）
+    
+    Returns:
+        BaseEmbedder 实例
+    """
+    # 自动检测类型
+    if embedding_type == "auto":
+        if model and ("text-embedding" in model or model.startswith("openai/")):
+            embedding_type = "openai"
+        elif api_key or os.environ.get("OPENAI_EMBEDDING_API_KEY"):
+            embedding_type = "openai"
+        else:
+            embedding_type = "local"
+    
+    if embedding_type == "openai":
+        return OpenAIEmbedder(
+            model=model or "text-embedding-3-large",
+            api_key=api_key,
+            base_url=base_url,
+            dimensions=dimensions,
+        )
+    else:
+        # 本地模型
+        default_model = "evomaster/skills/rag/local_models/all-mpnet-base-v2"
+        return LocalTransformerEmbedder(
+            model_name=model or default_model,
+            device=device,
+        )
 
 
 def _find_project_root() -> Path:
@@ -62,6 +225,7 @@ def _resolve_path(path_str: str, project_root: Path | None = None) -> Path:
 class RAGSearcher:
     """
     通用 RAG Searcher，提供向量检索功能
+    支持本地 transformer 模型和 OpenAI embedding API
     """
 
     def __init__(
@@ -71,15 +235,24 @@ class RAGSearcher:
         nodes_data_json: str | None = None,
         device: str = "cpu",
         node_id_key: str = "node_id",
+        # OpenAI embedding 参数
+        embedding_type: str = "auto",
+        embedding_api_key: str | None = None,
+        embedding_base_url: str | None = None,
+        embedding_dimensions: int | None = None,
     ):
         """初始化 RAG Searcher
 
         Args:
             vec_dir: 向量数据库目录路径（包含 faiss.index, embeddings.npy, nodes.jsonl）
-            model_name: 用于编码的 transformer 模型名称
+            model_name: 用于编码的模型名称（本地路径或 OpenAI 模型名）
             nodes_data_json: 节点数据 JSON 文件路径（可选，用于获取知识内容）
-            device: 计算设备 ('cpu' 或 'cuda')
+            device: 计算设备 ('cpu' 或 'cuda')，仅本地模型使用
             node_id_key: nodes.jsonl 每行 JSON 中作为 ID 的字段名（默认 'node_id'）
+            embedding_type: "local", "openai", 或 "auto"（自动检测）
+            embedding_api_key: OpenAI API key（仅 openai 类型需要）
+            embedding_base_url: OpenAI API base URL（仅 openai 类型需要）
+            embedding_dimensions: Embedding 维度（仅 openai 的 text-embedding-3-* 支持）
         """
         self.vec_dir = Path(vec_dir)
         self.model_name = model_name
@@ -136,13 +309,15 @@ class RAGSearcher:
             else:
                 logger.warning(f"Nodes data file not found: {nodes_data_path}")
 
-        # 初始化 embedding 模型（静默 stderr，避免 Loading weights 等进度条撑爆 context）
-        with open(os.devnull, "w", encoding="utf-8") as devnull:
-            with contextlib.redirect_stderr(devnull):
-                self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-                self.model = AutoModel.from_pretrained(model_name).to(self.device)
-        self.model.eval()
-        logger.info(f"Initialized embedding model: {model_name} on {device}")
+        # 初始化 embedding 模型（支持本地模型和 OpenAI API）
+        self.embedder = create_embedder(
+            model=model_name,
+            embedding_type=embedding_type,
+            api_key=embedding_api_key,
+            base_url=embedding_base_url,
+            dimensions=embedding_dimensions,
+            device=device,
+        )
 
     @staticmethod
     def _get_by_dotted_path(obj: Any, dotted_path: str, default: Any = None) -> Any:
@@ -182,22 +357,7 @@ class RAGSearcher:
         Returns:
             编码后的向量（numpy array）
         """
-        inputs = self.tokenizer(
-            text,
-            padding=True,
-            truncation=True,
-            max_length=512,
-            return_tensors="pt",
-        ).to(self.device)
-
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            h = outputs.last_hidden_state
-            attn = inputs["attention_mask"].unsqueeze(-1)
-            # Mean pooling with attention weights
-            emb = (h * attn).sum(dim=1) / attn.sum(dim=1)
-
-        return emb.cpu().numpy()
+        return self.embedder.encode(text)
 
     def search_similar(
         self,
@@ -322,7 +482,7 @@ def main():
     parser.add_argument("--vec_dir", required=True, help="Vector database directory")
     parser.add_argument("--model", 
                        default="evomaster/skills/rag/local_models/all-mpnet-base-v2",
-                       help="Embedding model path or HuggingFace model name (default: local model)")
+                       help="Embedding model path, HuggingFace model name, or OpenAI model name (default: local model)")
     parser.add_argument("--nodes_data", help="Nodes data JSON file")
     parser.add_argument(
         "--node_id_key",
@@ -344,6 +504,26 @@ def main():
         default="text",
         help="Output format (default: text)",
     )
+    # OpenAI embedding 参数
+    parser.add_argument(
+        "--embedding_type",
+        choices=["auto", "local", "openai"],
+        default="auto",
+        help="Embedding type: 'local' for transformer models, 'openai' for OpenAI API, 'auto' to detect (default: auto)",
+    )
+    parser.add_argument(
+        "--embedding_api_key",
+        help="OpenAI API key for embedding (can also use OPENAI_EMBEDDING_API_KEY env var)",
+    )
+    parser.add_argument(
+        "--embedding_base_url",
+        help="OpenAI API base URL for embedding (can also use OPENAI_EMBEDDING_BASE_URL env var)",
+    )
+    parser.add_argument(
+        "--embedding_dimensions",
+        type=int,
+        help="Embedding dimensions for text-embedding-3-* models (default: 3072)",
+    )
 
     args = parser.parse_args()
 
@@ -351,11 +531,11 @@ def main():
     project_root = _find_project_root()
     vec_dir_resolved = str(_resolve_path(args.vec_dir, project_root))
     nodes_data_resolved = str(_resolve_path(args.nodes_data, project_root)) if args.nodes_data else None
-    model_resolved = (
-        str(_resolve_path(args.model, project_root))
-        if str(args.model).replace("\\", "/").startswith("evomaster/")
-        else args.model
-    )
+    
+    # 仅对本地模型路径进行解析
+    model_resolved = args.model
+    if args.embedding_type != "openai" and str(args.model).replace("\\", "/").startswith("evomaster/"):
+        model_resolved = str(_resolve_path(args.model, project_root))
 
     # 初始化 searcher
     searcher = RAGSearcher(
@@ -363,6 +543,10 @@ def main():
         model_name=model_resolved,
         nodes_data_json=nodes_data_resolved,
         node_id_key=args.node_id_key,
+        embedding_type=args.embedding_type,
+        embedding_api_key=args.embedding_api_key,
+        embedding_base_url=args.embedding_base_url,
+        embedding_dimensions=args.embedding_dimensions,
     )
 
     # 搜索

@@ -61,16 +61,25 @@ class ContextManager:
 
     def estimate_tokens(self, dialog: Dialog) -> int:
         """估算对话的 token 数
-        
+
         如果设置了 token 计数器，使用计数器；否则使用简单估算。
         """
         if self._token_counter:
             return self._token_counter.count_dialog(dialog)
-        
+
         # 简单估算：每 4 个字符约 1 个 token
-        total_chars = sum(
-            len(msg.content or "") for msg in dialog.messages
-        )
+        total_chars = 0
+        for msg in dialog.messages:
+            content = msg.content
+            if isinstance(content, str):
+                total_chars += len(content)
+            elif isinstance(content, list):
+                # 多模态内容：只计算文本部分，图片按固定 token 数估算
+                for block in content:
+                    if block.get("type") == "text":
+                        total_chars += len(block.get("text", ""))
+                    elif block.get("type") in ("image_url", "image"):
+                        total_chars += 3000  # 图片约占 ~750 tokens，按 3000 字符估算
         return total_chars // 4
 
     def should_truncate(self, dialog: Dialog) -> bool:
@@ -213,7 +222,18 @@ class SimpleTokenCounter(TokenCounter):
         return int(len(text) / self.chars_per_token)
 
     def count_message(self, message: Message) -> int:
-        content_tokens = self.count_text(message.content or "")
+        content = message.content
+        if isinstance(content, str):
+            content_tokens = self.count_text(content)
+        elif isinstance(content, list):
+            content_tokens = 0
+            for block in content:
+                if block.get("type") == "text":
+                    content_tokens += self.count_text(block.get("text", ""))
+                elif block.get("type") in ("image_url", "image"):
+                    content_tokens += 750  # 图片固定估算
+        else:
+            content_tokens = 0
         # 额外的 token 开销（role, 格式等）
         overhead = 4
         return content_tokens + overhead

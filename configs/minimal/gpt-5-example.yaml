@@ -59,7 +59,7 @@ mcp:
   config_file: "../mcp_config.json"
 
   # 是否启用 MCP（可选，默认 true）
-  enabled: True
+  enabled: False
 
 # ============================================
 # Session 配置

@@ -14,3 +14,10 @@ mcp
 
 # viewer
 flask
+
+humanize
+pandas
+genson
+
+# Feishu (Lark) Bot interface
+lark-oapi>=1.3.0

@@ -20,7 +20,7 @@ In this project, Operator skill scripts are executed through the `use_skill` too
 
 Arguments are passed through `script_args` as space-separated strings (internally executed as `python /abs/path/to/script.py {script_args}`).
 
-Example (retrieve top 5 results with optional knowledge field output):
+Example with local model (retrieve top 5 results with optional knowledge field output):
 
 ```text
 use_skill(
@@ -31,7 +31,20 @@ use_skill(
 )
 ```
 
+Example with OpenAI embedding API (text-embedding-3-large):
+
+```text
+use_skill(
+  skill_name="rag",
+  action="run_script",
+  script_name="search.py",
+  script_args="--vec_dir /path/to/vectorstore --query \"What is the main topic?\" --top_k 5 --threshold 1.5 --nodes_data /path/to/nodes_data.json --output json --embedding_type openai --model text-embedding-3-large --embedding_dimensions 3072"
+)
+```
+
 #### Direct Command Line Execution (Equivalent)
+
+With local model:
 
 ```bash
 python evomaster/skills/rag/scripts/search.py \
@@ -40,6 +53,20 @@ python evomaster/skills/rag/scripts/search.py \
   --top_k 5 \
   --threshold 1.5 \
   --nodes_data /path/to/nodes_data.json
+```
+
+With OpenAI embedding API:
+
+```bash
+python evomaster/skills/rag/scripts/search.py \
+  --vec_dir /path/to/vectorstore \
+  --query "What is the main topic?" \
+  --top_k 5 \
+  --threshold 1.5 \
+  --nodes_data /path/to/nodes_data.json \
+  --embedding_type openai \
+  --model text-embedding-3-large \
+  --embedding_dimensions 3072
 ```
 
 ### 2) Encoding Only (`scripts/encode.py`)

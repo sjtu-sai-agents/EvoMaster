@@ -205,6 +205,11 @@ python run.py --agent minimal --interactive
 python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Discover a pattern: Given sequence 1, 4, 9, 16, 25... find the formula"
 ```
 
+### Single Agent with images input (Minimal)
+```bash
+python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Describe what you see in these images" --images /path/to/image1.png /path/to/image2.jpg
+```
+
 ### Multi-Agent System
 ```bash
 python run.py --agent minimal_multi_agent --config configs/minimal_multi_agent/deepseek-v3.2-example.yaml --task "Write a Python program that implements the following features: Read a text file (create a sample file if it doesn't exist). Count the occurrences of each word in the file. Sort the results by frequency in descending order. Save the results to a new file named word_count.txt. Output the top 10 most common words to the terminal."
