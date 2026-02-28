@@ -36,7 +36,7 @@ class ToolCall(BaseModel):
 class BaseMessage(BaseModel):
     """消息基类"""
     role: MessageRole = Field(description="消息角色")
-    content: str | None = Field(default=None, description="消息内容")
+    content: str | list[dict[str, Any]] | None = Field(default=None, description="消息内容，可以是字符串或多模态内容块列表")
     meta: dict[str, Any] = Field(default_factory=dict, description="元数据")
 
 
@@ -46,7 +46,16 @@ class SystemMessage(BaseMessage):
 
 
 class UserMessage(BaseMessage):
-    """用户消息"""
+    """用户消息
+
+    content 支持两种格式：
+    - str: 纯文本消息
+    - list[dict]: 多模态内容块列表，例如：
+        [
+            {"type": "text", "text": "描述这张图片"},
+            {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}}
+        ]
+    """
     role: MessageRole = MessageRole.USER
 
 
@@ -92,7 +101,10 @@ class Dialog(BaseModel):
         self.messages.append(message)
 
     def get_messages_for_api(self) -> list[dict[str, Any]]:
-        """获取用于 API 调用的消息格式"""
+        """获取用于 API 调用的消息格式
+
+        支持多模态内容：当 content 为 list 时，直接传递内容块列表（包含 text 和 image_url 块）。
+        """
         result = []
         for msg in self.messages:
             msg_dict: dict[str, Any] = {"role": msg.role.value}
@@ -157,5 +169,6 @@ class TaskInstance(BaseModel):
     task_type: str = Field(default="general", description="任务类型")
     description: str = Field(default="", description="任务描述")
     input_data: dict[str, Any] = Field(default_factory=dict, description="输入数据")
+    images: list[str] = Field(default_factory=list, description="图片文件路径列表（支持 PNG/JPG）")
     meta: dict[str, Any] = Field(default_factory=dict, description="元数据")
 

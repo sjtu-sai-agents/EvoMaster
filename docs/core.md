@@ -204,14 +204,14 @@ def cleanup(self) -> None:
 
 ### Component Creation Methods
 
-#### _create_agent(name, agent_config, enable_tools, llm_config_dict, skill_registry)
+#### _create_agent(name, agent_config, enable_tools, llm_config, skill_registry)
 ```python
 def _create_agent(
     self,
     name: str,
     agent_config: dict,
     enable_tools: bool = True,
-    llm_config_dict: dict | None = None,
+    llm_config: dict | None = None,
     skill_registry: SkillRegistry | None = None,
 ) -> Agent:
     """Create Agent instance
@@ -222,7 +222,7 @@ def _create_agent(
         name: Agent name
         agent_config: Agent configuration dict
         enable_tools: Whether to enable tool calls
-        llm_config_dict: LLM config (fetched from config manager if None)
+        llm_config: LLM config (fetched from config manager if None)
         skill_registry: Optional skill registry
 
     Returns:

@@ -1,6 +1,7 @@
 """RAG 相关工具：解析 Plan 输出、提取 Agent 回答、数据库参数、更新 prompt 占位符"""
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -8,6 +9,20 @@ from typing import Any
 DEFAULT_VEC_DIR = "evomaster/skills/rag/MLE_DATABASE/node_vectorstore/draft"
 DEFAULT_NODES_DATA = "evomaster/skills/rag/MLE_DATABASE/node_vectorstore/draft/draft_407_75_db.json"
 DEFAULT_MODEL = "evomaster/skills/rag/local_models/all-mpnet-base-v2"
+
+# 全局 embedding 配置（由 playground 设置）
+_embedding_config: dict | None = None
+
+
+def set_embedding_config(config: dict | None) -> None:
+    """设置全局 embedding 配置（由 playground 调用）"""
+    global _embedding_config
+    _embedding_config = config
+
+
+def get_embedding_config() -> dict | None:
+    """获取全局 embedding 配置"""
+    return _embedding_config
 
 
 def _project_root() -> Path:
@@ -28,11 +43,30 @@ def _resolve_db_path(path_str: str, root: Path) -> str:
 def resolve_db_to_absolute_paths(db: dict, project_root: Path | None = None) -> dict:
     """将 db 中的 vec_dir、nodes_data、model 转为绝对路径（便于 RAG 与各 Agent 使用）。"""
     root = project_root or _project_root()
-    return {
+    result = {
         "vec_dir": _resolve_db_path(db["vec_dir"], root),
         "nodes_data": _resolve_db_path(db["nodes_data"], root),
         "model": _resolve_db_path(db["model"], root),
     }
+    
+    # 添加 embedding 配置参数
+    embedding_config = get_embedding_config()
+    if embedding_config:
+        emb_type = embedding_config.get("type", "local")
+        result["embedding_type"] = emb_type
+        
+        if emb_type == "openai":
+            openai_cfg = embedding_config.get("openai", {})
+            result["model"] = openai_cfg.get("model", "text-embedding-3-large")
+            result["embedding_dimensions"] = openai_cfg.get("dimensions")
+        else:
+            local_cfg = embedding_config.get("local", {})
+            result["model"] = _resolve_db_path(
+                local_cfg.get("model", DEFAULT_MODEL), root
+            )
+            result["embedding_type"] = "local"
+    
+    return result
 
 
 def parse_plan_output(text: str) -> dict:
@@ -84,6 +118,9 @@ def get_db_from_description(description: str) -> dict:
         "vec_dir": DEFAULT_VEC_DIR,
         "nodes_data": DEFAULT_NODES_DATA,
         "model": DEFAULT_MODEL,
+        # 默认 embedding 参数（会被 resolve_db_to_absolute_paths 覆盖/补全）
+        "embedding_type": "local",
+        "embedding_dimensions": "",
     }
     if "vec_dir:" in description:
         m = re.search(r"vec_dir:\s*(\S+)", description)

@@ -56,10 +56,10 @@ agents:
 # ============================================
 mcp:
   # MCP 配置文件路径（相对于 config_dir 或绝对路径）
-  config_file: "../mcp_config.json"
+  config_file: "mcp_config.json"
 
   # 是否启用 MCP（可选，默认 true）
-  enabled: True
+  enabled: False
 
 # ============================================
 # Session 配置

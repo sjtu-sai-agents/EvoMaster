@@ -4,8 +4,8 @@ llm:
   openai:
     provider: "openai"
     model: "gpt-5"
-    api_key: "sk-5LbA2T3ixhf09JpXzzvpQchzCDK6Di9Eh5txc6sGOfas9Spj"
-    base_url: "http://123.129.219.111:3000/v1"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "${GPT_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60
@@ -28,8 +28,8 @@ llm:
   anthropic:
     provider: "anthropic"
     model: "claude-haiku-4-5-20251001"
-    api_key: "sk-5LbA2T3ixhf09JpXzzvpQchzCDK6Di9Eh5txc6sGOfas9Spj"
-    base_url: "http://123.129.219.111:3000"
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "${ANTHROPIC_BASE_URL}"
     temperature: 0.7
     max_tokens: 16384
     timeout: 60

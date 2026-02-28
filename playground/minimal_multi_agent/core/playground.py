@@ -51,78 +51,19 @@ class MultiAgentPlayground(BasePlayground):
 
         super().__init__(config_dir=config_dir, config_path=config_path)
         self.logger = logging.getLogger(self.__class__.__name__)
-        
-        # 存储多个Agent
-        self.planning_agent = None
-        self.coding_agent = None
+        self.agents.declare("planning_agent", "coding_agent")
         
         # 初始化mcp_manager（BasePlayground.cleanup需要）
         self.mcp_manager = None
 
     def setup(self) -> None:
-        """初始化所有组件
+        self.logger.info("Setting up minimal multi-agent playground...")
 
-        覆盖基类方法，复用基类的公共方法来创建多个Agent。
-        每个Agent使用独立的LLM实例，确保日志记录独立。
-        """
-        self.logger.info("Setting up multi-agent playground...")
-
-        # 1. 准备 LLM 配置（每个Agent会创建独立的LLM实例）
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict  # 保存配置供后续使用
-
-        # 2. 创建 Session（所有Agent共享）
         self._setup_session()
+        self._setup_agents()
 
-        # 3. 加载 Skills（如果启用）
-        skill_registry = None
-        config_dict = self.config.model_dump()
-        skills_config = config_dict.get("skills", {})
-        if skills_config.get("enabled", False):
-            self.logger.info("Skills enabled, loading skill registry...")
-            from pathlib import Path
-            from evomaster.skills import SkillRegistry
+        self.logger.info("Minimal multi-agent playground setup complete")
 
-            skills_root = Path(skills_config.get("skills_root", "evomaster/skills"))
-            skill_registry = SkillRegistry(skills_root)
-            self.logger.info(f"Loaded {len(skill_registry.get_all_skills())} skills")
-
-        # 4. 创建工具注册表并初始化 MCP 工具（传入 skill_registry）
-        self._setup_tools(skill_registry)
-
-        # 5. 创建多个Agent（每个Agent使用独立的LLM实例）
-        agents_config = getattr(self.config, 'agents', {})
-        if not agents_config:
-            raise ValueError(
-                "No agents configuration found. "
-                "Please add 'agents' section to config.yaml"
-            )
-
-        # 创建Planning Agent（使用独立的LLM实例）
-        if 'planning' in agents_config:
-            planning_config = agents_config['planning']
-            self.planning_agent = self._create_agent(
-                name="planning",
-                agent_config=planning_config,
-                enable_tools=planning_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-                skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("Planning Agent created")
-
-        # 创建Coding Agent（使用独立的LLM实例）
-        if 'coding' in agents_config:
-            coding_config = agents_config['coding']
-            self.coding_agent = self._create_agent(
-                name="coding",
-                agent_config=coding_config,
-                enable_tools=coding_config.get('enable_tools', True),
-                llm_config_dict=llm_config_dict,
-                skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("Coding Agent created")
-
-        self.logger.info("Multi-agent playground setup complete")
 
     def _create_exp(self):
         """创建多智能体实验实例
@@ -133,8 +74,8 @@ class MultiAgentPlayground(BasePlayground):
             MultiAgentExp 实例
         """
         exp = MultiAgentExp(
-            planning_agent=self.planning_agent,
-            coding_agent=self.coding_agent,
+            planning_agent=self.agents.planning_agent,
+            coding_agent=self.agents.coding_agent,
             config=self.config
         )
         # 传递 run_dir 给 Exp
