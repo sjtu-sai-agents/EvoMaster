@@ -43,24 +43,15 @@ class XMasterPlayground(BasePlayground):
         
         super().__init__(config_dir=config_dir, config_path=config_path)
         self.logger = logging.getLogger(self.__class__.__name__)
-        
-        # 存储四个组件的Agent
-        self.solver_agent = None
-        self.critic_agent = None
-        self.rewriter_agent = None
-        self.selector_agent = None
-        
-        # 存储Exp实例
-        self.solver_exp = None
-        self.critic_exp = None
-        self.rewriter_exp = None
-        self.selector_exp = None
+        self.agents.declare("solver_agent", "critic_agent", "rewriter_agent", "selector_agent")
         
         # 存储中间结果
         self.solver_results = []
         self.critic_results = []
         self.rewriter_results = []
         self.selector_results = []
+
+        self.mcp_manager = None
         
     
     def setup(self) -> None:
@@ -70,29 +61,22 @@ class XMasterPlayground(BasePlayground):
         """
         self.logger.info("Setting up X-Master playground...")
         
-        # 1. 准备 LLM 配置
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict
-        
-        # 2. 创建 Session（所有Agent共享）
+        # 1. 创建 Session
         self._setup_session()
         
-        # 3. 创建工具注册表
+        # 2. 创建工具注册表
         self._setup_tools()
 
-        # 4. 从配置中获取工作流参数
+        # 3. 从配置中获取工作流参数
         self._load_workflow_config()
 
-        # 5. 创建四个组件的Agent
-        self._setup_agents(llm_config_dict)
-
-
+        # 4. 创建四个组件的Agent
+        self._setup_agents()
+        
         self.logger.info("X-Master playground setup complete")
     
     def _load_workflow_config(self) -> None:
         """从配置中加载工作流参数
-
-        TODO: 并行执行暂未实现，agent_num 和 max_workers 配置当前不生效。
         """
         xmaster_config = getattr(self.config, 'xmaster', {})
         if not xmaster_config:
@@ -103,63 +87,6 @@ class XMasterPlayground(BasePlayground):
         self.parallel = xmaster_config.get('parallel', True)
 
         self.logger.info(f"Workflow config: agent_num={self.agent_num}, max_workers={self.max_workers}")
-    
-    def _setup_agents(self, llm_config_dict: Dict[str, Any]) -> None:
-        """创建四个组件的Agent
-        
-        Args:
-            llm_config_dict: LLM配置字典
-        """
-        agents_config = getattr(self.config, 'agents', {})
-        if not agents_config:
-            raise ValueError(
-                "No agents configuration found. "
-                "Please add 'agents' section to config.yaml"
-            )
-
-        # 1. 创建Solver Agent
-        if 'Solver' in agents_config:
-            solver_config = agents_config['Solver']
-            self.solver_agent = self._create_agent(
-                name="Solver",
-                agent_config=solver_config,
-                enable_tools=solver_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-            )
-            self.logger.info("Solver Agent created")
-
-        # 2. 创建Critic Agent
-        if 'Critic' in agents_config:
-            critic_config = agents_config['Critic']
-            self.critic_agent = self._create_agent(
-                name="Critic",
-                agent_config=critic_config,
-                enable_tools=critic_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-            )
-        self.logger.info("Critic Agent created")
-        
-        # 3. 创建Rewriter Agent
-        if 'Rewriter' in agents_config:
-            rewriter_config = agents_config['Rewriter']
-            self.rewriter_agent = self._create_agent(
-                name="Rewriter",
-                agent_config=rewriter_config,
-                enable_tools=rewriter_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-            )
-        self.logger.info("Rewriter Agent created")
-        
-        # 4. 创建Selector Agent
-        if 'Selector' in agents_config:
-            selector_config = agents_config['Selector']
-            self.selector_agent = self._create_agent(
-                name="Selector",
-                agent_config=selector_config,
-                enable_tools=selector_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-            )
-            self.logger.info("Selector Agent created")
 
 
     def _create_exp(self, exp_index, exp_name:str):
@@ -168,9 +95,9 @@ class XMasterPlayground(BasePlayground):
         
         if exp_name == "solve":
             solver_agent_copy = self.copy_agent(
-                self.solver_agent, 
+                self.agents.solver_agent, 
                 new_agent_name=f"solve_exp_{exp_index}"
-            ) if self.solver_agent else None
+            ) if self.agents.solver_agent else None
             exp = SolveExp(
                 solver_agent=solver_agent_copy,
                 config=self.config,
@@ -179,9 +106,9 @@ class XMasterPlayground(BasePlayground):
         
         elif exp_name == "critique":
             critic_agent_copy = self.copy_agent(
-                self.critic_agent, 
+                self.agents.critic_agent, 
                 new_agent_name=f"critique_exp_{exp_index}"
-            ) if self.critic_agent else None
+            ) if self.agents.critic_agent else None
             exp = CritiqueExp(
                 critic_agent=critic_agent_copy,
                 config=self.config,
@@ -190,9 +117,9 @@ class XMasterPlayground(BasePlayground):
         
         elif exp_name == "rewrite":
             rewriter_agent_copy = self.copy_agent(
-                self.rewriter_agent, 
+                self.agents.rewriter_agent, 
                 new_agent_name=f"rewrite_exp_{exp_index}"
-            ) if self.rewriter_agent else None
+            ) if self.agents.rewriter_agent else None
             exp = RewriteExp(
                 rewriter_agent=rewriter_agent_copy,
                 config=self.config,
@@ -201,9 +128,9 @@ class XMasterPlayground(BasePlayground):
         
         elif exp_name == "select":
             selector_agent_copy = self.copy_agent(
-                self.selector_agent, 
+                self.agents.selector_agent, 
                 new_agent_name=f"select_exp_{exp_index}"
-            ) if self.selector_agent else None
+            ) if self.agents.selector_agent else None
             exp = SelectExp(  
                 selector_agent=selector_agent_copy,
                 config=self.config,
@@ -297,7 +224,7 @@ class XMasterPlayground(BasePlayground):
         # ---------- Phase 1: Solver (并行) ----------
         self.logger.info(f"=== Phase 1: Solver (parallel, {self.agent_num} agents) ===")
         solver_tasks = []
-        for i in range(self.agent_num):
+        for i in range(self.max_workers):
             exp = self._create_exp(exp_index=i, exp_name="solve")
             task_func = partial(
                 exp.run,
@@ -524,13 +451,7 @@ class XMasterPlayground(BasePlayground):
         """
         # 清理基类资源
         super().cleanup()
-        
-        # 清空Agent引用
-        self.solver_agent = None
-        self.critic_agent = None
-        self.rewriter_agent = None
-        self.selector_agent = None
-        
+             
         
         # 清空结果
         self.solver_results = None
