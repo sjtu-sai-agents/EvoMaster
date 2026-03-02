@@ -50,7 +50,8 @@ agents:
   planning:
     llm: "local_sglang"
     max_turns: 10
-    enable_tools: false  # Planning Agent不需要工具调用
+    tools:  # Planning Agent 不需要工具调用
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -66,7 +67,8 @@ agents:
   coding:
     llm: "local_sglang"
     max_turns: 50
-    enable_tools: true  # Coding Agent需要工具调用
+    tools:  # Planning Agent 不需要工具调用
+      builtin: ["*"]
     
     context:
       max_tokens: 128000

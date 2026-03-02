@@ -113,6 +113,7 @@ EvoMaster/
 
 | 文档 | 描述 |
 |------|------|
+| [v0.0.2 版本更新说明与迁移指南](./docs/CHANGELOG.md) | v0.0.2 新增内容及从 v0.0.1 迁移方法 |
 | [架构概述](./docs/zh/architecture.md) | 系统架构和设计 |
 | [Agent 模块](./docs/zh/agent.md) | Agent, Context, Session 接口 |
 | [Core 模块](./docs/zh/core.md) | BaseExp, BasePlayground 接口 |

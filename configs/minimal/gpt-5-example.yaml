@@ -38,7 +38,8 @@ agents:
   general:
     llm: "openai"
     max_turns: 50
-    enable_tools: true  # General Agent使用工具调用
+    tools:  # General Agent 需要全部 builtin 工具
+      builtin: ["*"]
     
     context:
       max_tokens: 128000

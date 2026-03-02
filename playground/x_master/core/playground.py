@@ -123,7 +123,6 @@ class XMasterPlayground(BasePlayground):
             self.solver_agent = self._create_agent(
                 name="Solver",
                 agent_config=solver_config,
-                enable_tools=solver_config.get('enable_tools', False),
                 llm_config=llm_config,
             )
             self.logger.info("Solver Agent created")
@@ -134,29 +133,26 @@ class XMasterPlayground(BasePlayground):
             self.critic_agent = self._create_agent(
                 name="Critic",
                 agent_config=critic_config,
-                enable_tools=critic_config.get('enable_tools', False),
                 llm_config=llm_config,
             )
         self.logger.info("Critic Agent created")
-        
+
         # 3. 创建Rewriter Agent
         if 'Rewriter' in agents_config:
             rewriter_config = agents_config['Rewriter']
             self.rewriter_agent = self._create_agent(
                 name="Rewriter",
                 agent_config=rewriter_config,
-                enable_tools=rewriter_config.get('enable_tools', False),
                 llm_config=llm_config,
             )
         self.logger.info("Rewriter Agent created")
-        
+
         # 4. 创建Selector Agent
         if 'Selector' in agents_config:
             selector_config = agents_config['Selector']
             self.selector_agent = self._create_agent(
                 name="Selector",
                 agent_config=selector_config,
-                enable_tools=selector_config.get('enable_tools', False),
                 llm_config=llm_config,
             )
             self.logger.info("Selector Agent created")

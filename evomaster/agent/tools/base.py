@@ -244,15 +244,72 @@ def create_default_registry(skill_registry: SkillRegistry | None = None) -> Tool
     Args:
         skill_registry: 可选的 SkillRegistry 实例，如果提供则注册 SkillTool
     """
-    from .builtin import BashTool, EditorTool, ThinkTool, FinishTool
+    return create_registry(builtin_names=["*"], skill_registry=skill_registry)
+
+
+# 所有 builtin 工具名称 → 工厂函数映射
+_BUILTIN_TOOL_FACTORIES: dict[str, Any] = None  # type: ignore[assignment]
+
+
+def _get_builtin_factories() -> dict[str, Any]:
+    """懒加载 builtin 工具的工厂映射（名称 → 无参构造函数）"""
+    global _BUILTIN_TOOL_FACTORIES
+    if _BUILTIN_TOOL_FACTORIES is None:
+        from .builtin import BashTool, EditorTool, ThinkTool, FinishTool
+        _BUILTIN_TOOL_FACTORIES = {
+            "execute_bash": BashTool,
+            "str_replace_editor": EditorTool,
+            "think": ThinkTool,
+            "finish": FinishTool,
+        }
+    return _BUILTIN_TOOL_FACTORIES
+
+
+ALL_BUILTIN_TOOL_NAMES: list[str] | None = None  # populated lazily
+
+
+def get_all_builtin_tool_names() -> list[str]:
+    """返回所有 builtin 工具名称"""
+    global ALL_BUILTIN_TOOL_NAMES
+    if ALL_BUILTIN_TOOL_NAMES is None:
+        ALL_BUILTIN_TOOL_NAMES = list(_get_builtin_factories().keys())
+    return ALL_BUILTIN_TOOL_NAMES
+
+
+def create_registry(
+    builtin_names: list[str] | None = None,
+    skill_registry: SkillRegistry | None = None,
+) -> ToolRegistry:
+    """创建工具注册中心，支持按名称筛选 builtin 工具
+
+    Args:
+        builtin_names: 需要注册的 builtin 工具名称列表。
+            - None 或 ["*"] → 注册全部 builtin 工具
+            - [] → 不注册任何 builtin（仅 skill / MCP）
+            - ["execute_bash", "finish"] → 仅注册指定工具
+        skill_registry: 可选的 SkillRegistry 实例，如果提供则注册 SkillTool
+    """
+    factories = _get_builtin_factories()
 
     registry = ToolRegistry()
-    tools = [
-        BashTool(),
-        EditorTool(),
-        ThinkTool(),
-        FinishTool(),
-    ]
+    tools: list[BaseTool] = []
+
+    # 确定需要实例化的 builtin 工具
+    if builtin_names is None or builtin_names == ["*"]:
+        # 全部
+        tools.extend(factory() for factory in factories.values())
+    else:
+        for name in builtin_names:
+            if name == "*":
+                # 混入 "*" 时等价全部
+                tools = [factory() for factory in factories.values()]
+                break
+            if name not in factories:
+                raise ValueError(
+                    f"Unknown builtin tool '{name}'. "
+                    f"Available: {list(factories.keys())}"
+                )
+            tools.append(factories[name]())
 
     # 如果提供了 skill_registry，注册 SkillTool
     if skill_registry is not None:

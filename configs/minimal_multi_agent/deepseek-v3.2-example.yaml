@@ -50,8 +50,9 @@ agents:
   planning:
     llm: "local_sglang"
     max_turns: 10
-    enable_tools: false  # Planning Agent不需要工具调用
-    
+    tools:  # Planning Agent 不需要工具调用
+      builtin: []
+
     context:
       max_tokens: 128000
       truncation_strategy: "latest_half"
@@ -66,8 +67,9 @@ agents:
   coding:
     llm: "local_sglang"
     max_turns: 50
-    enable_tools: true  # Coding Agent需要工具调用
-    
+    tools:  # Coding Agent 需要全部 builtin 工具
+      builtin: ["*"]
+
     context:
       max_tokens: 128000
       truncation_strategy: "latest_half"
@@ -79,14 +81,11 @@ agents:
     user_prompt_file: "prompts/coding_user_prompt.txt"
 
 # ============================================
-# MCP 配置
+# MCP 配置（高级选项，per-agent MCP 通过 tools.mcp 启用）
 # ============================================
-mcp:
-  # MCP 配置文件路径（相对于 config_dir 或绝对路径）
-  config_file: "mcp_config.json"
-
-  # 是否启用 MCP（可选，默认 true）
-  enabled: False
+# mcp:
+#   path_adaptor: "calculation"
+#   calculation_servers: ["server1"]
 
 # ============================================
 # Session 配置

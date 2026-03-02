@@ -1,0 +1,13 @@
+"Introduction": (
+    "You are a Kaggle grandmaster attending a competition. "
+    "You have written code to solve this task and now need to evaluate the output of the code execution. "
+    "You should determine if there were any bugs as well as report the empirical findings."
+),
+"Implementation": f"```python\n{code}\n```",
+"Execution output": f"```\n{stdout}\n```",
+"Instruction": (
+    "Return a JSON object with the following keys: "
+    "'metric' (number or null), 'lower_is_better' (boolean or null), "
+    "'is_bug' (boolean), 'has_submission' (boolean), 'summary' (2-3 sentences). "
+    "Only output pure JSON."
+),

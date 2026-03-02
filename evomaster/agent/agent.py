@@ -77,18 +77,21 @@ class BaseAgent(ABC):
         output_config: dict[str, Any] | None = None,
         config_dir: Path | str | None = None,
         enable_tools: bool = True,
+        enabled_tool_names: list[str] | None = None,
     ):
         """初始化 Agent
 
         Args:
             llm: LLM 实例
             session: 环境会话，用于执行工具
-            tools: 工具注册中心（始终注册，但只有在 enable_tools=True 时才会在提示词中包含工具信息）
+            tools: 工具注册中心（始终注册所有工具，但只有启用的工具才会暴露给 LLM）
             config: Agent 配置
             skill_registry: Skills 注册中心（可选）
             output_config: 输出显示配置
             config_dir: 配置目录路径，用于加载提示词文件
             enable_tools: 是否在提示词中包含工具信息（默认 True）。如果为 False，工具仍然注册但不会出现在提示词中
+            enabled_tool_names: 启用的工具名称列表（可选）。None 或 ["*"] 表示所有已注册工具都启用。
+                仅影响暴露给 LLM 的工具列表，不影响代码中手动调用工具。
         """
         self.llm = llm
         self.session = session
@@ -96,6 +99,7 @@ class BaseAgent(ABC):
         self.config = config or AgentConfig()
         self.skill_registry = skill_registry
         self.enable_tools = enable_tools
+        self.enabled_tool_names = enabled_tool_names
 
         # 输出配置
         self.output_config = output_config or {}
@@ -399,15 +403,21 @@ class BaseAgent(ABC):
 
     def _get_tool_specs(self) -> list:
         """获取工具规格列表
-        
+
         只有在 enable_tools=True 时才返回工具规格列表。
         如果 enable_tools=False，返回空列表（工具仍然注册，但不会出现在提示词中）。
+        如果设置了 enabled_tool_names，则只返回启用的工具的规格。
         """
         if not self.enable_tools:
             return []
         if self.tools is None:
             return []
-        return self.tools.get_tool_specs()
+        all_specs = self.tools.get_tool_specs()
+        # 如果没有指定 enabled_tool_names 或者包含 "*"，返回所有工具
+        if self.enabled_tool_names is None or "*" in self.enabled_tool_names:
+            return all_specs
+        # 只返回启用的工具的规格
+        return [spec for spec in all_specs if spec.function.name in self.enabled_tool_names]
 
     def load_prompt_from_file(
         self,
@@ -785,6 +795,7 @@ class Agent(BaseAgent):
         output_config: dict[str, Any] | None = None,
         config_dir: Path | str | None = None,
         enable_tools: bool = True,
+        enabled_tool_names: list[str] | None = None,
     ):
         """初始化 Agent
 
@@ -800,8 +811,9 @@ class Agent(BaseAgent):
             output_config: 输出显示配置
             config_dir: 配置目录路径，用于加载提示词文件
             enable_tools: 是否在提示词中包含工具信息（默认 True）。如果为 False，工具仍然注册但不会出现在提示词中，Agent 将不会调用工具
+            enabled_tool_names: 启用的工具名称列表（可选）。None 或 ["*"] 表示所有已注册工具都启用。
         """
-        super().__init__(llm, session, tools, config, skill_registry, output_config, config_dir=config_dir, enable_tools=enable_tools)
+        super().__init__(llm, session, tools, config, skill_registry, output_config, config_dir=config_dir, enable_tools=enable_tools, enabled_tool_names=enabled_tool_names)
 
         # 存储提示词
         self._system_prompt: str | None = None
