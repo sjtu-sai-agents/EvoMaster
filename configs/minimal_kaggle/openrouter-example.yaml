@@ -62,7 +62,8 @@ agents:
   draft:
     llm: "openrouter"
     max_turns: 10
-    enable_tools: false  # Draft Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -77,7 +78,8 @@ agents:
   debug:
     llm: "openrouter"
     max_turns: 10
-    enable_tools: false  # Debug Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -92,7 +94,8 @@ agents:
   improve:
     llm: "openrouter"
     max_turns: 10
-    enable_tools: false  # Improve Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -107,7 +110,8 @@ agents:
   reseach:
     llm: "openrouter"
     max_turns: 10
-    enable_tools: false  # Reseach Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -122,7 +126,8 @@ agents:
   knowledge_promotion:
     llm: "openrouter"
     max_turns: 10
-    enable_tools: false  # Knowledge Promotion Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -138,7 +143,8 @@ agents:
   metric:
     llm: "openrouter"
     max_turns: 50
-    enable_tools: false  # Metric Agent不需要工具调用
+    tools: 
+      builtin: []
     
     context:
       max_tokens: 128000

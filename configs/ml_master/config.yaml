@@ -1,0 +1,271 @@
+# ML-Master 配置文件
+
+# ============================================
+# 实验特定配置
+# ============================================
+exp_id: "detecting-insults-in-social-commentary"
+data_root: "/data/public_data/exp_data/demo1bench"   # 本地数据根目录
+
+# ============================================
+# LLM 配置
+# ============================================
+llm:
+  openai:
+    provider: "openai"
+    model: "${GPT_CHAT_MODEL}"
+    api_key: "${OPENAI_API_KEY}"
+    base_url: "${GPT_BASE_URL}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  anthropic:
+    provider: "anthropic"
+    model: "claude-haiku-4-5-20251001"
+    api_key: "${ANTHROPIC_API_KEY}"
+    base_url: "${ANTHROPIC_BASE_URL}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 60
+    max_retries: 3
+    retry_delay: 1.0
+
+  # 本地 LLM 配置示例
+  local_sglang:
+    provider: "deepseek"
+    model: "deepseek-v3.2"
+    api_key: "${DEEPSEEK_API_KEY}"  # 本地部署可使用占位符
+    base_url: "${DEEPSEEK_API_BASE}"
+    temperature: 0.7
+    max_tokens: 16384
+    timeout: 300  
+    max_retries: 3
+    retry_delay: 1.0
+
+  default: "local_sglang"
+
+
+# ============================================
+# 多智能体配置
+# ============================================
+agents:
+  # Draft Agent - 负责生成初始代码
+  draft:
+    llm: "local_sglang"
+    max_turns: 30
+    enable_tools: false  
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/draft/system_prompt.txt"
+    user_prompt_file: "prompts/draft/user_prompt.txt"
+
+  # Debug Agent - 负责调试代码
+  debug:
+    llm: "local_sglang"
+    max_turns: 30
+    enable_tools: false  
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/debug/system_prompt.txt"
+    user_prompt_file: "prompts/debug/user_prompt.txt"
+
+  # Improve Agent - 负责改进代码
+  improve:
+    llm: "local_sglang"
+    max_turns: 30
+    enable_tools: false  
+    
+    context:
+      max_tokens: 128000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 5
+    
+    # 提示词配置
+    system_prompt_file: "prompts/improve/system_prompt.txt"
+    user_prompt_file: "prompts/improve/user_prompt.txt"
+
+  # Metric Agent - 负责评估任务
+  metric:
+    llm: "local_sglang"
+    max_turns: 8
+    enable_tools: false  
+    
+    context:
+      max_tokens: 64000
+      truncation_strategy: "latest_half"
+      preserve_system_messages: true
+      preserve_recent_turns: 2
+    
+    # 提示词配置
+    system_prompt_file: "prompts/metric/system_prompt.txt"
+    user_prompt_file: "prompts/metric/user_prompt.txt"
+
+# ============================================
+# MCP 配置
+# ============================================
+mcp:
+  # MCP 配置文件路径（相对于 config_dir 或绝对路径）
+  config_file: "mcp_config.json"
+
+  # 是否启用 MCP（可选，默认 true）
+  enabled: False
+
+# ============================================
+# Session 配置
+# ============================================
+session:
+  # Session 类型：local 或 docker
+  type: "local"  # 可选值: "local" 或 "docker"
+  
+  # 本地 Session 配置
+  local:
+    working_dir: "./playground/ml_master/workspace"
+    workspace_path: "./playground/workspace"
+    timeout: 600
+    
+    # GPU 设备配置（可选）
+    # 可选值：
+    #   - null: 不使用 GPU 限制（使用所有可用 GPU）
+    #   - "2": 只使用 GPU 2
+    #   - ["0", "1"]: 使用 GPU 0 和 1
+    gpu_devices: ["0,1", "2,3", "4,5", "6,7"]  # 8卡机器上4并行，每个任务2卡
+    
+    # CPU 设备配置（可选）
+    # 可选值：
+    #   - null: 不使用 CPU 限制（使用所有可用 CPU）
+    #   - "0-15": 使用 CPU 0 到 15
+    #   - [0, 1, 2, 3]: 使用 CPU 0, 1, 2, 3
+    cpu_devices: null  # 示例：使用 CPU 0-15
+
+    parallel:
+      enabled: true
+      max_parallel: 4
+      split_workspace_for_exp: true
+    
+    # 软链接配置（ml_master 特有）
+    symlinks:
+      "/data/public_data/exp_data/demo1bench/detecting-insults-in-social-commentary/prepared/public": "input"
+  
+  # Docker Session 配置
+  docker:
+    # Docker 镜像
+    image: "evomaster/base:latest"
+    
+    # 容器名称（None 自动生成）
+    container_name: null
+    
+    # 使用已存在的容器（如果设置，则使用该容器而不创建新容器）
+    use_existing_container: null
+    
+    # 工作目录（容器内）
+    working_dir: "/workspace"
+    
+    # 资源限制
+    memory_limit: "64g"  # 内存限制，如 "4g", "8g"
+    cpu_limit: 16.0      # CPU 限制（核数）
+    gpu_devices: "0"   # GPU 设备，可选值：
+                        #   - null: 不使用 GPU
+                        #   - "all": 使用所有 GPU
+                        #   - "0": 使用 GPU 0
+                        #   - ["0", "1"]: 使用 GPU 0 和 1
+    
+    # 网络模式
+    network_mode: "host"  # bridge, host, none
+    
+    # 挂载卷（将本地目录挂载到容器）
+    volumes: {"./playground/ml_master/workspace":"/workspace"}
+    
+    # 环境变量
+    env_vars: {}
+    
+    # 容器生命周期
+    auto_remove: false   # true: 容器结束后自动删除，false: 保留容器
+    
+    # 超时时间（秒）在需要长时间执行的任务中，需要适当延长超时时间。
+    timeout: 300
+
+# ============================================
+# Env 配置（环境管理）
+# ============================================
+env:
+  # 集群配置（本地模式，最小化）
+  cluster:
+    debug_pool:
+      type: "cpu"
+      max_concurrent: 1
+    train_pool:
+      type: "cpu"
+      max_concurrent: 1
+
+  # Docker 配置（本地模式）
+  docker:
+    base_image: "python:3.11-slim"
+    registry: "docker.io"
+    pull_policy: "if_not_present"
+
+  # 作业调度配置
+  scheduler:
+    type: "local"
+    queue_timeout: 300
+    retry_failed: false
+    max_retries: 1
+
+# ============================================
+# 系统提示词配置
+# ============================================
+# 从文件加载 system prompt（方便维护和版本控制）
+system_prompt_file: "prompts/system_prompt.txt"
+
+# ============================================
+# LLM 输出显示配置
+# ============================================
+llm_output:
+  # 是否在终端实时显示 LLM 输出
+  show_in_console: true
+  
+  # 是否在日志文件中记录 LLM 输出
+  log_to_file: true
+
+# ============================================
+# 日志配置
+# ============================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null
+  console: true
+  
+  # 日志文件保存路径（程序运行完成后保存）
+  # 如果为 null，则不保存日志文件
+  # 如果设置了路径，程序运行完成后会将日志保存到该路径
+  log_path: "./logs/evomaster.log"
+
+# ============================================
+# ml_master 特有配置
+# ============================================
+# Grading Servers 配置 (ml_master 特有)
+grading_servers:
+  - "http://127.0.0.1:5003"
+
+# ============================================
+# 其他配置
+# ============================================
+project_root: "."
+workspace: "./workspace"
+results_dir: "./results"
+debug: false

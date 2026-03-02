@@ -1,0 +1,239 @@
+html, body {
+  height: 100%;
+  overflow: hidden; /* 禁止整页滚动 */
+}
+
+:root {
+  --bg: #0b0f1a;
+  --panel: #0f1526;
+  --panel2: #0b1020;
+  --text: #d7deee;
+  --muted: #93a4c6;
+  --muted2: #7f8fb1;
+  --border: rgba(255,255,255,0.10);
+  --border2: rgba(255,255,255,0.14);
+  --accent: #66e3ff;
+
+  --good: #26e3a1;
+  --bad: #ff4d6d;
+  --warn: #ffd166;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+               "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(1200px 600px at 30% 30%, rgba(124,70,255,0.18), transparent 60%),
+              radial-gradient(900px 500px at 70% 60%, rgba(0,255,199,0.10), transparent 55%),
+              var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(15,22,48,0.9) 0%, rgba(11,15,26,0.95) 100%);
+  backdrop-filter: blur(6px);
+}
+
+.title {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 12px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+select, input, button {
+  background: rgba(17, 24, 42, 0.85);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 7px 9px;
+  border-radius: 10px;
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(147, 164, 198, 0.7);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: rgba(255,255,255,0.24);
+}
+
+.searchLabel { margin-left: 8px; }
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  height: calc(100vh - 54px);
+  overflow: hidden;
+}
+
+.canvasWrap {
+  position: relative;
+  overflow: hidden;
+}
+
+#svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hint {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.sidepanel {
+  border-left: 1px solid var(--border);
+  background: rgba(11, 16, 32, 0.75);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  height: 100%;
+}
+
+.panelTitle {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge {
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(17, 24, 42, 0.55);
+}
+
+.panelBody {
+  padding: 12px 14px;
+  overflow: auto;
+  flex: 1;
+  overscroll-behavior: contain;
+  height: 100%;
+  overflow-y: auto;         /* 右侧可滚 */
+}
+
+.detailEmpty {
+  color: rgba(147, 164, 198, 0.75);
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 10px 2px;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  background: rgba(15, 21, 38, 0.65);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.cardTitle {
+  font-size: 12px;
+  color: rgba(147, 164, 198, 0.9);
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+
+.cardValue {
+  font-size: 13px;
+  color: rgba(231, 236, 255, 0.95);
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.codeBlock {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border2);
+  background: rgba(7, 10, 18, 0.7);
+  border-radius: 14px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(231, 236, 255, 0.92);
+  white-space: pre;
+}
+
+/* D3 elements */
+.link {
+  fill: none;
+  stroke: rgba(255,255,255,0.14);
+  stroke-width: 1.25px;
+}
+
+.node circle {
+  stroke: rgba(255,255,255,0.24);
+  stroke-width: 1px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+.node text {
+  font-size: 11.5px;
+  fill: rgba(255,255,255,0.9);
+  paint-order: stroke;
+  stroke: rgba(0,0,0,0.38);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.node:hover circle {
+  stroke: rgba(255,255,255,0.55);
+  stroke-width: 1.5px;
+}
+
+.selected circle {
+  stroke: var(--accent);
+  stroke-width: 2.4px;
+}
+
+.smallMuted {
+  color: rgba(147, 164, 198, 0.8);
+  font-size: 12px;
+}

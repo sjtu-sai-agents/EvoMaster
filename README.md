@@ -115,6 +115,7 @@ EvoMaster/
 
 | Document | Description |
 |----------|-------------|
+| [v0.0.2 Changelog & Migration Guide](./docs/CHANGELOG.md) | What's new in v0.0.2 and how to migrate from v0.0.1 |
 | [Architecture Overview](./docs/architecture.md) | System architecture and design |
 | [Agent Module](./docs/agent.md) | Agent, Context, Session APIs |
 | [Core Module](./docs/core.md) | BaseExp, BasePlayground APIs |
