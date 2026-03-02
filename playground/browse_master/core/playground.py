@@ -79,40 +79,40 @@ class BrowseMasterPlayground(BasePlayground):
         # self.agents.executor=self._create_agent("executor")
         self.logger.info("Browse-Master playground setup complete")
     
-    def _setup_agents(self) -> None:
-        """创建两个Agent """
+    # def _setup_agents(self) -> None:
+    #     """创建两个Agent """
 
-        # llm_config = self._setup_llm_config()
-        agents_config = getattr(self.config, 'agents', {})
-        if not agents_config:
-            raise ValueError(
-                "No agents configuration found. "
-                "Please add 'agents' section to config.yaml"
-            )
+    #     # llm_config = self._setup_llm_config()
+    #     agents_config = getattr(self.config, 'agents', {})
+    #     if not agents_config:
+    #         raise ValueError(
+    #             "No agents configuration found. "
+    #             "Please add 'agents' section to config.yaml"
+    #         )
 
-        # 创建planner Agent（使用独立的LLM实例）
-        if 'planner' in agents_config:
-            planner_config = agents_config['planner']
-            self.agents.planner = self._create_agent(
-                name="planner",
-                agent_config=planner_config,
-                enable_tools=planner_config.get('enable_tools', False),
-                # llm_config=llm_config,
-                # skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("planner Agent created")
+    #     # 创建planner Agent（使用独立的LLM实例）
+    #     if 'planner' in agents_config:
+    #         planner_config = agents_config['planner']
+    #         self.agents.planner = self._create_agent(
+    #             name="planner",
+    #             agent_config=planner_config,
+    #             enable_tools=planner_config.get('enable_tools', False),
+    #             # llm_config=llm_config,
+    #             # skill_registry=skill_registry,  # 传递 skill_registry
+    #         )
+    #         self.logger.info("planner Agent created")
 
-        # 创建Coding Agent（使用独立的LLM实例）
-        if 'executor' in agents_config:
-            executor_config = agents_config['executor']
-            self.agents.executor = self._create_agent(
-                name="executor",
-                agent_config=executor_config,
-                enable_tools=executor_config.get('enable_tools', True),
-                # llm_config=llm_config,
-                # skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("executor Agent created")  
+    #     # 创建Coding Agent（使用独立的LLM实例）
+    #     if 'executor' in agents_config:
+    #         executor_config = agents_config['executor']
+    #         self.agents.executor = self._create_agent(
+    #             name="executor",
+    #             agent_config=executor_config,
+    #             enable_tools=executor_config.get('enable_tools', True),
+    #             # llm_config=llm_config,
+    #             # skill_registry=skill_registry,  # 传递 skill_registry
+    #         )
+    #         self.logger.info("executor Agent created")  
     
     def _create_exp(self):
         """创建多智能体实验实例
@@ -123,8 +123,8 @@ class BrowseMasterPlayground(BasePlayground):
             MultiAgentExp 实例
         """
         exp = PlanExecuteExp(
-            planner=self.agents.planner,    
-            executor=self.agents.executor,
+            planner=self.agents.planner_agent,    
+            executor=self.agents.executor_agent,
             config=self.config
         )
         # 传递 run_dir 给 Exp
