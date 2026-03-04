@@ -113,6 +113,7 @@ EvoMaster/
 
 | 文档 | 描述 |
 |------|------|
+| [v0.0.2 版本更新说明与迁移指南](./docs/CHANGELOG.md) | v0.0.2 新增内容及从 v0.0.1 迁移方法 |
 | [架构概述](./docs/zh/architecture.md) | 系统架构和设计 |
 | [Agent 模块](./docs/zh/agent.md) | Agent, Context, Session 接口 |
 | [Core 模块](./docs/zh/core.md) | BaseExp, BasePlayground 接口 |
@@ -204,6 +205,11 @@ python run.py --agent minimal --interactive
 ### 单智能体（Minimal）
 ```bash
 python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Discover a pattern: Given sequence 1, 4, 9, 16, 25... find the formula"
+```
+
+### 单智能体，输入任务包含图片（Minimal）
+```bash
+python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Describe what you see in these images" --images /path/to/image1.png /path/to/image2.jpg
 ```
 
 ### 多智能体系统

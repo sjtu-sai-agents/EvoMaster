@@ -46,7 +46,8 @@ agents:
   analyze:
     llm: "openai"
     max_turns: 10
-    enable_tools: true
+    # 默认使用builtin工具集: execute_bash, str_replace_editor, think, finish, 默认不使用mcp工具
+    # 默认不使用skills
 
     context:
       max_tokens: 128000
@@ -60,7 +61,7 @@ agents:
   plan:
     llm: "openai"
     max_turns: 10
-    enable_tools: false
+    tools: # 显式指定无 tools
     skills:  # 显式指定无 skill
 
     context:
@@ -75,7 +76,7 @@ agents:
   search:
     llm: "openai"
     max_turns: 30
-    enable_tools: true
+    tools: "default" # 默认使用builtin工具集: execute_bash, str_replace_editor, think, finish, 默认不使用mcp工具
     skills:  # 通配符 → 全部 skill
       - "*"
 
@@ -91,7 +92,12 @@ agents:
   summarize:
     llm: "openai"
     max_turns: 20
-    enable_tools: true
+    tools: 
+      builtin: # 指定子集: 
+        - "execute_bash"
+        - "think"
+        - "finish"
+      mcp: [] # 指定不使用mcp工具
 
     skills:  # 指定子集
       - "rag"
@@ -130,9 +136,6 @@ embedding:
 # ============================================
 # MCP 配置
 # ============================================
-mcp:
-  config_file: "mcp_config.json"
-  enabled: false
 
 # ============================================
 # Session 配置

@@ -24,7 +24,7 @@
     result = playground.run("发现规律")
 """
 
-from .exp import BaseExp
+from .exp import BaseExp, extract_agent_response
 from .playground import BasePlayground
 from .registry import (
     register_playground,
@@ -36,6 +36,7 @@ from .registry import (
 __all__ = [
     "BaseExp",
     "BasePlayground",
+    "extract_agent_response",
     "register_playground",
     "get_playground_class",
     "list_registered_playgrounds",

@@ -9,9 +9,7 @@
 
 import logging
 import sys
-import json
 from pathlib import Path
-from typing import Dict, List, Any, Optional
 
 # 确保可以导入evomaster模块
 project_root = Path(__file__).parent.parent.parent.parent
@@ -19,7 +17,24 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
 from evomaster.core import BasePlayground, register_playground
-from evomaster import TaskInstance
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from evomaster.agent import Agent
+
+# import logging
+# import sys
+# import json
+# from pathlib import Path
+# from typing import Dict, List, Any, Optional
+
+# # 确保可以导入evomaster模块
+# project_root = Path(__file__).parent.parent.parent.parent
+# if str(project_root) not in sys.path:
+#     sys.path.insert(0, str(project_root))
+
+# from evomaster.core import BasePlayground, register_playground
+# from evomaster import TaskInstance
 
 from .exp import PlanExecuteExp
 
@@ -43,22 +58,13 @@ class BrowseMasterPlayground(BasePlayground):
         
         # 必须先调用父类初始化（核心：初始化logger/config_manager/session等）
         super().__init__(config_dir=config_dir, config_path=config_path)
-        
+        self.logger = logging.getLogger(self.__class__.__name__)
         # 存储两个组件的Agent
-        self.planner = None
-        self.executor = None
+        self.agents.declare("planner","executor")
         
-        # # 存储Exp实例
-        # self.plan_exp = None
-        # self.execute_exp = None
+        # 初始化mcp_manager（BasePlayground.cleanup需要）
+        self.mcp_manager = None
         
-        # # 存储中间结果
-        # self.plan_results = None
-        # self.execute_results = None
-        
-        # 工作流配置
-        self.agent_num = 5  # 每个Exp并行执行的Agent数量
-        self.max_workers = 5  # 线程池大小
     
     def setup(self) -> None:
         """初始化所有组件
@@ -67,58 +73,46 @@ class BrowseMasterPlayground(BasePlayground):
         每个Agent使用独立的LLM实例，确保日志记录独立。
         """
         self.logger.info("Setting up Browse-Master playground...")
-
-        # 1. 准备 LLM 配置（每个Agent会创建独立的LLM实例）
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict  # 保存配置供后续使用
-
-        # 2. 创建 Session（所有Agent共享）
         self._setup_session()
-
-        # 3. 创建工具注册表
-        self._setup_tools()
-
-        # 4. 创建多个Agent（每个Agent使用独立的LLM实例）
-        self._setup_agents(llm_config_dict)
-
+        self._setup_agents()
+        # self.agents.planner=self._create_agent("planner")
+        # self.agents.executor=self._create_agent("executor")
         self.logger.info("Browse-Master playground setup complete")
     
-    def _setup_agents(self, llm_config_dict: Dict[str, Any]) -> None:
-        """创建两个Agent
-        
-        Args:
-            llm_config_dict: LLM配置字典
-        """
-        agents_config = getattr(self.config, 'agents', {})
-        if not agents_config:
-            raise ValueError(
-                "No agents configuration found. "
-                "Please add 'agents' section to config.yaml"
-            )
+    # def _setup_agents(self) -> None:
+    #     """创建两个Agent """
 
-        # 创建planner Agent（使用独立的LLM实例）
-        if 'planner' in agents_config:
-            planner_config = agents_config['planner']
-            self.planner = self._create_agent(
-                name="planner",
-                agent_config=planner_config,
-                enable_tools=planner_config.get('enable_tools', False),
-                llm_config_dict=llm_config_dict,
-                # skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("planner Agent created")
+    #     # llm_config = self._setup_llm_config()
+    #     agents_config = getattr(self.config, 'agents', {})
+    #     if not agents_config:
+    #         raise ValueError(
+    #             "No agents configuration found. "
+    #             "Please add 'agents' section to config.yaml"
+    #         )
 
-        # 创建Coding Agent（使用独立的LLM实例）
-        if 'executor' in agents_config:
-            executor_config = agents_config['executor']
-            self.executor = self._create_agent(
-                name="executor",
-                agent_config=executor_config,
-                enable_tools=executor_config.get('enable_tools', True),
-                llm_config_dict=llm_config_dict,
-                # skill_registry=skill_registry,  # 传递 skill_registry
-            )
-            self.logger.info("executor Agent created")  
+    #     # 创建planner Agent（使用独立的LLM实例）
+    #     if 'planner' in agents_config:
+    #         planner_config = agents_config['planner']
+    #         self.agents.planner = self._create_agent(
+    #             name="planner",
+    #             agent_config=planner_config,
+    #             enable_tools=planner_config.get('enable_tools', False),
+    #             # llm_config=llm_config,
+    #             # skill_registry=skill_registry,  # 传递 skill_registry
+    #         )
+    #         self.logger.info("planner Agent created")
+
+    #     # 创建Coding Agent（使用独立的LLM实例）
+    #     if 'executor' in agents_config:
+    #         executor_config = agents_config['executor']
+    #         self.agents.executor = self._create_agent(
+    #             name="executor",
+    #             agent_config=executor_config,
+    #             enable_tools=executor_config.get('enable_tools', True),
+    #             # llm_config=llm_config,
+    #             # skill_registry=skill_registry,  # 传递 skill_registry
+    #         )
+    #         self.logger.info("executor Agent created")  
     
     def _create_exp(self):
         """创建多智能体实验实例
@@ -129,8 +123,8 @@ class BrowseMasterPlayground(BasePlayground):
             MultiAgentExp 实例
         """
         exp = PlanExecuteExp(
-            planner=self.planner,
-            executor=self.executor,
+            planner=self.agents.planner_agent,    
+            executor=self.agents.executor_agent,
             config=self.config
         )
         # 传递 run_dir 给 Exp
@@ -169,15 +163,3 @@ class BrowseMasterPlayground(BasePlayground):
 
         finally:
             self.cleanup()
-    
-    def cleanup(self) -> None:
-        """清理资源（先清理自定义组件，再调用父类cleanup）"""
-        self.logger.info("Cleaning up Browse-Master playground...")
-
-        # 清理Agent实例（重置引用）
-        self.planner = None
-        self.executor = None
-
-        super().cleanup()
-
-        self.logger.info("Browse-Master playground cleanup complete")

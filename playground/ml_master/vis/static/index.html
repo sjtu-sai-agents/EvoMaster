@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ML-Master UCT Tree</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="title">ML-Master · UCT Tree Viewer</div>
+    <div class="meta" id="meta"></div>
+
+    <div class="controls">
+      <label>Color:</label>
+      <select id="colorBy">
+        <option value="metric">metric</option>
+        <option value="uct_value">uct_value</option>
+        <option value="visits">visits</option>
+        <option value="reward">reward</option>
+      </select>
+
+      <button id="refreshBtn">Refresh</button>
+
+      <label class="searchLabel">Find node:</label>
+      <input id="searchInput" placeholder="node id prefix (e.g. 0afb6324)" />
+      <button id="searchBtn">Go</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="canvasWrap">
+      <svg id="svg"></svg>
+      <div class="hint">
+        <div>Wheel: zoom</div>
+        <div>Drag: pan</div>
+        <div>Click node: details</div>
+      </div>
+    </div>
+
+    <div class="sidepanel">
+      <div class="panelTitle">
+        <span>Node Detail</span>
+        <span class="badge" id="nodeBadge">none</span>
+      </div>
+      <div class="panelBody">
+        <div id="detailRoot" class="detailEmpty">点击左侧任意节点查看详情。</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

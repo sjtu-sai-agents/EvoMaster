@@ -115,6 +115,7 @@ EvoMaster/
 
 | Document | Description |
 |----------|-------------|
+| [v0.0.2 Changelog & Migration Guide](./docs/CHANGELOG.md) | What's new in v0.0.2 and how to migrate from v0.0.1 |
 | [Architecture Overview](./docs/architecture.md) | System architecture and design |
 | [Agent Module](./docs/agent.md) | Agent, Context, Session APIs |
 | [Core Module](./docs/core.md) | BaseExp, BasePlayground APIs |
@@ -203,6 +204,11 @@ python run.py --agent minimal --interactive
 ### Single Agent (Minimal)
 ```bash
 python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Discover a pattern: Given sequence 1, 4, 9, 16, 25... find the formula"
+```
+
+### Single Agent with images input (Minimal)
+```bash
+python run.py --agent minimal --config configs/minimal/deepseek-v3.2-example.yaml --task "Describe what you see in these images" --images /path/to/image1.png /path/to/image2.jpg
 ```
 
 ### Multi-Agent System
