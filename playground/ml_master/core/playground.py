@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import shutil
 import threading
 import time
 from functools import partial
@@ -11,7 +12,7 @@ from datetime import datetime
 from evomaster.core import BasePlayground, register_playground
 from evomaster.agent import Agent
 
-from .utils.grading import validate_submission
+from .utils.grading import shutdown_embedded_grading_server, validate_submission
 from .utils.uct import UCTSearchConfig, UCTDecayConfig, UCTSearchManager
 from .utils.data_preview import generate as generate_data_preview
 from .utils.playground_helpers import (
@@ -34,10 +35,10 @@ class MLMasterPlayground(BasePlayground):
 
     def __init__(self, config_dir: Path | None = None, config_path: Path | None = None):
         if config_path is None and config_dir is None:
-            config_dir = Path(__file__).parent.parent.parent / "configs" / "ml_master"
+            config_dir = Path(__file__).parent.parent.parent.parent / "configs" / "ml_master"
         super().__init__(config_dir=config_dir, config_path=config_path)
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.agents: dict[str, Agent] = {}
+        self.agents.declare("draft_agent", "debug_agent", "improve_agent", "metric_agent")
         self.trajectories: list[dict[str, Any]] = []
         session_config = self.config.session.get("local", {})
         parallel_config = session_config.get("parallel", {})
@@ -48,36 +49,23 @@ class MLMasterPlayground(BasePlayground):
 
 # --------------------------- 初始化 --------------------------- #
     def setup(self) -> None:
-        self.logger.info("Setting up MLMasterPlayground using BasePlayground helpers...")
-
-        llm_config_dict = self._setup_llm_config()
-        self._llm_config_dict = llm_config_dict
-
+        self.logger.info("Setting up MLMasterPlayground...")
         self._setup_session()
-        self._setup_tools()
+        self._setup_agents()
 
-        agents_cfg = getattr(self.config, "agents", {})
-        if not agents_cfg:
-            raise ValueError("config.agents 未配置draft/debug/improve/metric")
-
-        for name in ["draft", "debug", "improve", "metric"]:
-            if name not in agents_cfg:
-                raise ValueError(f"缺少 agent 配置: {name}")
-            cfg = agents_cfg[name]
-            enable_tools = cfg.get("enable_tools", False)
-            agent = self._create_agent(
-                name=name,
-                agent_config=cfg,
-                enable_tools=enable_tools,
-                llm_config_dict=llm_config_dict,
-            )
-            self.agents[name] = agent
-            self.logger.info("Agent created: %s", name)
+        required_slots = ["draft_agent", "debug_agent", "improve_agent", "metric_agent"]
+        missing = [slot for slot in required_slots if self.agents.get(slot) is None]
+        if missing:
+            raise ValueError(f"config.agents 缺少必需配置: {missing}")
 
         # 额外：baseline.json / grade.py 软链接
         self._ensure_prepared_links(Path(self.session.config.workspace_path))
 
     def cleanup(self) -> None:
+        try:
+            shutdown_embedded_grading_server(timeout=5)
+        except Exception as exc:
+            self.logger.warning("Failed to shutdown embedded grading server: %s", exc)
         super().cleanup()
 
     def _ensure_prepared_links(self, workspace: Path) -> None:
@@ -112,19 +100,30 @@ class MLMasterPlayground(BasePlayground):
 
     def _create_worker_agents(self, worker_index: int) -> dict[str, Agent]:
         return {
-            "draft": self.copy_agent(self.agents["draft"], new_agent_name=f"draft_worker_{worker_index}"),
-            "debug": self.copy_agent(self.agents["debug"], new_agent_name=f"debug_worker_{worker_index}"),
-            "improve": self.copy_agent(self.agents["improve"], new_agent_name=f"improve_worker_{worker_index}"),
-            "metric": self.copy_agent(self.agents["metric"], new_agent_name=f"metric_worker_{worker_index}"),
+            "draft": self.copy_agent(self.agents.draft_agent, new_agent_name=f"draft_worker_{worker_index}"),
+            "debug": self.copy_agent(self.agents.debug_agent, new_agent_name=f"debug_worker_{worker_index}"),
+            "improve": self.copy_agent(self.agents.improve_agent, new_agent_name=f"improve_worker_{worker_index}"),
+            "metric": self.copy_agent(self.agents.metric_agent, new_agent_name=f"metric_worker_{worker_index}"),
         }
 
+    def _reset_working_dir(self, workspace: Path) -> None:
+        """Clear and recreate workspace/working after each node execution."""
+        working_dir = workspace / "working"
+        try:
+            if working_dir.exists():
+                shutil.rmtree(working_dir)
+            working_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as exc:
+            self.logger.warning("Failed to reset working dir %s: %s", working_dir, exc)
+
     @staticmethod
-    def _select_stage_and_inputs(target: Any) -> tuple[str, str, str]:
+    def _select_stage_and_inputs(target: Any) -> tuple[str, str, str, str]:
         if target.stage == "root":
-            return "draft", "", ""
+            return "draft", "", "", ""
+        issue = getattr(target, "grading_issue", "") or ""
         if target.is_buggy or target.metric.value is None:
-            return "debug", getattr(target, "code", ""), getattr(target, "stdout", "")
-        return "improve", getattr(target, "code", ""), getattr(target, "stdout", "")
+            return "debug", getattr(target, "code", ""), getattr(target, "stdout", ""), issue
+        return "improve", getattr(target, "code", ""), getattr(target, "stdout", ""), issue
 
     def _run_one_node(
         self,
@@ -137,6 +136,7 @@ class MLMasterPlayground(BasePlayground):
         node: Any,
         prev_code: str,
         term_out: str,
+        issue: str,
         best_code: str | None,
         best_metric: float | None,
         memory: str,
@@ -165,7 +165,7 @@ class MLMasterPlayground(BasePlayground):
                 node,
                 exp_index=exp_index,
             )
-            return exp.run(task_description, prev_code=prev_code, term_out=term_out, issue="")
+            return exp.run(task_description, prev_code=prev_code, term_out=term_out, issue=issue)
         exp = ImproveExp(
             worker_agents["improve"],
             worker_agents["metric"],
@@ -262,7 +262,7 @@ class MLMasterPlayground(BasePlayground):
                         if should_wait:
                             pass
                         else:
-                            stage, prev_code, term_out = self._select_stage_and_inputs(target)
+                            stage, prev_code, term_out, issue = self._select_stage_and_inputs(target)
                             node = search_mgr.create_child(target, stage=stage, plan="", code="")
                             best_state["active_jobs"] = int(best_state["active_jobs"] or 0) + 1
                             dispatch_id = int(best_state["dispatch_id"] or 0)
@@ -279,86 +279,90 @@ class MLMasterPlayground(BasePlayground):
                         continue
 
                     try:
-                        res = self._run_one_node(
-                            worker_agents=worker_agents,
-                            worker_workspace=worker_workspace,
-                            data_preview=data_preview,
-                            task_description=task_description,
-                            stage=stage,
-                            node=node,
-                            prev_code=prev_code,
-                            term_out=term_out,
-                            best_code=best_code,
-                            best_metric=best_metric,
-                            memory=memory,
-                            exp_index=dispatch_id,
-                        )
-                    except Exception as exc:  # pragma: no cover - defensive fallback
-                        self.logger.error("Worker %s failed on node %s: %s", worker_index, node.id, exc, exc_info=True)
-                        res = {
-                            "plan": "",
-                            "code": "",
-                            "raw_response": str(exc),
-                            "exec": {"stdout": str(exc), "exit_code": -1},
-                            "metric": None,
-                            "metric_detail": {"is_bug": True, "has_submission": False},
-                        }
-
-                    with state_lock:
-                        best_state["active_jobs"] = max(int(best_state["active_jobs"] or 0) - 1, 0)
-                        node.code = res.get("code", "")
-                        node.plan = res.get("plan", "")
-                        node.stdout = res.get("exec", {}).get("stdout", "")
-                        node.exit_code = res.get("exec", {}).get("exit_code", None)
-
-                        copied = copy_submission(
-                            submission_dir,
-                            node.id,
-                            source_submission_dir=worker_submission_dir,
-                        )
-                        review = build_review(res, has_submission=copied is not None)
-                        reward = search_mgr.ingest_result(node, review)
-                        save_node_snapshot(
-                            self.run_dir,
-                            Path(self.session.config.workspace_path),
-                            node,
-                            copied,
-                            review,
-                            reward,
-                            search_mgr,
-                        )
-
-                        trail = {
-                            "ts": datetime.utcnow().isoformat(),
-                            "step": search_mgr.current_step,
-                            "stage": stage,
-                            "node_id": node.id,
-                            "parent": getattr(node.parent, "id", None),
-                            "is_buggy": node.is_buggy,
-                            "metric": getattr(node.metric, "value", None),
-                            "has_submission": copied is not None,
-                            "submission_file": str(copied) if copied else None,
-                            "worker_index": worker_index,
-                        }
-                        append_trajectory(self, trail, logger=self.logger)
-                        results[stage].append(res)
-
-                        if (
-                            search_mgr.best_node
-                            and search_mgr.best_node.id != best_state["node_id"]
-                            and search_mgr.best_node.metric.value is not None
-                        ):
-                            best_state["node_id"] = search_mgr.best_node.id
-                            best_state["metric"] = search_mgr.best_node.metric.value
-                            best_state["code"] = search_mgr.best_node.code
-                            best_sub = submission_dir / f"submission_{best_state['node_id']}.csv"
-                            save_best(
-                                self.logger,
-                                workspace,
-                                str(best_state["code"] or ""),
-                                best_sub if best_sub.exists() else copied,
+                        try:
+                            res = self._run_one_node(
+                                worker_agents=worker_agents,
+                                worker_workspace=worker_workspace,
+                                data_preview=data_preview,
+                                task_description=task_description,
+                                stage=stage,
+                                node=node,
+                                prev_code=prev_code,
+                                term_out=term_out,
+                                issue=issue,
+                                best_code=best_code,
+                                best_metric=best_metric,
+                                memory=memory,
+                                exp_index=dispatch_id,
                             )
-                    completed += 1
+                        except Exception as exc:  # pragma: no cover - defensive fallback
+                            self.logger.error("Worker %s failed on node %s: %s", worker_index, node.id, exc, exc_info=True)
+                            res = {
+                                "plan": "",
+                                "code": "",
+                                "raw_response": str(exc),
+                                "exec": {"stdout": str(exc), "exit_code": -1},
+                                "metric": None,
+                                "metric_detail": {"is_bug": True, "has_submission": False},
+                            }
+
+                        with state_lock:
+                            best_state["active_jobs"] = max(int(best_state["active_jobs"] or 0) - 1, 0)
+                            node.code = res.get("code", "")
+                            node.plan = res.get("plan", "")
+                            node.stdout = res.get("exec", {}).get("stdout", "")
+                            node.exit_code = res.get("exec", {}).get("exit_code", None)
+
+                            copied = copy_submission(
+                                submission_dir,
+                                node.id,
+                                source_submission_dir=worker_submission_dir,
+                            )
+                            review = build_review(res, has_submission=copied is not None)
+                            reward = search_mgr.ingest_result(node, review)
+                            save_node_snapshot(
+                                self.run_dir,
+                                Path(self.session.config.workspace_path),
+                                node,
+                                copied,
+                                review,
+                                reward,
+                                search_mgr,
+                            )
+
+                            trail = {
+                                "ts": datetime.utcnow().isoformat(),
+                                "step": search_mgr.current_step,
+                                "stage": stage,
+                                "node_id": node.id,
+                                "parent": getattr(node.parent, "id", None),
+                                "is_buggy": node.is_buggy,
+                                "metric": getattr(node.metric, "value", None),
+                                "has_submission": copied is not None,
+                                "submission_file": str(copied) if copied else None,
+                                "worker_index": worker_index,
+                            }
+                            append_trajectory(self, trail, logger=self.logger)
+                            results[stage].append(res)
+
+                            if (
+                                search_mgr.best_node
+                                and search_mgr.best_node.id != best_state["node_id"]
+                                and search_mgr.best_node.metric.value is not None
+                            ):
+                                best_state["node_id"] = search_mgr.best_node.id
+                                best_state["metric"] = search_mgr.best_node.metric.value
+                                best_state["code"] = search_mgr.best_node.code
+                                best_sub = submission_dir / f"submission_{best_state['node_id']}.csv"
+                                save_best(
+                                    self.logger,
+                                    workspace,
+                                    str(best_state["code"] or ""),
+                                    best_sub if best_sub.exists() else copied,
+                                )
+                        completed += 1
+                    finally:
+                        self._reset_working_dir(worker_workspace)
 
                 return {"worker_index": worker_index, "completed": completed}
 
@@ -373,5 +377,4 @@ class MLMasterPlayground(BasePlayground):
             return results
         finally:
             self.cleanup()
-
 

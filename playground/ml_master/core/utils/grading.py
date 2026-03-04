@@ -8,7 +8,20 @@ import time
 from pathlib import Path
 from typing import Iterable, Tuple
 
-from .grading_server import ensure_grading_server
+try:
+    from .grading_server import ensure_grading_server, stop_grading_server
+except ImportError:
+    def ensure_grading_server(dataset_root: str | Path, server_urls: Iterable[str]) -> str | None:
+        """Fallback when local grading_server helper is unavailable."""
+        logger = logging.getLogger(__name__)
+        logger.warning(
+            "grading_server helper not found; skip auto-start. "
+            "Please make sure grading_servers are already running."
+        )
+        return None
+
+    def stop_grading_server(timeout: int = 5) -> bool:
+        return False
 
 try:
     import requests
@@ -87,3 +100,8 @@ def validate_submission(
             logger.error(f"grading validate unexpected error: {e}")
         time.sleep(1)
     return False, "grading server call failed"
+
+
+def shutdown_embedded_grading_server(timeout: int = 5) -> bool:
+    """Shutdown embedded grading server started by current process."""
+    return stop_grading_server(timeout=timeout)

@@ -4,7 +4,7 @@
 # 实验特定配置
 # ============================================
 exp_id: "detecting-insults-in-social-commentary"
-data_root: "/data/public_data/exp_data/demo1bench"   # 本地数据根目录
+data_root: "/data/exp_data"   # 本地数据根目录
 
 # ============================================
 # LLM 配置
@@ -35,7 +35,7 @@ llm:
   # 本地 LLM 配置示例
   local_sglang:
     provider: "deepseek"
-    model: "deepseek-v3.2"
+    model: "DeepSeek/DeepSeek-V3-0324"
     api_key: "${DEEPSEEK_API_KEY}"  # 本地部署可使用占位符
     base_url: "${DEEPSEEK_API_BASE}"
     temperature: 0.7
@@ -55,7 +55,8 @@ agents:
   draft:
     llm: "local_sglang"
     max_turns: 30
-    enable_tools: false  
+    tools:
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -71,7 +72,8 @@ agents:
   debug:
     llm: "local_sglang"
     max_turns: 30
-    enable_tools: false  
+    tools:
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -87,7 +89,8 @@ agents:
   improve:
     llm: "local_sglang"
     max_turns: 30
-    enable_tools: false  
+    tools:
+      builtin: []
     
     context:
       max_tokens: 128000
@@ -103,7 +106,8 @@ agents:
   metric:
     llm: "local_sglang"
     max_turns: 8
-    enable_tools: false  
+    tools:
+      builtin: []
     
     context:
       max_tokens: 64000
@@ -157,9 +161,9 @@ session:
       max_parallel: 4
       split_workspace_for_exp: true
     
-    # 软链接配置（ml_master 特有）
+    # 软链接配置
     symlinks:
-      "/data/public_data/exp_data/demo1bench/detecting-insults-in-social-commentary/prepared/public": "input"
+      "/data/exp_data/detecting-insults-in-social-commentary/prepared/public": "input"
   
   # Docker Session 配置
   docker:

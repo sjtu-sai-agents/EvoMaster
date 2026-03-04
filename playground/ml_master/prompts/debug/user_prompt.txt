@@ -67,3 +67,6 @@ Your response should be a brief outline/sketch of your proposed solution in natu
 # Execution output
 {terminal_output}
 
+# Known issue summary
+{issue}
+
