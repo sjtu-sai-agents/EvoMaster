@@ -389,11 +389,10 @@ class BasePlayground:
         mcp_config_file = tool_config.get("mcp", "")
 
         # 始终注册所有内置工具，确保代码中可以手动调用任何工具
-        tool_registry = create_registry(
+        self.tools = create_registry(
             builtin_names=["*"],
             skill_registry=skill_registry,
         )
-        self.tools = tool_registry
 
         # MCP: 当 mcp_config_file 非空时加载 MCP 工具
         if mcp_config_file:
@@ -401,9 +400,7 @@ class BasePlayground:
             if self.mcp_manager is None:
                 self.mcp_manager = self._setup_mcp_tools(mcp_config_file)
             elif self.mcp_manager is not None:
-                self.mcp_manager.register_tools(tool_registry)
-
-        return tool_registry
+                self.mcp_manager.register_tools(self.tools)
 
     def _setup_agents(self) -> None:
         """按配置创建所有 Agent, 初始化self.agents"""
@@ -425,7 +422,8 @@ class BasePlayground:
 
             self.logger.info(f"{agent_name.capitalize()} Agent created with:")
             self.logger.info(f"  - LLM: {llm_config['model']}")
-            self.logger.info(f"  - Tools: {agent.tools.get_tool_names()}")
+            self.logger.info(f"  - Available Tools: {agent.tools.get_tool_names()}")
+            self.logger.info(f"  - Auto Accessed Tools: {tool_config}")
             self.logger.info(f"  - Skills: {skill_config.get('skills', [])}")
 
         #向后兼容
@@ -481,17 +479,28 @@ class BasePlayground:
         # 根据 tool_config 推断是否启用工具
         builtin = tool_config.get("builtin", ["*"])
         mcp_config_file = tool_config.get("mcp", "")
-        enable_tools = bool(builtin) or bool(mcp_config_file)
-
-        # 计算启用的工具名称列表（用于过滤暴露给 LLM 的工具）
-        # builtin 为 ["*"] 时表示所有工具都启用，为 [] 时不启用任何工具
-        enabled_tool_names = builtin if builtin else []
+        skills = skill_config.get("skills", [])
+        # enable_tools = bool(builtin) or bool(mcp_config_file)
+        if builtin == [] and mcp_config_file == "" and skill_config.get("skills", []) == [] :
+            enable_tools = False
+        else:
+            enable_tools = True
 
         # 创建工具注册表（始终注册所有工具）
-        tools = self._setup_tools(
-            skill_config=skill_config,
-            tool_config=tool_config,
-        )
+        self._setup_tools(skill_config=skill_config, tool_config=tool_config)
+
+        enabled_tool_names = []
+        if builtin == ["*"]:
+            enabled_tool_names.extend(["execute_bash", "str_replace_editor", "think", "finish"])
+        elif builtin != []:
+            enabled_tool_names.extend(builtin)
+
+        if mcp_config_file != "":
+            enabled_tool_names.extend(self.mcp_manager.get_tool_names())
+        if skills != []:
+            enabled_tool_names.extend(["use_skill"])
+
+        
 
         max_turns = agent_config.get('max_turns', 20)
         context_config_dict = agent_config.get('context', {})
@@ -531,7 +540,7 @@ class BasePlayground:
         agent = Agent(
             llm=llm,
             session=self.session,
-            tools=tools,
+            tools=self.tools,
             system_prompt_file=system_prompt_file,
             user_prompt_file=user_prompt_file,
             prompt_format_kwargs=prompt_format_kwargs,

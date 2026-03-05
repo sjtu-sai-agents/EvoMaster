@@ -64,6 +64,22 @@ class SkillTool(BaseTool):
         super().__init__()
         self.skill_registry = skill_registry
 
+    def get_description(self) -> str:
+        """动态注入 skills 元信息到工具描述中"""
+        base_description = super().get_description()
+
+        skills_context = self.skill_registry.get_meta_info_context()
+        if skills_context:
+            return (
+                f"{base_description}\n\n"
+                f"{skills_context}\n"
+                "You can use this tool to:\n"
+                "1. Get detailed information about a skill: action='get_info'\n"
+                "2. Get reference documentation: action='get_reference'\n"
+                "3. Run scripts from skills: action='run_script'"
+            )
+        return base_description
+
     def execute(self, session: BaseSession, args_json: str) -> tuple[str, dict[str, Any]]:
         """执行技能操作
 
