@@ -171,6 +171,7 @@ openhands/
 .cursor
 CLAUDE.md
 .claude/
+.vscode/
 
 # RAG local artifacts / caches
 local_models
