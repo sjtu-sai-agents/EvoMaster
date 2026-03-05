@@ -107,6 +107,14 @@ class BaseTool(ABC):
         """
         return self.params_class.model_validate_json(args_json)
 
+    def get_description(self) -> str:
+        """获取工具描述（用于 LLM function calling 的 description 字段）
+
+        默认从 params_class 的 docstring 提取。
+        子类可覆写此方法来提供动态描述。
+        """
+        return (self.params_class.__doc__ or "").strip().replace("\n    ", "\n")
+
     def get_tool_spec(self) -> ToolSpec:
         """获取工具规格（用于 LLM function calling）"""
         from evomaster.utils.types import FunctionSpec, ToolSpec
@@ -115,7 +123,7 @@ class BaseTool(ABC):
             type="function",
             function=FunctionSpec(
                 name=self.name,
-                description=(self.params_class.__doc__ or "").strip().replace("\n    ", "\n"),
+                description=self.get_description(),
                 parameters=self.params_class.model_json_schema(),
                 strict=None,
             )
@@ -311,8 +319,8 @@ def create_registry(
                 )
             tools.append(factories[name]())
 
-    # 如果提供了 skill_registry，注册 SkillTool
-    if skill_registry is not None:
+    # 如果提供了 skill_registry 且包含 skill，注册 SkillTool
+    if skill_registry is not None and skill_registry.get_all_skills():
         from .skill import SkillTool
         tools.append(SkillTool(skill_registry))
 
