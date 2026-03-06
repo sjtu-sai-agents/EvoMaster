@@ -216,6 +216,7 @@ class BaseAgent(ABC):
             ],
             tools=self._get_tool_specs(),
         )
+        # breakpoint()
 
         self.trajectory.dialogs.append(self.current_dialog)
         self._step_count = 0
@@ -410,14 +411,9 @@ class BaseAgent(ABC):
         """
         if not self.enable_tools:
             return []
-        if self.tools is None:
-            return []
-        all_specs = self.tools.get_tool_specs()
-        # 如果没有指定 enabled_tool_names 或者包含 "*"，返回所有工具
-        if self.enabled_tool_names is None or "*" in self.enabled_tool_names:
-            return all_specs
-        # 只返回启用的工具的规格
-        return [spec for spec in all_specs if spec.function.name in self.enabled_tool_names]
+        else:
+            all_specs = self.tools.get_tool_specs()
+            return [spec for spec in all_specs if spec.function.name in self.enabled_tool_names]
 
     def load_prompt_from_file(
         self,
@@ -845,21 +841,7 @@ You have access to the following tools:
 - str_replace_editor: View, create, and edit files
 - think: Think about the problem (does not affect the environment)
 - finish: Signal that you have completed the task
-"""
 
-        # 如果有 skill_registry，添加 skills 信息
-        if self.skill_registry is not None:
-            skills_info = self.skill_registry.get_meta_info_context()
-            if skills_info:
-                prompt += f"\n{skills_info}\n"
-                prompt += """
-You can use the 'use_skill' tool to:
-1. Get detailed information about a skill: action='get_info'
-2. Get reference documentation: action='get_reference'
-3. Run scripts from skills: action='run_script'
-"""
-
-        prompt += """
 When you need to complete a task:
 1. First understand what needs to be done
 2. Check if any available skills can help you
@@ -871,27 +853,13 @@ Always be careful with file operations and bash commands.
         return prompt
 
     def _get_system_prompt(self) -> str:
-        """获取系统提示词，动态添加工作目录信息；若有 skill_registry 则自动注入 skills 信息"""
-        # working_dir = self.session.config.workspace_path
+        """获取系统提示词，动态添加工作目录信息"""
         working_dir = self.session.get_workspace_path()
-        # 如果没有启动并行和工作空间分离，那么get_workspace_path返回None，此时使用session.config.workspace_path
         if working_dir is None:
             working_dir = self.session.config.workspace_path
-        # 将相对路径转换为绝对路径
         working_dir_abs = str(Path(working_dir).absolute())
         working_dir_info = f"\n\n重要提示：当前工作目录是 {working_dir_abs}。你必须在这个目录下进行所有操作，不能切换工作目录。所有文件操作、命令执行都必须在工作目录 {working_dir_abs} 下进行。"
         prompt = self._system_prompt + working_dir_info
-        # 若有 skill_registry，自动注入 skills 信息（与 _default_system_prompt 一致）
-        if self.skill_registry is not None:
-            skills_info = self.skill_registry.get_meta_info_context()
-            if skills_info:
-                prompt += f"\n{skills_info}\n"
-                prompt += """
-You can use the 'use_skill' tool to:
-1. Get detailed information about a skill: action='get_info'
-2. Get reference documentation: action='get_reference'
-3. Run scripts from skills: action='run_script'
-"""
         return prompt
 
     def _get_user_prompt(self, task: TaskInstance) -> str:
