@@ -9,6 +9,7 @@
 
 import logging
 import sys
+import re
 from pathlib import Path
 
 # 确保可以导入evomaster模块
@@ -21,20 +22,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from evomaster.agent import Agent
-
-# import logging
-# import sys
-# import json
-# from pathlib import Path
-# from typing import Dict, List, Any, Optional
-
-# # 确保可以导入evomaster模块
-# project_root = Path(__file__).parent.parent.parent.parent
-# if str(project_root) not in sys.path:
-#     sys.path.insert(0, str(project_root))
-
-# from evomaster.core import BasePlayground, register_playground
-# from evomaster import TaskInstance
 
 from .exp import PlanExecuteExp
 
@@ -79,40 +66,6 @@ class BrowseMasterPlayground(BasePlayground):
         # self.agents.executor=self._create_agent("executor")
         self.logger.info("Browse-Master playground setup complete")
     
-    # def _setup_agents(self) -> None:
-    #     """创建两个Agent """
-
-    #     # llm_config = self._setup_llm_config()
-    #     agents_config = getattr(self.config, 'agents', {})
-    #     if not agents_config:
-    #         raise ValueError(
-    #             "No agents configuration found. "
-    #             "Please add 'agents' section to config.yaml"
-    #         )
-
-    #     # 创建planner Agent（使用独立的LLM实例）
-    #     if 'planner' in agents_config:
-    #         planner_config = agents_config['planner']
-    #         self.agents.planner = self._create_agent(
-    #             name="planner",
-    #             agent_config=planner_config,
-    #             enable_tools=planner_config.get('enable_tools', False),
-    #             # llm_config=llm_config,
-    #             # skill_registry=skill_registry,  # 传递 skill_registry
-    #         )
-    #         self.logger.info("planner Agent created")
-
-    #     # 创建Coding Agent（使用独立的LLM实例）
-    #     if 'executor' in agents_config:
-    #         executor_config = agents_config['executor']
-    #         self.agents.executor = self._create_agent(
-    #             name="executor",
-    #             agent_config=executor_config,
-    #             enable_tools=executor_config.get('enable_tools', True),
-    #             # llm_config=llm_config,
-    #             # skill_registry=skill_registry,  # 传递 skill_registry
-    #         )
-    #         self.logger.info("executor Agent created")  
     
     def _create_exp(self):
         """创建多智能体实验实例
@@ -154,12 +107,58 @@ class BrowseMasterPlayground(BasePlayground):
             self.logger.info("Running experiment...")
             # 如果有 task_id，传递给 exp.run()
             task_id = getattr(self, 'task_id', None)
-            if task_id:
-                result = exp.run(task_description, task_id=task_id)
-            else:
-                result = exp.run(task_description)
+
+            max_round = 10
+            executor_result = None
+            answer_list = []
+            for _ in range(max_round) :
+                if executor_result != None :
+                    new_task_description = task_description.join(executor_result)
+                else :
+                    new_task_description = "总任务：".join(task_description)
+
+                if task_id:
+                    result = exp.run(new_task_description, task_id=task_id)
+                else:
+                    result = exp.run(new_task_description)
+                
+                if result['final_found'] == 1 :
+                    final_answer = result['final_answer']
+                    self.logger.info(f"Final answer: {final_answer}")
+                    break
+
+                else :
+                    tmp_answer = extract_executor_answer(result['executor_result'])
+                    answer_list.append(tmp_answer)
+                    answer_list_str = "".join(answer_list)
+                    executor_result = f"以下是先前的分析记录：{answer_list_str}"
 
             return result
 
         finally:
             self.cleanup()
+
+def extract_executor_answer(text: str) -> str:
+    """从 Executor 响应中提取结果
+
+    首先尝试提取 <results> 标签内容，
+    其次提取 </think> 后的内容，
+    最后返回原文本
+
+    Args:
+        text: Executor 响应文本
+
+    Returns:
+        提取的结果文本
+    """
+    pattern = r'<results>\s*((?:(?!</results>).)*?)</results>'
+    matches = list(re.finditer(pattern, text, re.DOTALL))
+    if matches:
+        return matches[-1].group(1).strip()
+    else:
+        pattern = r'</think>\s*(.*?)$'
+        matches = list(re.finditer(pattern, text, re.DOTALL))
+        if matches:
+            return matches[-1].group(1).strip()
+        else:
+            return text.strip()

@@ -1,4 +1,4 @@
-You are a searching agent equipped with multiple search tools. Your task is to reason and search exhaustively to find all the entities that satisfy the following target: {search_target}
+search target: {search_target}
 
 To fulfill the target, you need to reason and use the following tools. We first provide several primitive functions:
 
