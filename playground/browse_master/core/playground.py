@@ -113,9 +113,9 @@ class BrowseMasterPlayground(BasePlayground):
             answer_list = []
             for _ in range(max_round) :
                 if executor_result != None :
-                    new_task_description = task_description.join(executor_result)
+                    new_task_description = task_description + executor_result
                 else :
-                    new_task_description = "总任务：".join(task_description)
+                    new_task_description = f"总任务：{task_description}"
 
                 if task_id:
                     result = exp.run(new_task_description, task_id=task_id)
@@ -130,7 +130,7 @@ class BrowseMasterPlayground(BasePlayground):
                 else :
                     tmp_answer = extract_executor_answer(result['executor_result'])
                     answer_list.append(tmp_answer)
-                    answer_list_str = "".join(answer_list)
+                    answer_list_str = " ".join(answer_list)
                     executor_result = f"以下是先前的分析记录：{answer_list_str}"
 
             return result

@@ -146,7 +146,7 @@ class PlanExecuteExp(BaseExp):
                     tasks = extract_tasks(planner_result)
                     results['final_found'] = 0
                     search_target = tasks[-1] if tasks else ""
-
+                    results['search_target'] = search_target
                     self.logger.info(f"Task assigned to Executor: {search_target}")
 
                 else:
@@ -165,10 +165,10 @@ class PlanExecuteExp(BaseExp):
                     self.logger.info("=" * 60)
 
                     # 准备Coding Agent的用户提示词格式化参数
-                    # 使用prompt_format_kwargs来传递planner_result
+                    # 使用prompt_format_kwargs来传递search_target
                     original_format_kwargs = self.executor._prompt_format_kwargs.copy()
                     self.executor._prompt_format_kwargs.update({
-                        'planner_result': results.get('planner_result', '')
+                        'search_target': results.get('search_target')
                     })
 
                     # 创建任务实例

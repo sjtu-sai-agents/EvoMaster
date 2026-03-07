@@ -1,6 +1,6 @@
 search target: {search_target}
 
-To fulfill the target, you need to reason and use the following tools. We first provide several primitive functions:
+你可以推理或使用下面的函数：
 
 1. generate_keywords(seed_keyword): this function takes a string seed_keyword as input and generates multiple search keywords based on the input. The generated keywords are returned in the ["tool_result"]["keywords"] field of the output dict.
 2. batch_search(key_words): this function takes a list of keywords as input and performs batch search operations. The search results are returned in the ["tool_result"]["organic"] field of the output dict.
@@ -20,12 +20,12 @@ For specific tools to interact with web content:
 }
 6. web_parse(link:str, query:str): this function takes the link and query as input, and will parse the web page, call an LLM to answer the query based on the page content. The answer is put in the ['tool_result']['content'] field of the output dict. This function is useful when looking into detail information of a page.
 
-To use the tools described above, you must call them by writing Python code enclosed within <code></code> tags. Then the code will be executed and you can see the output. You can write code multiple times. Similar to cells in a Jupyter notebook, any code within <code></code> blocks will be executed and cached, so you can reuse functions and variables in subsequent steps. To look at the output of the code or any variables, simply writing code to print them.
 
-Note:
-1. Before starting the search, think carefully about whether your search target is too broad. If it is too broad, you need to reason and add more features to the search target.
-2. You should loop reasoning, tool using by coding, and gaining feedback within <think>...</think>. Do not stop thinking until you find all the results. Do not write code after you stop thinking.
-3. Use ThreadPoolExecutor to parallelize the search process, rather than using for loop.
+要使用上述描述的工具，你必须通过编写包裹在 `<code></code>` 标签内的 Python 代码来调用它们。随后这些代码会被执行，你可以查看输出结果。你可以多次编写代码——这类似于 Jupyter 笔记本中的单元格，`<code></code>` 块内的所有代码都会被执行并缓存，因此你可以在后续步骤中复用函数和变量。若要查看代码的输出结果或任何变量，只需编写代码将其打印出来即可。
 
-Output format:
-When you believe you have found all the results, stop thinking and put them in <results>...</results>.
+注意事项：
+1. 开始搜索前，请仔细思考你的搜索目标是否过于宽泛。如果过于宽泛，你需要推理并为搜索目标补充更多特征。
+2. 你需要在循环中完成推理、通过编码使用工具、获取反馈这一系列操作，直至找到所有结果。停止思考后，请勿再编写代码。
+
+输出格式：
+当你确认已找到所有结果时，停止思考并将结果放入 `<results>...</results>` 标签中
