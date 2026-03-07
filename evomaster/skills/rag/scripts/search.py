@@ -266,13 +266,17 @@ class RAGSearcher:
         self.index = faiss.read_index(str(index_path))
         logger.info(f"Loaded FAISS index from {index_path}")
 
-        # 加载 embeddings（可选，用于调试）
+        # 加载 embeddings 并预计算归一化向量（用于余弦相似度）
         emb_path = self.vec_dir / "embeddings.npy"
         if emb_path.exists():
             self.emb = np.load(emb_path)
-            logger.info(f"Loaded embeddings from {emb_path}")
+            norms = np.linalg.norm(self.emb, axis=1, keepdims=True)
+            norms = np.where(norms == 0, 1, norms)
+            self.emb_normalized = self.emb / norms
+            logger.info(f"Loaded embeddings from {emb_path}, shape={self.emb.shape}")
         else:
             self.emb = None
+            self.emb_normalized = None
             logger.warning(f"Embeddings file not found: {emb_path}")
 
         # 加载 node_id 映射
@@ -363,48 +367,61 @@ class RAGSearcher:
         self,
         query_emb: np.ndarray,
         top_k: int = 5,
-        distance_threshold: float | None = None
+        similarity_threshold: float | None = None
     ) -> list[tuple[str, float]]:
-        """搜索相似节点
+        """搜索相似节点（余弦相似度）
 
         Args:
             query_emb: 查询向量
             top_k: 返回前 k 个结果
-            distance_threshold: 距离阈值，超过此阈值的结果将被过滤
+            similarity_threshold: 相似度阈值，低于此值的结果将被过滤（范围 -1 到 1）
 
         Returns:
-            列表，每个元素为 (node_id, distance) 元组
+            列表，每个元素为 (node_id, cosine_similarity) 元组，按相似度降序排列
         """
         if len(self.node_ids) == 0:
             logger.warning("No node IDs loaded, returning empty results")
             return []
 
-        top_k = min(top_k, len(self.node_ids))
-        
-        # 确保 query_emb 是 2D array
-        if query_emb.ndim == 1:
-            query_emb = query_emb.reshape(1, -1)
+        if self.emb_normalized is None:
+            raise ValueError("Embeddings not loaded, cannot compute cosine similarity")
 
-        # FAISS 搜索
-        D, I = self.index.search(query_emb.astype("float32"), top_k)
+        # 确保 query_emb 是 1D
+        if query_emb.ndim == 2:
+            query_emb = query_emb[0]
+
+        # 归一化 query
+        q_norm = np.linalg.norm(query_emb)
+        if q_norm == 0:
+            logger.warning("Query embedding has zero norm")
+            return []
+        query_normalized = query_emb / q_norm
+
+        # 计算余弦相似度
+        similarities = self.emb_normalized @ query_normalized.astype("float32")
+
+        # 取 top_k
+        top_k = min(top_k, len(self.node_ids))
+        top_indices = np.argsort(similarities)[::-1][:top_k]
 
         results = []
-        for dist, idx in zip(D[0], I[0]):
+        for idx in top_indices:
             if idx < 0 or idx >= len(self.node_ids):
                 continue
 
-            # 距离阈值过滤
-            if distance_threshold is not None and dist > distance_threshold:
+            sim = float(similarities[idx])
+
+            if similarity_threshold is not None and sim < similarity_threshold:
                 logger.debug(
-                    f"Filtered out node {self.node_ids[idx]} with distance {dist} "
-                    f"exceeding threshold {distance_threshold}"
+                    f"Filtered out node {self.node_ids[idx]} with similarity {sim:.4f} "
+                    f"below threshold {similarity_threshold}"
                 )
                 continue
 
             logger.debug(
-                f"Selected node {self.node_ids[idx]} with distance {dist}"
+                f"Selected node {self.node_ids[idx]} with similarity {sim:.4f}"
             )
-            results.append((self.node_ids[idx], float(dist)))
+            results.append((self.node_ids[idx], sim))
 
         return results
 
@@ -412,20 +429,20 @@ class RAGSearcher:
         self,
         query_text: str,
         top_k: int = 5,
-        distance_threshold: float | None = None
+        similarity_threshold: float | None = None
     ) -> list[tuple[str, float]]:
         """使用文本查询进行搜索（便捷方法）
 
         Args:
             query_text: 查询文本
             top_k: 返回前 k 个结果
-            distance_threshold: 距离阈值
+            similarity_threshold: 相似度阈值（范围 -1 到 1）
 
         Returns:
-            列表，每个元素为 (node_id, distance) 元组
+            列表，每个元素为 (node_id, cosine_similarity) 元组，按相似度降序排列
         """
         query_emb = self.encode(query_text)
-        return self.search_similar(query_emb, top_k=top_k, distance_threshold=distance_threshold)
+        return self.search_similar(query_emb, top_k=top_k, similarity_threshold=similarity_threshold)
 
     def get_knowledge(self, node_id: str) -> Any:
         """获取节点的知识内容
@@ -491,7 +508,7 @@ def main():
     )
     parser.add_argument("--query", required=True, help="Search query")
     parser.add_argument("--top_k", type=int, default=5, help="Number of results")
-    parser.add_argument("--threshold", type=float, help="Distance threshold")
+    parser.add_argument("--threshold", type=float, help="Cosine similarity threshold (range -1 to 1, higher = more similar)")
     parser.add_argument(
         "--content_path",
         default=None,
@@ -553,7 +570,7 @@ def main():
     results = searcher.search_by_text(
         query_text=args.query,
         top_k=args.top_k,
-        distance_threshold=args.threshold
+        similarity_threshold=args.threshold
     )
 
     if args.output == "json":
@@ -562,14 +579,14 @@ def main():
             "results": [
                 {
                     "node_id": node_id,
-                    "distance": distance,
+                    "similarity": similarity,
                     "content": (
                         searcher.get_knowledge_by_path(node_id, args.content_path)
                         if (args.nodes_data and args.content_path)
                         else (searcher.get_knowledge(node_id) if args.nodes_data else None)
                     ),
                 }
-                for (node_id, distance) in results
+                for (node_id, similarity) in results
             ],
         }
         print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -578,9 +595,9 @@ def main():
     # text 输出
     print(f"\nSearch results for: '{args.query}'")
     print("=" * 60)
-    for i, (node_id, distance) in enumerate(results, 1):
+    for i, (node_id, similarity) in enumerate(results, 1):
         print(f"\n{i}. Node ID: {node_id}")
-        print(f"   Distance: {distance:.4f}")
+        print(f"   Similarity: {similarity:.4f}")
 
         if args.nodes_data:
             if args.content_path:

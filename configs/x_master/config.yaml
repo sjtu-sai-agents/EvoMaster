@@ -56,7 +56,7 @@ llm:
 
 agents:
   # SolverAgent
-  Solver:
+  solver:
     llm: "local_sglang"
     max_turns: 50
     tools:
@@ -73,7 +73,7 @@ agents:
     system_prompt_file: "prompts/solver_prefix.txt"
     user_prompt_file: "prompts/solver_user.txt"
 
-  Critic:
+  critic:
     llm: "local_sglang"
     max_turns: 50
     tools:
@@ -90,7 +90,7 @@ agents:
     system_prompt_file: "prompts/critic_prefix.txt"
     user_prompt_file: "prompts/critic_user.txt"
 
-  Rewriter:
+  rewriter:
     llm: "local_sglang"
     max_turns: 50
     tools:
@@ -107,7 +107,7 @@ agents:
     system_prompt_file: "prompts/rewrite_prefix.txt"
     user_prompt_file: "prompts/rewrite_user.txt"
 
-  Selector:
+  selector:
     llm: "local_sglang"
     max_turns: 50
     tools:
