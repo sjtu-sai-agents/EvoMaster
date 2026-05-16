@@ -135,7 +135,7 @@ class BaseExp:
         """
         self.run_dir = Path(run_dir)
 
-    def run(self, task_description: str, task_id: str = "exp_001", images: list[str] | None = None, on_step=None) -> dict:
+    def run(self, task_description: str, task_id: str = "exp_001", images: list[str] | None = None, on_step=None, resume: bool = False, trajectory_file: Path | None = None) -> dict:
         """Run a single experiment.
 
         Args:
@@ -143,6 +143,8 @@ class BaseExp:
             task_id: Task ID.
             images: List of image file paths (optional, for multimodal tasks).
             on_step: Step callback, signature (StepRecord, step_number, max_steps) -> None.
+            resume: Whether to resume from a previous trajectory.
+            trajectory_file: Path to the trajectory file for resume (required when resume=True).
 
         Returns:
             Run result dictionary.
@@ -155,9 +157,13 @@ class BaseExp:
             images=images or [],
         )
 
-        # Run the Agent
-        self.logger.debug(f"Running task: {task_id}")
-        trajectory = self.agent.run(task, on_step=on_step)
+        # Run the Agent (normal or resumed)
+        if resume and trajectory_file:
+            self.logger.info(f"Resuming task: {task_id} from {trajectory_file}")
+            trajectory = self.agent.resume_from_trajectory(trajectory_file, task, on_step=on_step)
+        else:
+            self.logger.debug(f"Running task: {task_id}")
+            trajectory = self.agent.run(task, on_step=on_step)
 
         # Save results
         result = {

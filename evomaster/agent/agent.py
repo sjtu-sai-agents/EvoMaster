@@ -202,6 +202,246 @@ class BaseAgent(ABC):
 
         return self.trajectory
 
+    def resume_from_trajectory(self, trajectory_file: Path, task: TaskInstance, on_step=None):
+        """Resume execution from a previously interrupted run's trajectory.
+
+        Reads the trajectory JSON, reconstructs the dialog state from the last
+        fully-completed step, and continues the agent loop from there.
+
+        Args:
+            trajectory_file: Path to the trajectory.json file.
+            task: TaskInstance (used for task_id and metadata only).
+            on_step: Per-step callback with signature (StepRecord, step_number, max_steps) -> None.
+
+        Returns:
+            Execution trajectory.
+
+        Raises:
+            ValueError: If the trajectory has no resumable steps or is already finished.
+        """
+        from evomaster.utils.types import (
+            Dialog,
+            Trajectory,
+            AssistantMessage,
+            ToolMessage,
+            MessageRole,
+            ToolCall,
+            FunctionCall,
+        )
+
+        # 1. Load trajectory data
+        with open(trajectory_file, "r", encoding="utf-8") as f:
+            entries = json.load(f)
+
+        if not isinstance(entries, list) or not entries:
+            raise ValueError(f"Trajectory file is empty or invalid: {trajectory_file}")
+
+        # 2. Find the last fully-completed entry
+        resumable_index = self._find_resumable_entry(entries)
+
+        if resumable_index is None:
+            raise ValueError(
+                "No resumable step found in trajectory. "
+                "The task may have already completed, or all steps are incomplete."
+            )
+
+        entry = entries[resumable_index]
+        entry_traj = entry.get("trajectory", {})
+        step_count = entry.get("steps", 0)
+
+        self.logger.info(f"Resuming from step {step_count} (entry {resumable_index + 1}/{len(entries)})")
+
+        # 3. Reconstruct current_dialog from the entry
+        dialog_data = entry_traj.get("dialogs", [{}])[0] if entry_traj.get("dialogs") else {}
+        messages_dicts = dialog_data.get("messages", [])
+
+        # Rebuild messages list from dicts
+        restored_messages = []
+        for msg_dict in messages_dicts:
+            msg = self._reconstruct_message(msg_dict)
+            if msg is not None:
+                restored_messages.append(msg)
+
+        # Append assistant_message from the step
+        step_data = entry_traj.get("steps", [{}])[0] if entry_traj.get("steps") else {}
+        assistant_dict = step_data.get("assistant_message")
+        if assistant_dict:
+            assistant_msg = self._reconstruct_message(assistant_dict)
+            if assistant_msg is not None:
+                restored_messages.append(assistant_msg)
+
+        # Append tool_responses
+        for tr_dict in step_data.get("tool_responses", []):
+            tr_msg = self._reconstruct_message(tr_dict)
+            if tr_msg is not None:
+                restored_messages.append(tr_msg)
+
+        # Build the dialog with restored messages
+        self.current_dialog = Dialog(
+            messages=restored_messages,
+            tools=self._get_tool_specs(),
+        )
+
+        self.logger.info(f"Restored dialog with {len(restored_messages)} messages")
+
+        # 4. Set state
+        self._step_count = step_count
+        self._pending_ask_user = None
+
+        # 5. Create a new Trajectory for the resumed run
+        self.trajectory = Trajectory(
+            task_id=task.task_id,
+            meta={
+                "agent_version": self.VERSION,
+                "task_type": task.task_type,
+                "resumed_from_step": step_count,
+                "resumed_from_file": str(trajectory_file),
+            },
+        )
+        self.trajectory.dialogs.append(self.current_dialog)
+
+        # 6. Continue the execution loop
+        remaining_turns = self.config.max_turns - step_count
+        if remaining_turns <= 0:
+            self.logger.warning("No remaining turns after resume (step_count=%d, max_turns=%d)",
+                                step_count, self.config.max_turns)
+            self.trajectory.finish("failed", {"reason": "no_remaining_turns_after_resume"})
+            return self.trajectory
+
+        try:
+            for turn in range(remaining_turns):
+                self.logger.info("=" * 80)
+                self.logger.info(f"📍 Step [{step_count + turn + 1}/{self.config.max_turns}] (resumed)")
+                self.logger.info("=" * 80)
+
+                should_finish = self._step()
+
+                if on_step and self.trajectory and self.trajectory.steps:
+                    try:
+                        on_step(self.trajectory.steps[-1], step_count + turn + 1, self.config.max_turns)
+                    except Exception as e:
+                        self.logger.warning("on_step callback failed: %s", e)
+
+                if should_finish:
+                    self.logger.info("=" * 80)
+                    if self._pending_ask_user:
+                        self.logger.info("⏸️  Agent paused — waiting for user input")
+                        self.trajectory.finish("waiting_for_input", self._pending_ask_user)
+                        self._pending_ask_user = None
+                    else:
+                        self.logger.info("✅ Agent finished task")
+                        self.trajectory.finish("completed")
+                    self.logger.info("=" * 80)
+                    break
+            else:
+                self.logger.warning("=" * 80)
+                self.logger.warning("⚠️  Reached max turns limit")
+                self.logger.warning("=" * 80)
+                self.trajectory.finish("failed", {"reason": "max_turns_exceeded"})
+
+        except Exception as e:
+            self.logger.error("=" * 80)
+            self.logger.error(f"❌ Agent execution failed: {e}")
+            self.logger.error("=" * 80)
+            self.trajectory.finish("failed", {"reason": str(e)})
+            raise
+
+        return self.trajectory
+
+    @staticmethod
+    def _find_resumable_entry(entries: list[dict]) -> int | None:
+        """Find the index of the last resumable entry in the trajectory.
+
+        A resumable entry is one where:
+        - It has an assistant_message
+        - All tool_calls have corresponding tool_responses
+        - It is NOT a finish/ask_user call (those indicate task already ended)
+
+        Args:
+            entries: List of trajectory entry dicts.
+
+        Returns:
+            Index of the last resumable entry, or None if none found.
+        """
+        for i in range(len(entries) - 1, -1, -1):
+            entry = entries[i]
+            entry_traj = entry.get("trajectory", {})
+            steps_data = entry_traj.get("steps", [])
+
+            if not steps_data:
+                continue
+
+            step = steps_data[0]
+            assistant = step.get("assistant_message")
+            if not assistant:
+                continue
+
+            # Check if this was a finish call — skip it (task already done)
+            tool_calls = assistant.get("tool_calls") or []
+            for tc in tool_calls:
+                func = tc.get("function", {})
+                if func.get("name") in ("finish", "ask_user"):
+                    break
+            else:
+                # No finish/ask_user call — this entry is resumable
+                return i
+
+        return None
+
+    @staticmethod
+    def _reconstruct_message(msg_dict: dict):
+        """Reconstruct a Message object from a serialized dict.
+
+        Args:
+            msg_dict: Serialized message dictionary.
+
+        Returns:
+            Reconstructed Message instance, or None if role is unknown.
+        """
+        role_str = msg_dict.get("role", "")
+        content = msg_dict.get("content")
+        meta = msg_dict.get("meta", {})
+
+        try:
+            role = MessageRole(role_str)
+        except ValueError:
+            return None
+
+        if role == MessageRole.SYSTEM:
+            return SystemMessage(content=content, meta=meta)
+        elif role == MessageRole.USER:
+            return UserMessage(content=content, meta=meta)
+        elif role == MessageRole.ASSISTANT:
+            tool_calls = None
+            raw_tool_calls = msg_dict.get("tool_calls")
+            if raw_tool_calls:
+                tool_calls = []
+                for tc in raw_tool_calls:
+                    func = tc.get("function", {})
+                    tool_calls.append(ToolCall(
+                        id=tc.get("id", ""),
+                        function=FunctionCall(
+                            name=func.get("name", ""),
+                            arguments=func.get("arguments", ""),
+                        ),
+                    ))
+            reasoning_content = msg_dict.get("reasoning_content")
+            return AssistantMessage(
+                content=content,
+                meta=meta,
+                tool_calls=tool_calls,
+                reasoning_content=reasoning_content,
+            )
+        elif role == MessageRole.TOOL:
+            return ToolMessage(
+                content=content,
+                meta=meta,
+                tool_call_id=msg_dict.get("tool_call_id", ""),
+                name=msg_dict.get("name", ""),
+            )
+
+        return None
+
     def continue_run(self, user_message: str, on_step=None):
         """Append a user message to the existing dialog and continue the step loop.
 

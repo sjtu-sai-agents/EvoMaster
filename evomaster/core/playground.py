@@ -1625,7 +1625,36 @@ class BasePlayground:
             self.logger.warning("No trajectory file set")
         return trajectory_file
 
-    def run(self, task_description: str, output_file: str | None = None, images: list[str] | None = None, on_step=None) -> dict:
+    def _find_trajectory_file(self) -> Path | None:
+        """Find the trajectory file in the current run directory.
+
+        Searches for trajectory.json under run_dir/trajectories/ in both
+        single-task and batch-task directory structures.
+
+        Returns:
+            Path to the trajectory file, or None if not found.
+        """
+        if not self.run_dir:
+            return None
+
+        traj_dir = self.run_dir / "trajectories"
+
+        # Single-task mode: trajectories/trajectory.json
+        single_task = traj_dir / "trajectory.json"
+        if single_task.exists():
+            return single_task
+
+        # Batch-task mode: trajectories/{task_id}/trajectory.json
+        if traj_dir.exists():
+            for subdir in sorted(traj_dir.iterdir()):
+                if subdir.is_dir():
+                    traj_file = subdir / "trajectory.json"
+                    if traj_file.exists():
+                        return traj_file
+
+        return None
+
+    def run(self, task_description: str, output_file: str | None = None, images: list[str] | None = None, on_step=None, resume: bool = False) -> dict:
         """Run the workflow.
 
         Args:
@@ -1633,6 +1662,7 @@ class BasePlayground:
             output_file: Result save file (optional; if run_dir is set, auto-saves to trajectories/).
             images: List of image file paths (optional, for multimodal tasks).
             on_step: Step callback, signature (StepRecord, step_number, max_steps) -> None.
+            resume: Whether to resume from a previously interrupted run.
 
         Returns:
             Run result.
@@ -1646,11 +1676,29 @@ class BasePlayground:
             # Set up trajectory file path
             self._setup_trajectory_file(output_file)
 
+            # Determine trajectory file for resume
+            trajectory_file = None
+            if resume and self.run_dir:
+                trajectory_file = self._find_trajectory_file()
+                if trajectory_file is None:
+                    self.logger.error("Resume requested but no trajectory file found in run_dir")
+                    raise FileNotFoundError(
+                        f"No trajectory file found in {self.run_dir}/trajectories/ for resume."
+                    )
+                self.logger.info(f"Resuming from trajectory: {trajectory_file}")
+
             # Create and run experiment
             exp = self._create_exp()
 
-            self.logger.info("Running experiment...")
-            result = exp.run(task_description, images=images, on_step=on_step)
+            if resume and trajectory_file:
+                self.logger.info("Resuming experiment...")
+                result = exp.run(
+                    task_description, images=images, on_step=on_step,
+                    resume=True, trajectory_file=trajectory_file,
+                )
+            else:
+                self.logger.info("Running experiment...")
+                result = exp.run(task_description, images=images, on_step=on_step)
 
             return result
 

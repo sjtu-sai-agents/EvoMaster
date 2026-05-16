@@ -72,7 +72,7 @@ Examples:
     )
 
     # Task input (mutually exclusive)
-    task_group = parser.add_mutually_exclusive_group(required=True)
+    task_group = parser.add_mutually_exclusive_group(required=False)
     task_group.add_argument(
         "--task",
         help="Single task description, or path to a task file (.txt or .md)"
@@ -94,6 +94,12 @@ Examples:
             "A bare name such as 'math' becomes runs/math_{timestamp}/; "
             "a path such as './math', 'runs/math', or '/tmp/math' is used exactly."
         )
+    )
+
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from a previously interrupted run (requires --run-dir)"
     )
 
     parser.add_argument(
@@ -254,8 +260,68 @@ def parse_task_file(task_file_path: Path):
     return tasks
 
 
+def extract_task_from_run_dir(run_dir: Path) -> str | None:
+    """Extract the original task description from a run directory.
+
+    Tries to find the first user message in the trajectory file.
+
+    Args:
+        run_dir: Path to the run directory.
+
+    Returns:
+        Task description string, or None if not found.
+    """
+    import json as _json
+
+    traj_dir = run_dir / "trajectories"
+
+    # Find trajectory file
+    traj_file = None
+    single = traj_dir / "trajectory.json"
+    if single.exists():
+        traj_file = single
+    elif traj_dir.exists():
+        for subdir in sorted(traj_dir.iterdir()):
+            if subdir.is_dir():
+                candidate = subdir / "trajectory.json"
+                if candidate.exists():
+                    traj_file = candidate
+                    break
+
+    if traj_file is None:
+        return None
+
+    try:
+        with open(traj_file, "r", encoding="utf-8") as f:
+            entries = _json.load(f)
+
+        # Look for the first user message in the first entry's dialog
+        if entries and isinstance(entries, list):
+            first_traj = entries[0].get("trajectory", {})
+            dialogs = first_traj.get("dialogs", [])
+            if dialogs:
+                messages = dialogs[0].get("messages", [])
+                for msg in messages:
+                    if msg.get("role") == "user":
+                        content = msg.get("content", "")
+                        if isinstance(content, str):
+                            return content
+                        elif isinstance(content, list):
+                            # Multimodal: extract text parts
+                            texts = [
+                                p.get("text", "") for p in content
+                                if isinstance(p, dict) and p.get("type") == "text"
+                            ]
+                            return " ".join(texts).strip() or None
+    except Exception:
+        pass
+
+    return None
+
+
 def run_single_task(agent_name: str, config_path: Path, run_dir: Path,
-                    task_id: str, task_description: str, images: list[str] | None = None):
+                    task_id: str, task_description: str, images: list[str] | None = None,
+                    resume: bool = False):
     """Run a single task (in the main process)
 
     Note: This function runs in the main process, not in a separate process.
@@ -268,6 +334,7 @@ def run_single_task(agent_name: str, config_path: Path, run_dir: Path,
         task_id: Task ID
         task_description: Task description
         images: List of image file paths (optional)
+        resume: Whether to resume from a previous trajectory
 
     Returns:
         Task result dictionary
@@ -283,9 +350,9 @@ def run_single_task(agent_name: str, config_path: Path, run_dir: Path,
 
         # Run task
         if images:
-            result = playground.run(task_description=task_description, images=images)
+            result = playground.run(task_description=task_description, images=images, resume=resume)
         else:
-            result = playground.run(task_description=task_description)
+            result = playground.run(task_description=task_description, resume=resume)
         result["task_id"] = task_id
 
         logger.info(f"✅ Task {task_id} completed: {result['status']}")
@@ -302,7 +369,8 @@ def run_single_task(agent_name: str, config_path: Path, run_dir: Path,
 
 
 def run_tasks_sequential(agent_name: str, config_path: Path, run_dir: Path,
-                         tasks: list, images: list[str] | None = None):
+                         tasks: list, images: list[str] | None = None,
+                         resume: bool = False):
     """Run multiple tasks sequentially
 
     Args:
@@ -311,6 +379,7 @@ def run_tasks_sequential(agent_name: str, config_path: Path, run_dir: Path,
         run_dir: Run directory
         tasks: List of tasks
         images: List of image file paths (optional, shared across all tasks)
+        resume: Whether to resume from a previous trajectory
 
     Returns:
         List of results for all tasks
@@ -324,7 +393,8 @@ def run_tasks_sequential(agent_name: str, config_path: Path, run_dir: Path,
             run_dir,
             task["id"],
             task["description"],
-            images=task_images
+            images=task_images,
+            resume=resume,
         )
         results.append(result)
     return results
@@ -451,6 +521,24 @@ def main():
 
     args = parse_args()
 
+    # Validate: --resume requires --run-dir
+    if args.resume and not args.run_dir:
+        logger.error("--resume requires --run-dir to specify the previous run directory")
+        sys.exit(1)
+
+    # Validate: --resume and --task-file / --interactive are incompatible
+    if args.resume and args.task_file:
+        logger.error("--resume is incompatible with --task-file")
+        sys.exit(1)
+    if args.resume and args.interactive:
+        logger.error("--resume is incompatible with --interactive")
+        sys.exit(1)
+
+    # Validate: at least one of --task, --task-file, --interactive, --resume is required
+    if not args.resume and not args.task and not args.task_file and not args.interactive:
+        logger.error("Please provide --task, --task-file, --interactive, or --resume")
+        sys.exit(1)
+
     # 1. Determine config file path
     if args.config:
         config_path = Path(args.config)
@@ -468,6 +556,11 @@ def main():
         logger.error(str(e))
         sys.exit(1)
 
+    # Validate run_dir for resume
+    if args.resume and not run_dir.exists():
+        logger.error(f"Run directory does not exist: {run_dir}")
+        sys.exit(1)
+
     # 3. Validate image files (if provided)
     images = None
     if args.images:
@@ -483,8 +576,18 @@ def main():
             images.append(str(img_path.absolute()))
         logger.info(f"Loaded {len(images)} images")
 
-    # 4. Parse tasks
-    if args.task_file:
+    # 4. Parse tasks or extract task for resume
+    if args.resume:
+        # Resume mode: extract task description from trajectory or use placeholder
+        task_description = extract_task_from_run_dir(run_dir)
+        if not task_description:
+            logger.warning("Could not extract task description from previous run, using placeholder")
+            task_description = "Resumed task (description not available)"
+        tasks = [{
+            "id": "task_0",
+            "description": task_description
+        }]
+    elif args.task_file:
         # Batch task mode
         task_file = Path(args.task_file)
         if not task_file.exists():
@@ -507,12 +610,17 @@ def main():
 
     # 5. Print run information
     logger.info("=" * 60)
-    logger.info("🚀 EvoMaster starting")
+    if args.resume:
+        logger.info("🔄 EvoMaster resuming")
+    else:
+        logger.info("🚀 EvoMaster starting")
     logger.info("=" * 60)
     logger.info(f"Agent: {args.agent}")
     logger.info(f"Config: {config_path}")
     logger.info(f"Run Directory: {run_dir}")
     logger.info(f"Tasks: {len(tasks)}")
+    if args.resume:
+        logger.info("Mode: RESUME from previous run")
     if images:
         logger.info(f"Images: {len(images)} files")
     if len(tasks) > 1:
@@ -522,7 +630,11 @@ def main():
 
     # 6. Run tasks
     try:
-        if len(tasks) > 1 and args.parallel:
+        if args.resume:
+            # Resume mode: single task, resume from trajectory
+            logger.info("🔄 Resuming from previous run...")
+            results = run_tasks_sequential(args.agent, config_path, run_dir, tasks, images=images, resume=True)
+        elif len(tasks) > 1 and args.parallel:
             # Parallel mode
             logger.info("🔄 Executing tasks in parallel...")
             results = run_tasks_parallel(args.agent, config_path, run_dir, tasks, images=images)
