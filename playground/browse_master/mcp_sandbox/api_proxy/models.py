@@ -1,5 +1,4 @@
 # Define request body models
-from matplotlib.pyplot import cla
 from pydantic import BaseModel
 
 
@@ -23,5 +22,24 @@ class ReadPdfInfo(BaseModel):
 
 class FetchWebContent(BaseModel):
     url:str   
+
+
+class WebParseRequest(BaseModel):
+    link: str
+    user_prompt: str
+    llm: str = "gpt-4o"
+
+
+class BatchSearchRequest(BaseModel):
+    keyword: str
+
+
+class GenerateKeywordsRequest(BaseModel):
+    seed_keyword: str
+
+
+class CheckConditionRequest(BaseModel):
+    content: str
+    condition: str
 
 

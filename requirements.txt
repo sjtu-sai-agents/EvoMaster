@@ -18,3 +18,12 @@ flask
 humanize
 pandas
 genson
+
+# browse_master MCP service dependencies
+fastapi>=0.100.0
+slowapi>=0.1.0
+aiohttp>=3.8.0
+matplotlib>=3.5.0
+beautifulsoup4>=4.11.0
+PyMuPDF>=1.23.0
+python-dotenv>=1.0.0

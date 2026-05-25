@@ -20,9 +20,12 @@ from evomaster.utils.llm import ContextOverflowError
 from evomaster.utils.types import (
     AssistantMessage,
     Dialog,
+    FunctionCall,
+    MessageRole,
     StepRecord,
     SystemMessage,
     TaskInstance,
+    ToolCall,
     ToolMessage,
     UserMessage,
 )
@@ -219,15 +222,7 @@ class BaseAgent(ABC):
         Raises:
             ValueError: If the trajectory has no resumable steps or is already finished.
         """
-        from evomaster.utils.types import (
-            Dialog,
-            Trajectory,
-            AssistantMessage,
-            ToolMessage,
-            MessageRole,
-            ToolCall,
-            FunctionCall,
-        )
+        from evomaster.utils.types import Trajectory
 
         # 1. Load trajectory data
         with open(trajectory_file, "r", encoding="utf-8") as f:
@@ -1178,9 +1173,11 @@ class BaseAgent(ABC):
                 # Append new entry
                 existing_data.append(entry)
 
-                # Write back to file
-                with open(self._trajectory_file_path, 'w', encoding='utf-8') as f:
+                # Write back to file atomically to prevent corruption on process kill
+                tmp_path = self._trajectory_file_path.with_suffix('.tmp')
+                with open(tmp_path, 'w', encoding='utf-8') as f:
                     json.dump(existing_data, f, indent=2, default=str, ensure_ascii=False)
+                os.replace(tmp_path, self._trajectory_file_path)
 
         except Exception as e:
             # If saving fails, only log a warning without interrupting execution
