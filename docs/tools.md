@@ -334,6 +334,9 @@ class MCPToolManager:
 
 ### MCP Configuration
 
+For an optional remote search server and a runnable search/fetch example, see
+[Parallel Search MCP](./parallel_search.md).
+
 #### mcp_config.json
 
 ```json
