@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "parallel": {
+      "transport": "http",
+      "url": "https://search.parallel.ai/mcp",
+      "headers": {
+        "User-Agent": "EvoMaster/0.1.0 (Parallel Search MCP example)"
+      }
+    }
+  }
+}

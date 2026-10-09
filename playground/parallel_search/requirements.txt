@@ -1,0 +1,2 @@
+# EvoMaster currently uses the MCP 1.x streamablehttp_client API.
+mcp>=1.26,<2
