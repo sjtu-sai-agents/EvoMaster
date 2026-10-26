@@ -336,6 +336,8 @@ class MCPToolManager:
 
 For an optional remote search server and a runnable search/fetch example, see
 [Parallel Search MCP](./parallel_search.md).
+To publish agent-written HTML reports to a public URL, see
+[deed.page publishing MCP](./deed_page.md).
 
 #### mcp_config.json
 
