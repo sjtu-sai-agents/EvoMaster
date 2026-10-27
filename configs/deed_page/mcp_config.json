@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "deed_page": {
+      "transport": "http",
+      "url": "https://deed.page/mcp",
+      "headers": {
+        "User-Agent": "EvoMaster/0.1.0 (deed.page MCP example)"
+      }
+    }
+  }
+}
